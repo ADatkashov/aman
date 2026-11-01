@@ -51,7 +51,9 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                   TextButton.icon(
                     onPressed: () => showLanguageSheet(context),
                     icon: const Icon(Icons.language_rounded, size: 20),
-                    label: Text(ref.watch(localeProvider).languageCode.toUpperCase()),
+                    label: Text(
+                      ref.watch(localeProvider).languageCode.toUpperCase(),
+                    ),
                   ),
                 ],
               ),
@@ -78,14 +80,28 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            boxShadow: [BoxShadow(color: p.primary.withValues(alpha: 0.14), blurRadius: 40, offset: const Offset(0, 16))],
+                            boxShadow: [
+                              BoxShadow(
+                                color: p.primary.withValues(alpha: 0.14),
+                                blurRadius: 40,
+                                offset: const Offset(0, 16),
+                              ),
+                            ],
                           ),
                           child: Icon(icon, size: 96, color: p.primary),
                         ),
                         const SizedBox(height: 40),
-                        Text(title, textAlign: TextAlign.center, style: i == 0 ? t.displaySmall : t.headlineMedium),
+                        Text(
+                          title,
+                          textAlign: TextAlign.center,
+                          style: i == 0 ? t.displaySmall : t.headlineMedium,
+                        ),
                         const SizedBox(height: 14),
-                        Text(body, textAlign: TextAlign.center, style: t.bodyLarge?.copyWith(color: p.textSecondary)),
+                        Text(
+                          body,
+                          textAlign: TextAlign.center,
+                          style: t.bodyLarge?.copyWith(color: p.textSecondary),
+                        ),
                       ],
                     ),
                   );
@@ -118,14 +134,23 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                       if (_page == pages.length - 1) {
                         context.go('/register');
                       } else {
-                        _controller.nextPage(duration: const Duration(milliseconds: 320), curve: Curves.easeOutCubic);
+                        _controller.nextPage(
+                          duration: const Duration(milliseconds: 320),
+                          curve: Curves.easeOutCubic,
+                        );
                       }
                     },
                   ),
                   const SizedBox(height: 8),
                   TextButton(
                     onPressed: () => context.go('/login'),
-                    child: Text(l.haveAccount, style: TextStyle(color: p.primary, fontWeight: FontWeight.w700)),
+                    child: Text(
+                      l.haveAccount,
+                      style: TextStyle(
+                        color: p.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ],
               ),

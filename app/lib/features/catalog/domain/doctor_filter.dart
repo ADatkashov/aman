@@ -43,18 +43,24 @@ class DoctorFilter {
     Object? minExperience = _keep,
     DoctorSort? sort,
     bool? favoritesOnly,
-  }) =>
-      DoctorFilter(
-        query: query ?? this.query,
-        specialty: identical(specialty, _keep) ? this.specialty : specialty as Specialty?,
-        clinicId: identical(clinicId, _keep) ? this.clinicId : clinicId as String?,
-        minRating: identical(minRating, _keep) ? this.minRating : minRating as double?,
-        maxPriceKzt: identical(maxPriceKzt, _keep) ? this.maxPriceKzt : maxPriceKzt as int?,
-        minExperience:
-            identical(minExperience, _keep) ? this.minExperience : minExperience as int?,
-        sort: sort ?? this.sort,
-        favoritesOnly: favoritesOnly ?? this.favoritesOnly,
-      );
+  }) => DoctorFilter(
+    query: query ?? this.query,
+    specialty: identical(specialty, _keep)
+        ? this.specialty
+        : specialty as Specialty?,
+    clinicId: identical(clinicId, _keep) ? this.clinicId : clinicId as String?,
+    minRating: identical(minRating, _keep)
+        ? this.minRating
+        : minRating as double?,
+    maxPriceKzt: identical(maxPriceKzt, _keep)
+        ? this.maxPriceKzt
+        : maxPriceKzt as int?,
+    minExperience: identical(minExperience, _keep)
+        ? this.minExperience
+        : minExperience as int?,
+    sort: sort ?? this.sort,
+    favoritesOnly: favoritesOnly ?? this.favoritesOnly,
+  );
 
   static const Object _keep = Object();
 
@@ -71,10 +77,13 @@ class DoctorFilter {
       if (clinicId != null && d.clinicId != clinicId) return false;
       if (minRating != null && d.rating < minRating!) return false;
       if (maxPriceKzt != null && d.priceKzt > maxPriceKzt!) return false;
-      if (minExperience != null && d.experienceYears < minExperience!) return false;
+      if (minExperience != null && d.experienceYears < minExperience!) {
+        return false;
+      }
       if (favoritesOnly && !favorites.contains(d.id)) return false;
       if (q.isNotEmpty) {
-        final hay = '${d.fullName} ${specialtyLabel(d.specialty)}'.toLowerCase();
+        final hay = '${d.fullName} ${specialtyLabel(d.specialty)}'
+            .toLowerCase();
         if (!q.split(RegExp(r'\s+')).every(hay.contains)) return false;
       }
       return true;

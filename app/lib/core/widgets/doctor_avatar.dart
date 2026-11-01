@@ -37,7 +37,11 @@ class DoctorAvatar extends StatelessWidget {
         height: size,
         child: photoUrl == null
             ? painted
-            : Image.network(photoUrl!, fit: BoxFit.cover, errorBuilder: (_, _, _) => painted),
+            : Image.network(
+                photoUrl!,
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => painted,
+              ),
       ),
     );
   }
@@ -48,8 +52,19 @@ class _AvatarPainter extends CustomPainter {
   final int seed;
   final bool female;
 
-  static const _skin = [Color(0xFFF3D2B6), Color(0xFFE8B98F), Color(0xFFD9A074), Color(0xFFF7DCC5)];
-  static const _hair = [Color(0xFF2B2118), Color(0xFF4A3426), Color(0xFF1B1B1F), Color(0xFF6B4A2F), Color(0xFF8A6A45)];
+  static const _skin = [
+    Color(0xFFF3D2B6),
+    Color(0xFFE8B98F),
+    Color(0xFFD9A074),
+    Color(0xFFF7DCC5),
+  ];
+  static const _hair = [
+    Color(0xFF2B2118),
+    Color(0xFF4A3426),
+    Color(0xFF1B1B1F),
+    Color(0xFF6B4A2F),
+    Color(0xFF8A6A45),
+  ];
   static const _bg = [
     [Color(0xFFD7E9FF), Color(0xFFB5D5FF)],
     [Color(0xFFDDF3F0), Color(0xFFB8E4DE)],
@@ -68,15 +83,22 @@ class _AvatarPainter extends CustomPainter {
     canvas.drawRect(
       Offset.zero & s,
       Paint()
-        ..shader = LinearGradient(colors: bg, begin: Alignment.topCenter, end: Alignment.bottomCenter)
-            .createShader(Offset.zero & s),
+        ..shader = LinearGradient(
+          colors: bg,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ).createShader(Offset.zero & s),
     );
 
     // Long hair behind the head (female variant).
     if (female) {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-          Rect.fromCenter(center: Offset(w * 0.5, h * 0.44), width: w * 0.52, height: h * 0.52),
+          Rect.fromCenter(
+            center: Offset(w * 0.5, h * 0.44),
+            width: w * 0.52,
+            height: h * 0.52,
+          ),
           Radius.circular(w * 0.22),
         ),
         Paint()..color = hair,
@@ -109,7 +131,11 @@ class _AvatarPainter extends CustomPainter {
     // Neck.
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromCenter(center: Offset(w * 0.5, h * 0.62), width: w * 0.16, height: h * 0.12),
+        Rect.fromCenter(
+          center: Offset(w * 0.5, h * 0.62),
+          width: w * 0.16,
+          height: h * 0.12,
+        ),
         Radius.circular(w * 0.05),
       ),
       Paint()..color = skin.withValues(alpha: 0.92),
@@ -125,7 +151,11 @@ class _AvatarPainter extends CustomPainter {
     // Hair cap.
     final cap = Path()
       ..addArc(
-        Rect.fromCenter(center: headCenter.translate(0, -h * 0.04), width: w * 0.40, height: h * 0.40),
+        Rect.fromCenter(
+          center: headCenter.translate(0, -h * 0.04),
+          width: w * 0.40,
+          height: h * 0.40,
+        ),
         3.1416,
         3.1416,
       );
@@ -142,7 +172,11 @@ class _AvatarPainter extends CustomPainter {
     canvas.drawCircle(Offset(w * 0.43, h * 0.44), w * 0.014, face);
     canvas.drawCircle(Offset(w * 0.57, h * 0.44), w * 0.014, face);
     canvas.drawArc(
-      Rect.fromCenter(center: Offset(w * 0.5, h * 0.50), width: w * 0.12, height: h * 0.07),
+      Rect.fromCenter(
+        center: Offset(w * 0.5, h * 0.50),
+        width: w * 0.12,
+        height: h * 0.07,
+      ),
       0.2,
       2.7,
       false,
@@ -163,11 +197,16 @@ class _AvatarPainter extends CustomPainter {
       ..moveTo(w * 0.36, h * 0.70)
       ..cubicTo(w * 0.30, h * 0.92, w * 0.62, h * 0.96, w * 0.64, h * 0.78);
     canvas.drawPath(tube, steth);
-    canvas.drawCircle(Offset(w * 0.64, h * 0.80), w * 0.03, Paint()..color = const Color(0xFF516079));
+    canvas.drawCircle(
+      Offset(w * 0.64, h * 0.80),
+      w * 0.03,
+      Paint()..color = const Color(0xFF516079),
+    );
   }
 
   @override
-  bool shouldRepaint(covariant _AvatarPainter old) => old.seed != seed || old.female != female;
+  bool shouldRepaint(covariant _AvatarPainter old) =>
+      old.seed != seed || old.female != female;
 }
 
 /// Illustrated avatar for patients (initials on a brand gradient).
@@ -183,18 +222,29 @@ class InitialsAvatar extends StatelessWidget {
     final parts = name.trim().split(RegExp(r'\s+'));
     // "Surname Name Patronymic" → initials of name + surname ("АП").
     final ordered = parts.length >= 2 ? [parts[1], parts[0]] : parts;
-    final initials = ordered.take(2).map((s) => s.isEmpty ? '' : s[0].toUpperCase()).join();
+    final initials = ordered
+        .take(2)
+        .map((s) => s.isEmpty ? '' : s[0].toUpperCase())
+        .join();
     return Container(
       width: size,
       height: size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: LinearGradient(colors: [p.secondary, p.primaryDark], begin: Alignment.topLeft, end: Alignment.bottomRight),
+        gradient: LinearGradient(
+          colors: [p.secondary, p.primaryDark],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
       child: Text(
         initials,
-        style: TextStyle(color: Colors.white, fontSize: size * 0.36, fontWeight: FontWeight.w800),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: size * 0.36,
+          fontWeight: FontWeight.w800,
+        ),
       ),
     );
   }

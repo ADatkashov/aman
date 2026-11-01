@@ -5,10 +5,7 @@
 class LocalizedText {
   const LocalizedText({required this.ru, required this.en, required this.kk});
 
-  const LocalizedText.plain(String value)
-      : ru = value,
-        en = value,
-        kk = value;
+  const LocalizedText.plain(String value) : ru = value, en = value, kk = value;
 
   final String ru;
   final String en;
@@ -41,7 +38,10 @@ class LocalizedText {
 
   @override
   bool operator ==(Object other) =>
-      other is LocalizedText && other.ru == ru && other.en == en && other.kk == kk;
+      other is LocalizedText &&
+      other.ru == ru &&
+      other.en == en &&
+      other.kk == kk;
 
   @override
   int get hashCode => Object.hash(ru, en, kk);

@@ -76,21 +76,20 @@ class AmanPalette extends ThemeExtension<AmanPalette> {
     Color? warning,
     Color? error,
     Color? border,
-  }) =>
-      AmanPalette(
-        primary: primary ?? this.primary,
-        primaryDark: primaryDark ?? this.primaryDark,
-        secondary: secondary ?? this.secondary,
-        lightBlue: lightBlue ?? this.lightBlue,
-        background: background ?? this.background,
-        surface: surface ?? this.surface,
-        textPrimary: textPrimary ?? this.textPrimary,
-        textSecondary: textSecondary ?? this.textSecondary,
-        success: success ?? this.success,
-        warning: warning ?? this.warning,
-        error: error ?? this.error,
-        border: border ?? this.border,
-      );
+  }) => AmanPalette(
+    primary: primary ?? this.primary,
+    primaryDark: primaryDark ?? this.primaryDark,
+    secondary: secondary ?? this.secondary,
+    lightBlue: lightBlue ?? this.lightBlue,
+    background: background ?? this.background,
+    surface: surface ?? this.surface,
+    textPrimary: textPrimary ?? this.textPrimary,
+    textSecondary: textSecondary ?? this.textSecondary,
+    success: success ?? this.success,
+    warning: warning ?? this.warning,
+    error: error ?? this.error,
+    border: border ?? this.border,
+  );
 
   @override
   AmanPalette lerp(ThemeExtension<AmanPalette>? other, double t) {

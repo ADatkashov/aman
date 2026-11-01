@@ -44,15 +44,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (!valid || !_consent) return;
     setState(() => _loading = true);
     try {
-      final demoCode = await ref.read(authControllerProvider.notifier).register(
+      final demoCode = await ref
+          .read(authControllerProvider.notifier)
+          .register(
             fullName: _name.text,
             phone: _phone.text,
             password: _password.text,
             consent: _consent,
           );
-      if (mounted) context.push('/otp', extra: OtpArgs(phone: _phone.text, demoCode: demoCode));
+      if (mounted) {
+        context.push(
+          '/otp',
+          extra: OtpArgs(phone: _phone.text, demoCode: demoCode),
+        );
+      }
     } catch (e) {
-      if (mounted) showSnack(context, errorMessage(context.l10n, e), error: true);
+      if (mounted) {
+        showSnack(context, errorMessage(context.l10n, e), error: true);
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -115,13 +124,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(l.consentText, style: Theme.of(context).textTheme.bodyMedium),
+                          Text(
+                            l.consentText,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                           const SizedBox(height: 4),
-                          Text(l.consentNote, style: Theme.of(context).textTheme.bodySmall),
+                          Text(
+                            l.consentNote,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
                           if (_consentError)
                             Padding(
                               padding: const EdgeInsets.only(top: 4),
-                              child: Text(l.errConsent, style: TextStyle(color: p.error, fontSize: 12)),
+                              child: Text(
+                                l.errConsent,
+                                style: TextStyle(color: p.error, fontSize: 12),
+                              ),
                             ),
                         ],
                       ),
@@ -131,12 +149,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            PrimaryButton(label: l.signUp, onPressed: _submit, loading: _loading),
+            PrimaryButton(
+              label: l.signUp,
+              onPressed: _submit,
+              loading: _loading,
+            ),
             const SizedBox(height: 8),
             Center(
               child: TextButton(
                 onPressed: () => context.go('/login'),
-                child: Text(l.haveAccount, style: TextStyle(color: p.primary, fontWeight: FontWeight.w600)),
+                child: Text(
+                  l.haveAccount,
+                  style: TextStyle(
+                    color: p.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
           ],

@@ -52,16 +52,25 @@ class AppointmentsController extends AsyncNotifier<List<Appointment>> {
   }
 
   Future<void> review(String id, {required int rating, String? text}) async {
-    await ref.read(appointmentRepositoryProvider).review(id, rating: rating, text: text);
+    await ref
+        .read(appointmentRepositoryProvider)
+        .review(id, rating: rating, text: text);
     await refresh();
   }
 }
 
 final appointmentsProvider =
-    AsyncNotifierProvider<AppointmentsController, List<Appointment>>(AppointmentsController.new);
+    AsyncNotifierProvider<AppointmentsController, List<Appointment>>(
+      AppointmentsController.new,
+    );
 
-final appointmentProvider = Provider.family<AsyncValue<Appointment>, String>((ref, id) {
-  return ref.watch(appointmentsProvider).whenData(
+final appointmentProvider = Provider.family<AsyncValue<Appointment>, String>((
+  ref,
+  id,
+) {
+  return ref
+      .watch(appointmentsProvider)
+      .whenData(
         (list) => list.firstWhere(
           (a) => a.id == id,
           orElse: () => throw const BookingException(BookingFailure.notFound),
@@ -85,11 +94,11 @@ enum AppointmentPeriod { all, days30, days90, days365 }
 
 extension AppointmentPeriodX on AppointmentPeriod {
   int? get days => switch (this) {
-        AppointmentPeriod.all => null,
-        AppointmentPeriod.days30 => 30,
-        AppointmentPeriod.days90 => 90,
-        AppointmentPeriod.days365 => 365,
-      };
+    AppointmentPeriod.all => null,
+    AppointmentPeriod.days30 => 30,
+    AppointmentPeriod.days90 => 90,
+    AppointmentPeriod.days365 => 365,
+  };
 }
 
 /// Pure grouping/filtering used by the "My appointments" screen (unit-tested).
@@ -116,7 +125,10 @@ List<Appointment> selectAppointments(
     list = list.where((a) => a.start.isAfter(from) && a.start.isBefore(to));
   }
   final result = list.toList();
-  result.sort((a, b) =>
-      tab == AppointmentTab.upcoming ? a.start.compareTo(b.start) : b.start.compareTo(a.start));
+  result.sort(
+    (a, b) => tab == AppointmentTab.upcoming
+        ? a.start.compareTo(b.start)
+        : b.start.compareTo(a.start),
+  );
   return result;
 }

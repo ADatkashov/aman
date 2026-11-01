@@ -30,11 +30,20 @@ void main() {
 
   test('slots in the past or within lead time are unavailable', () {
     final now = DateTime(2026, 11, 2, 10, 0);
-    final slots = ScheduleService.slotsFor(schedule: schedule, date: monday, booked: {}, now: now);
+    final slots = ScheduleService.slotsFor(
+      schedule: schedule,
+      date: monday,
+      booked: {},
+      now: now,
+    );
     final byTime = {for (final s in slots) s.start: s.available};
     expect(byTime[DateTime(2026, 11, 2, 9, 30)], isFalse);
     expect(byTime[DateTime(2026, 11, 2, 10, 0)], isFalse);
-    expect(byTime[DateTime(2026, 11, 2, 10, 30)], isFalse, reason: 'exactly at now+30m is not bookable');
+    expect(
+      byTime[DateTime(2026, 11, 2, 10, 30)],
+      isFalse,
+      reason: 'exactly at now+30m is not bookable',
+    );
     expect(byTime[DateTime(2026, 11, 2, 11, 0)], isTrue);
   });
 
@@ -46,8 +55,18 @@ void main() {
       booked: booked,
       now: DateTime(2026, 11, 2, 8, 0),
     );
-    expect(slots.firstWhere((s) => s.start.hour == 11 && s.start.minute == 0).available, isFalse);
-    expect(slots.firstWhere((s) => s.start.hour == 11 && s.start.minute == 30).available, isTrue);
+    expect(
+      slots
+          .firstWhere((s) => s.start.hour == 11 && s.start.minute == 0)
+          .available,
+      isFalse,
+    );
+    expect(
+      slots
+          .firstWhere((s) => s.start.hour == 11 && s.start.minute == 30)
+          .available,
+      isTrue,
+    );
   });
 
   test('nextAvailable skips fully booked days', () {
@@ -61,16 +80,31 @@ void main() {
   });
 
   test('isOfferedSlot rejects misaligned and break times', () {
-    expect(ScheduleService.isOfferedSlot(schedule, DateTime(2026, 11, 2, 9, 30)), isTrue);
-    expect(ScheduleService.isOfferedSlot(schedule, DateTime(2026, 11, 2, 9, 15)), isFalse);
-    expect(ScheduleService.isOfferedSlot(schedule, DateTime(2026, 11, 2, 12, 30)), isFalse);
-    expect(ScheduleService.isOfferedSlot(schedule, DateTime(2026, 11, 7, 10, 0)), isFalse);
+    expect(
+      ScheduleService.isOfferedSlot(schedule, DateTime(2026, 11, 2, 9, 30)),
+      isTrue,
+    );
+    expect(
+      ScheduleService.isOfferedSlot(schedule, DateTime(2026, 11, 2, 9, 15)),
+      isFalse,
+    );
+    expect(
+      ScheduleService.isOfferedSlot(schedule, DateTime(2026, 11, 2, 12, 30)),
+      isFalse,
+    );
+    expect(
+      ScheduleService.isOfferedSlot(schedule, DateTime(2026, 11, 7, 10, 0)),
+      isFalse,
+    );
   });
 
   test('booking horizon', () {
     final now = DateTime(2026, 11, 2, 9);
     expect(ScheduleService.isWithinHorizon(DateTime(2026, 11, 2), now), isTrue);
-    expect(ScheduleService.isWithinHorizon(DateTime(2026, 11, 1), now), isFalse);
+    expect(
+      ScheduleService.isWithinHorizon(DateTime(2026, 11, 1), now),
+      isFalse,
+    );
     expect(ScheduleService.isWithinHorizon(DateTime(2027, 2, 1), now), isFalse);
   });
 }

@@ -29,7 +29,9 @@ abstract final class KzPhone {
     var d = input.replaceAll(RegExp(r'\D'), '');
     // A country / trunk prefix is only present on full 11-digit input
     // (pasted "+7…" or "8…"); typed national numbers may start with 7.
-    if (d.length >= 11 && (d.startsWith('7') || d.startsWith('8'))) d = d.substring(1);
+    if (d.length >= 11 && (d.startsWith('7') || d.startsWith('8'))) {
+      d = d.substring(1);
+    }
     return d.length > 10 ? d.substring(0, 10) : d;
   }
 

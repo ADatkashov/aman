@@ -34,7 +34,9 @@ import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/shell/main_shell.dart';
 
 /// Minimum time the splash is displayed. Overridden in tests.
-final splashDoneProvider = FutureProvider<void>((ref) => Future.delayed(const Duration(milliseconds: 1400)));
+final splashDoneProvider = FutureProvider<void>(
+  (ref) => Future.delayed(const Duration(milliseconds: 1400)),
+);
 
 abstract final class Routes {
   static const splash = '/splash';
@@ -59,7 +61,10 @@ String? redirectFor({
 }) {
   if (booting) return location == Routes.splash ? null : Routes.splash;
   if (!signedIn) {
-    if (location == Routes.otp || (Routes.publicRoutes.contains(location) && location != Routes.splash)) return null;
+    if (location == Routes.otp ||
+        (Routes.publicRoutes.contains(location) && location != Routes.splash)) {
+      return null;
+    }
     return onboarded ? Routes.login : Routes.welcome;
   }
   if (Routes.publicRoutes.contains(location)) return Routes.home;
@@ -81,7 +86,9 @@ final routerProvider = Provider<GoRouter>((ref) {
     refreshListenable: refresh,
     redirect: (context, state) => redirectFor(
       location: state.matchedLocation,
-      booting: ref.read(authControllerProvider).isLoading || ref.read(splashDoneProvider).isLoading,
+      booting:
+          ref.read(authControllerProvider).isLoading ||
+          ref.read(splashDoneProvider).isLoading,
       signedIn: ref.read(authControllerProvider).value != null,
       onboarded: ref.read(onboardedProvider),
     ),
@@ -97,45 +104,105 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: Routes.forgot,
-        builder: (_, state) => ForgotPasswordScreen(initialPhone: state.extra as String?),
+        builder: (_, state) =>
+            ForgotPasswordScreen(initialPhone: state.extra as String?),
       ),
-      GoRoute(path: Routes.profileSetup, builder: (_, _) => const ProfileSetupScreen()),
+      GoRoute(
+        path: Routes.profileSetup,
+        builder: (_, _) => const ProfileSetupScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => MainShell(shell: shell),
         branches: [
-          StatefulShellBranch(routes: [GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen())]),
-          StatefulShellBranch(routes: [GoRoute(path: '/appointments', builder: (_, _) => const AppointmentsScreen())]),
-          StatefulShellBranch(routes: [GoRoute(path: '/services', builder: (_, _) => const ServicesScreen())]),
-          StatefulShellBranch(routes: [GoRoute(path: '/profile', builder: (_, _) => const ProfileScreen())]),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/appointments',
+                builder: (_, _) => const AppointmentsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/services',
+                builder: (_, _) => const ServicesScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/profile',
+                builder: (_, _) => const ProfileScreen(),
+              ),
+            ],
+          ),
         ],
       ),
       GoRoute(path: '/doctors', builder: (_, _) => const DoctorsScreen()),
-      GoRoute(path: '/doctors/:id', builder: (_, s) => DoctorDetailScreen(doctorId: s.pathParameters['id']!)),
-      GoRoute(path: '/favorites', builder: (_, _) => const DoctorsScreen(favoritesOnly: true)),
+      GoRoute(
+        path: '/doctors/:id',
+        builder: (_, s) =>
+            DoctorDetailScreen(doctorId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/favorites',
+        builder: (_, _) => const DoctorsScreen(favoritesOnly: true),
+      ),
       GoRoute(path: '/booking', builder: (_, _) => const BookingScreen()),
       GoRoute(
         path: '/booking/success/:id',
-        builder: (_, s) => BookingSuccessScreen(appointmentId: s.pathParameters['id']!),
+        builder: (_, s) =>
+            BookingSuccessScreen(appointmentId: s.pathParameters['id']!),
       ),
       GoRoute(
         path: '/appointments/:id',
-        builder: (_, s) => AppointmentDetailScreen(appointmentId: s.pathParameters['id']!),
+        builder: (_, s) =>
+            AppointmentDetailScreen(appointmentId: s.pathParameters['id']!),
         routes: [
           GoRoute(
             path: 'reschedule',
-            builder: (_, s) => RescheduleScreen(appointmentId: s.pathParameters['id']!),
+            builder: (_, s) =>
+                RescheduleScreen(appointmentId: s.pathParameters['id']!),
           ),
         ],
       ),
       GoRoute(path: '/analyses', builder: (_, _) => const AnalysesScreen()),
-      GoRoute(path: '/analyses/:id', builder: (_, s) => AnalysisDetailScreen(resultId: s.pathParameters['id']!)),
-      GoRoute(path: '/medical-record', builder: (_, _) => const MedicalRecordScreen()),
+      GoRoute(
+        path: '/analyses/:id',
+        builder: (_, s) =>
+            AnalysisDetailScreen(resultId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/medical-record',
+        builder: (_, _) => const MedicalRecordScreen(),
+      ),
       GoRoute(path: '/clinics', builder: (_, _) => const ClinicsScreen()),
-      GoRoute(path: '/clinics/:id', builder: (_, s) => ClinicDetailScreen(clinicId: s.pathParameters['id']!)),
+      GoRoute(
+        path: '/clinics/:id',
+        builder: (_, s) =>
+            ClinicDetailScreen(clinicId: s.pathParameters['id']!),
+      ),
       GoRoute(path: '/documents', builder: (_, _) => const DocumentsScreen()),
-      GoRoute(path: '/documents/:id', builder: (_, s) => DocumentDetailScreen(documentId: s.pathParameters['id']!)),
-      GoRoute(path: '/notifications', builder: (_, _) => const NotificationsScreen()),
-      GoRoute(path: '/profile/edit', builder: (_, _) => const EditProfileScreen()),
+      GoRoute(
+        path: '/documents/:id',
+        builder: (_, s) =>
+            DocumentDetailScreen(documentId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (_, _) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: '/profile/edit',
+        builder: (_, _) => const EditProfileScreen(),
+      ),
       GoRoute(path: '/settings', builder: (_, _) => const SettingsScreen()),
       GoRoute(path: '/security', builder: (_, _) => const SecurityScreen()),
       GoRoute(path: '/help', builder: (_, _) => const HelpScreen()),

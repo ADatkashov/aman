@@ -2,8 +2,10 @@ enum Gender {
   male,
   female;
 
-  static Gender fromId(String? id) =>
-      Gender.values.firstWhere((g) => g.name == id?.toLowerCase(), orElse: () => Gender.male);
+  static Gender fromId(String? id) => Gender.values.firstWhere(
+    (g) => g.name == id?.toLowerCase(),
+    orElse: () => Gender.male,
+  );
 }
 
 class PatientProfile {
@@ -52,38 +54,38 @@ class PatientProfile {
     Gender? gender,
     String? bloodType,
     String? city,
-  }) =>
-      PatientProfile(
-        id: id,
-        fullName: fullName ?? this.fullName,
-        phone: phone,
-        email: email ?? this.email,
-        birthDate: birthDate ?? this.birthDate,
-        gender: gender ?? this.gender,
-        bloodType: bloodType ?? this.bloodType,
-        city: city ?? this.city,
-        avatarSeed: avatarSeed,
-      );
+  }) => PatientProfile(
+    id: id,
+    fullName: fullName ?? this.fullName,
+    phone: phone,
+    email: email ?? this.email,
+    birthDate: birthDate ?? this.birthDate,
+    gender: gender ?? this.gender,
+    bloodType: bloodType ?? this.bloodType,
+    city: city ?? this.city,
+    avatarSeed: avatarSeed,
+  );
 
   factory PatientProfile.fromJson(Map<String, dynamic> json) => PatientProfile(
-        id: json['id'].toString(),
-        fullName: json['fullName'] as String,
-        phone: json['phone'] as String,
-        email: json['email'] as String?,
-        birthDate:
-            json['birthDate'] == null ? null : DateTime.parse(json['birthDate'] as String),
-        gender: Gender.fromId(json['gender'] as String?),
-        bloodType: json['bloodType'] as String?,
-        city: json['city'] as String?,
-        avatarSeed: (json['avatarSeed'] as num?)?.toInt() ?? 0,
-      );
+    id: json['id'].toString(),
+    fullName: json['fullName'] as String,
+    phone: json['phone'] as String,
+    email: json['email'] as String?,
+    birthDate: json['birthDate'] == null
+        ? null
+        : DateTime.parse(json['birthDate'] as String),
+    gender: Gender.fromId(json['gender'] as String?),
+    bloodType: json['bloodType'] as String?,
+    city: json['city'] as String?,
+    avatarSeed: (json['avatarSeed'] as num?)?.toInt() ?? 0,
+  );
 
   Map<String, dynamic> toJson() => {
-        'fullName': fullName,
-        'email': email,
-        'birthDate': birthDate?.toIso8601String().substring(0, 10),
-        'gender': gender.name.toUpperCase(),
-        'bloodType': bloodType,
-        'city': city,
-      };
+    'fullName': fullName,
+    'email': email,
+    'birthDate': birthDate?.toIso8601String().substring(0, 10),
+    'gender': gender.name.toUpperCase(),
+    'bloodType': bloodType,
+    'city': city,
+  };
 }

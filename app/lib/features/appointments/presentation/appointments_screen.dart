@@ -23,8 +23,10 @@ class AppointmentsScreen extends ConsumerStatefulWidget {
   ConsumerState<AppointmentsScreen> createState() => _AppointmentsScreenState();
 }
 
-class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> with SingleTickerProviderStateMixin {
-  late final TabController _tabs = TabController(length: 3, vsync: this)..addListener(() => setState(() {}));
+class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabs = TabController(length: 3, vsync: this)
+    ..addListener(() => setState(() {}));
   AppointmentPeriod _period = AppointmentPeriod.all;
 
   @override
@@ -71,16 +73,30 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> with Si
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(16)),
+            decoration: BoxDecoration(
+              color: p.lightBlue,
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: TabBar(
               controller: _tabs,
               dividerColor: Colors.transparent,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicator: BoxDecoration(color: p.surface, borderRadius: BorderRadius.circular(12)),
+              indicator: BoxDecoration(
+                color: p.surface,
+                borderRadius: BorderRadius.circular(12),
+              ),
               labelColor: p.primary,
               unselectedLabelColor: p.textSecondary,
-              labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-              tabs: [for (final t in [l.tabUpcoming, l.tabCompleted, l.tabCancelled]) Tab(child: FittedBox(fit: BoxFit.scaleDown, child: Text(t)))],
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
+              ),
+              tabs: [
+                for (final t in [l.tabUpcoming, l.tabCompleted, l.tabCancelled])
+                  Tab(
+                    child: FittedBox(fit: BoxFit.scaleDown, child: Text(t)),
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: 12),
@@ -91,7 +107,11 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> with Si
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
                 for (final e in periodLabels.entries) ...[
-                  AmanFilterChip(label: e.value, selected: _period == e.key, onTap: () => setState(() => _period = e.key)),
+                  AmanFilterChip(
+                    label: e.value,
+                    selected: _period == e.key,
+                    onTap: () => setState(() => _period = e.key),
+                  ),
                   const SizedBox(width: 8),
                 ],
               ],
@@ -100,36 +120,52 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> with Si
           const SizedBox(height: 8),
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () => ref.read(appointmentsProvider.notifier).refresh(),
+              onRefresh: () =>
+                  ref.read(appointmentsProvider.notifier).refresh(),
               child: AsyncBody<List<Appointment>>(
                 value: appts,
                 onRetry: () => ref.invalidate(appointmentsProvider),
                 builder: (all) {
-                  final list = selectAppointments(all, tab: tab, period: _period, now: now);
+                  final list = selectAppointments(
+                    all,
+                    tab: tab,
+                    period: _period,
+                    now: now,
+                  );
                   if (list.isEmpty) {
-                    return ListView(children: [
-                      const SizedBox(height: 40),
-                      EmptyState(
-                        icon: switch (tab) {
-                          AppointmentTab.upcoming => Icons.event_available_rounded,
-                          AppointmentTab.completed => Icons.task_alt_rounded,
-                          AppointmentTab.cancelled => Icons.event_busy_rounded,
-                        },
-                        title: switch (tab) {
-                          AppointmentTab.upcoming => l.noUpcomingTitle,
-                          AppointmentTab.completed => l.noCompletedTitle,
-                          AppointmentTab.cancelled => l.noCancelledTitle,
-                        },
-                        body: _period == AppointmentPeriod.all ? l.noAppointmentsBody : l.noAppointmentsInPeriod,
-                        actionLabel: tab == AppointmentTab.upcoming ? l.bookDoctor : null,
-                        onAction: tab == AppointmentTab.upcoming
-                            ? () {
-                                ref.read(bookingDraftProvider.notifier).start();
-                                context.push('/booking');
-                              }
-                            : null,
-                      ),
-                    ]);
+                    return ListView(
+                      children: [
+                        const SizedBox(height: 40),
+                        EmptyState(
+                          icon: switch (tab) {
+                            AppointmentTab.upcoming =>
+                              Icons.event_available_rounded,
+                            AppointmentTab.completed => Icons.task_alt_rounded,
+                            AppointmentTab.cancelled =>
+                              Icons.event_busy_rounded,
+                          },
+                          title: switch (tab) {
+                            AppointmentTab.upcoming => l.noUpcomingTitle,
+                            AppointmentTab.completed => l.noCompletedTitle,
+                            AppointmentTab.cancelled => l.noCancelledTitle,
+                          },
+                          body: _period == AppointmentPeriod.all
+                              ? l.noAppointmentsBody
+                              : l.noAppointmentsInPeriod,
+                          actionLabel: tab == AppointmentTab.upcoming
+                              ? l.bookDoctor
+                              : null,
+                          onAction: tab == AppointmentTab.upcoming
+                              ? () {
+                                  ref
+                                      .read(bookingDraftProvider.notifier)
+                                      .start();
+                                  context.push('/booking');
+                                }
+                              : null,
+                        ),
+                      ],
+                    );
                   }
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
@@ -140,7 +176,10 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> with Si
                       return AppointmentCard(
                         appointment: a,
                         onTap: () => context.push('/appointments/${a.id}'),
-                        trailing: AppointmentActions(appointment: a, compact: true),
+                        trailing: AppointmentActions(
+                          appointment: a,
+                          compact: true,
+                        ),
                       );
                     },
                   );
@@ -156,7 +195,11 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> with Si
 
 /// Action buttons that depend on the appointment's state and clinic policy.
 class AppointmentActions extends ConsumerWidget {
-  const AppointmentActions({super.key, required this.appointment, this.compact = false});
+  const AppointmentActions({
+    super.key,
+    required this.appointment,
+    this.compact = false,
+  });
 
   final Appointment appointment;
   final bool compact;
@@ -174,7 +217,9 @@ class AppointmentActions extends ConsumerWidget {
       final reschedule = SecondaryButton(
         label: compact ? l.actionReschedule : l.rescheduleAppointment,
         height: h,
-        onPressed: canChange ? () => context.push('/appointments/${a.id}/reschedule') : null,
+        onPressed: canChange
+            ? () => context.push('/appointments/${a.id}/reschedule')
+            : null,
       );
       final cancel = SecondaryButton(
         label: compact ? l.actionCancel : l.cancelAppointment,
@@ -185,36 +230,72 @@ class AppointmentActions extends ConsumerWidget {
       return Column(
         children: [
           if (compact)
-            Row(children: [Expanded(child: reschedule), const SizedBox(width: 10), Expanded(child: cancel)])
-          else ...[reschedule, const SizedBox(height: 10), cancel],
+            Row(
+              children: [
+                Expanded(child: reschedule),
+                const SizedBox(width: 10),
+                Expanded(child: cancel),
+              ],
+            )
+          else ...[
+            reschedule,
+            const SizedBox(height: 10),
+            cancel,
+          ],
           if (!canChange && clinic != null)
             Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: Text(l.errTooLate(clinic.changeDeadlineHours), style: Theme.of(context).textTheme.bodySmall),
+              child: Text(
+                l.errTooLate(clinic.changeDeadlineHours),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
             ),
         ],
       );
     }
     if (a.status == AppointmentStatus.cancelled) {
-      return SecondaryButton(label: l.repeatAppointment, height: h, onPressed: () => repeatFlow(context, ref, a));
+      return SecondaryButton(
+        label: l.repeatAppointment,
+        height: h,
+        onPressed: () => repeatFlow(context, ref, a),
+      );
     }
     return Row(
       children: [
-        Expanded(child: SecondaryButton(label: l.repeatAppointment, height: h, onPressed: () => repeatFlow(context, ref, a))),
+        Expanded(
+          child: SecondaryButton(
+            label: l.repeatAppointment,
+            height: h,
+            onPressed: () => repeatFlow(context, ref, a),
+          ),
+        ),
         const SizedBox(width: 10),
         Expanded(
           child: a.reviewRating != null
               ? Container(
                   height: h,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(color: context.palette.lightBlue, borderRadius: BorderRadius.circular(16)),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.star_rounded, color: context.palette.warning),
-                    const SizedBox(width: 4),
-                    Text('${a.reviewRating}', style: const TextStyle(fontWeight: FontWeight.w800)),
-                  ]),
+                  decoration: BoxDecoration(
+                    color: context.palette.lightBlue,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.star_rounded, color: context.palette.warning),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${a.reviewRating}',
+                        style: const TextStyle(fontWeight: FontWeight.w800),
+                      ),
+                    ],
+                  ),
                 )
-              : PrimaryButton(label: l.leaveReview, height: h, onPressed: () => reviewFlow(context, ref, a)),
+              : PrimaryButton(
+                  label: l.leaveReview,
+                  height: h,
+                  onPressed: () => reviewFlow(context, ref, a),
+                ),
         ),
       ],
     );

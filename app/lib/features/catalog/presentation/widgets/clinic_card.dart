@@ -8,7 +8,12 @@ import '../../domain/clinic.dart';
 
 /// Illustrated building cover derived from the clinic's seed.
 class ClinicCover extends StatelessWidget {
-  const ClinicCover({super.key, required this.clinic, this.height = 120, this.radius = 18});
+  const ClinicCover({
+    super.key,
+    required this.clinic,
+    this.height = 120,
+    this.radius = 18,
+  });
 
   final Clinic clinic;
   final double height;
@@ -29,7 +34,13 @@ class ClinicCover extends StatelessWidget {
       child: Container(
         height: height,
         width: double.infinity,
-        decoration: BoxDecoration(gradient: LinearGradient(colors: g, begin: Alignment.topLeft, end: Alignment.bottomRight)),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: g,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: Stack(
           children: [
             Positioned(right: -18, top: -18, child: _circle(90, 0.12)),
@@ -38,8 +49,15 @@ class ClinicCover extends StatelessWidget {
               child: Container(
                 width: 58,
                 height: 58,
-                decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), shape: BoxShape.circle),
-                child: const Icon(Icons.local_hospital_rounded, color: Colors.white, size: 32),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.local_hospital_rounded,
+                  color: Colors.white,
+                  size: 32,
+                ),
               ),
             ),
           ],
@@ -48,8 +66,14 @@ class ClinicCover extends StatelessWidget {
     );
   }
 
-  Widget _circle(double s, double a) =>
-      Container(width: s, height: s, decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: a)));
+  Widget _circle(double s, double a) => Container(
+    width: s,
+    height: s,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      color: Colors.white.withValues(alpha: a),
+    ),
+  );
 }
 
 class ClinicCard extends StatelessWidget {
@@ -74,14 +98,25 @@ class ClinicCard extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: Text(clinic.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: t.titleSmall)),
+              Expanded(
+                child: Text(
+                  clinic.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: t.titleSmall,
+                ),
+              ),
               RatingBadge(rating: clinic.rating),
             ],
           ),
           const SizedBox(height: 6),
           Row(
             children: [
-              Icon(Icons.location_on_outlined, size: 15, color: p.textSecondary),
+              Icon(
+                Icons.location_on_outlined,
+                size: 15,
+                color: p.textSecondary,
+              ),
               const SizedBox(width: 4),
               Expanded(child: Text(clinic.fullAddress, style: t.bodySmall)),
             ],
@@ -91,7 +126,12 @@ class ClinicCard extends StatelessWidget {
             children: [
               Icon(Icons.schedule_rounded, size: 15, color: p.textSecondary),
               const SizedBox(width: 4),
-              Expanded(child: Text(clinic.workingHours.of(context.langCode), style: t.bodySmall)),
+              Expanded(
+                child: Text(
+                  clinic.workingHours.of(context.langCode),
+                  style: t.bodySmall,
+                ),
+              ),
             ],
           ),
           if (clinic.isDemo) ...[

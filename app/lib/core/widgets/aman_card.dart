@@ -37,7 +37,13 @@ class AmanCard extends StatelessWidget {
         borderRadius: br,
         border: border || dark ? Border.all(color: p.border) : null,
         boxShadow: shadow && !dark
-            ? [BoxShadow(color: const Color(0xFF0A2A66).withValues(alpha: 0.06), blurRadius: 22, offset: const Offset(0, 8))]
+            ? [
+                BoxShadow(
+                  color: const Color(0xFF0A2A66).withValues(alpha: 0.06),
+                  blurRadius: 22,
+                  offset: const Offset(0, 8),
+                ),
+              ]
             : null,
       ),
       child: Padding(padding: padding, child: child),
@@ -49,7 +55,11 @@ class AmanCard extends StatelessWidget {
       container: true,
       button: onTap != null,
       label: semanticLabel,
-      child: Material(color: Colors.transparent, borderRadius: br, child: tappable),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: br,
+        child: tappable,
+      ),
     );
   }
 }

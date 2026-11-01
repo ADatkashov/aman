@@ -17,12 +17,15 @@ abstract final class ScheduleService {
     if (!schedule.workDays.contains(date.weekday)) return const [];
     final day = Dates.dateOnly(date);
     final result = <DateTime>[];
-    for (var m = schedule.startMinutes;
-        m + schedule.slotMinutes <= schedule.endMinutes;
-        m += schedule.slotMinutes) {
+    for (
+      var m = schedule.startMinutes;
+      m + schedule.slotMinutes <= schedule.endMinutes;
+      m += schedule.slotMinutes
+    ) {
       final bs = schedule.breakStartMinutes;
       final be = schedule.breakEndMinutes;
-      final overlapsBreak = bs != null && be != null && m < be && m + schedule.slotMinutes > bs;
+      final overlapsBreak =
+          bs != null && be != null && m < be && m + schedule.slotMinutes > bs;
       if (overlapsBreak) continue;
       result.add(day.add(Duration(minutes: m)));
     }
@@ -37,10 +40,12 @@ abstract final class ScheduleService {
   }) {
     final earliest = now.add(leadTime);
     return templateStarts(schedule, date)
-        .map((s) => TimeSlot(
-              start: s,
-              available: s.isAfter(earliest) && !booked.contains(s),
-            ))
+        .map(
+          (s) => TimeSlot(
+            start: s,
+            available: s.isAfter(earliest) && !booked.contains(s),
+          ),
+        )
         .toList();
   }
 
@@ -62,7 +67,12 @@ abstract final class ScheduleService {
   }) {
     for (var i = 0; i <= days; i++) {
       final date = Dates.dateOnly(now).add(Duration(days: i));
-      for (final slot in slotsFor(schedule: schedule, date: date, booked: booked, now: now)) {
+      for (final slot in slotsFor(
+        schedule: schedule,
+        date: date,
+        booked: booked,
+        now: now,
+      )) {
         if (slot.available) return slot.start;
       }
     }

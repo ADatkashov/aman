@@ -28,13 +28,21 @@ class _LanguageSheet extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(context.l10n.languageMenu, style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              context.l10n.languageMenu,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 12),
             for (final locale in supportedLocales)
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text(_names[locale.languageCode]!, style: const TextStyle(fontWeight: FontWeight.w600)),
-                trailing: locale == current ? Icon(Icons.check_circle_rounded, color: p.primary) : null,
+                title: Text(
+                  _names[locale.languageCode]!,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                trailing: locale == current
+                    ? Icon(Icons.check_circle_rounded, color: p.primary)
+                    : null,
                 onTap: () {
                   ref.read(localeProvider.notifier).set(locale);
                   Navigator.pop(context);

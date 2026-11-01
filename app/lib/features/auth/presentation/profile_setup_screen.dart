@@ -15,7 +15,11 @@ import 'auth_widgets.dart';
 
 /// Shared date-of-birth picker field.
 class BirthDateField extends StatelessWidget {
-  const BirthDateField({super.key, required this.value, required this.onChanged});
+  const BirthDateField({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
 
   final DateTime? value;
   final ValueChanged<DateTime> onChanged;
@@ -29,8 +33,11 @@ class BirthDateField extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: Text(l.birthDateLabel,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(color: p.textSecondary)),
+          child: Text(
+            l.birthDateLabel,
+            style: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(color: p.textSecondary),
+          ),
         ),
         InkWell(
           borderRadius: BorderRadius.circular(16),
@@ -45,7 +52,9 @@ class BirthDateField extends StatelessWidget {
             if (picked != null) onChanged(picked);
           },
           child: InputDecorator(
-            decoration: InputDecoration(suffixIcon: Icon(Icons.calendar_month_rounded, color: p.primary)),
+            decoration: InputDecoration(
+              suffixIcon: Icon(Icons.calendar_month_rounded, color: p.primary),
+            ),
             child: Text(
               value == null ? '—' : context.fmt.dayMonthYear(value!),
               style: Theme.of(context).textTheme.bodyLarge,
@@ -58,7 +67,11 @@ class BirthDateField extends StatelessWidget {
 }
 
 class GenderSelector extends StatelessWidget {
-  const GenderSelector({super.key, required this.value, required this.onChanged});
+  const GenderSelector({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
 
   final Gender value;
   final ValueChanged<Gender> onChanged;
@@ -72,7 +85,11 @@ class GenderSelector extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: Text(l.genderLabel, style: Theme.of(context).textTheme.labelMedium?.copyWith(color: p.textSecondary)),
+          child: Text(
+            l.genderLabel,
+            style: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(color: p.textSecondary),
+          ),
         ),
         SizedBox(
           width: double.infinity,
@@ -119,16 +136,22 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     if (profile == null) return;
     setState(() => _loading = true);
     try {
-      await ref.read(authControllerProvider.notifier).updateProfile(profile.copyWith(
-            birthDate: _birth,
-            gender: _gender,
-            email: _email.text.trim().isEmpty ? null : _email.text.trim(),
-            city: _city.text.trim().isEmpty ? null : _city.text.trim(),
-          ));
+      await ref
+          .read(authControllerProvider.notifier)
+          .updateProfile(
+            profile.copyWith(
+              birthDate: _birth,
+              gender: _gender,
+              email: _email.text.trim().isEmpty ? null : _email.text.trim(),
+              city: _city.text.trim().isEmpty ? null : _city.text.trim(),
+            ),
+          );
       await ref.read(onboardedProvider.notifier).complete();
       if (mounted) context.go('/home');
     } catch (e) {
-      if (mounted) showSnack(context, errorMessage(context.l10n, e), error: true);
+      if (mounted) {
+        showSnack(context, errorMessage(context.l10n, e), error: true);
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -146,11 +169,21 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         key: _form,
         child: Column(
           children: [
-            BirthDateField(value: _birth, onChanged: (d) => setState(() => _birth = d)),
+            BirthDateField(
+              value: _birth,
+              onChanged: (d) => setState(() => _birth = d),
+            ),
             const SizedBox(height: 16),
-            GenderSelector(value: _gender, onChanged: (g) => setState(() => _gender = g)),
+            GenderSelector(
+              value: _gender,
+              onChanged: (g) => setState(() => _gender = g),
+            ),
             const SizedBox(height: 16),
-            AmanTextField(label: l.cityLabel, controller: _city, textInputAction: TextInputAction.next),
+            AmanTextField(
+              label: l.cityLabel,
+              controller: _city,
+              textInputAction: TextInputAction.next,
+            ),
             const SizedBox(height: 16),
             AmanTextField(
               label: l.emailOptionalLabel,
@@ -162,7 +195,13 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
             PrimaryButton(label: l.finish, onPressed: _save, loading: _loading),
             TextButton(
               onPressed: () => context.go('/home'),
-              child: Text(l.skip, style: TextStyle(color: p.textSecondary, fontWeight: FontWeight.w600)),
+              child: Text(
+                l.skip,
+                style: TextStyle(
+                  color: p.textSecondary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         ),

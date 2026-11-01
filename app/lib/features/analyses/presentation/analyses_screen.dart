@@ -18,8 +18,10 @@ class AnalysesScreen extends ConsumerStatefulWidget {
   ConsumerState<AnalysesScreen> createState() => _AnalysesScreenState();
 }
 
-class _AnalysesScreenState extends ConsumerState<AnalysesScreen> with SingleTickerProviderStateMixin {
-  late final TabController _tabs = TabController(length: 2, vsync: this)..addListener(() => setState(() {}));
+class _AnalysesScreenState extends ConsumerState<AnalysesScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabs = TabController(length: 2, vsync: this)
+    ..addListener(() => setState(() {}));
   LabCategory? _category;
 
   @override
@@ -43,16 +45,30 @@ class _AnalysesScreenState extends ConsumerState<AnalysesScreen> with SingleTick
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(16)),
+            decoration: BoxDecoration(
+              color: p.lightBlue,
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: TabBar(
               controller: _tabs,
               dividerColor: Colors.transparent,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicator: BoxDecoration(color: p.surface, borderRadius: BorderRadius.circular(12)),
+              indicator: BoxDecoration(
+                color: p.surface,
+                borderRadius: BorderRadius.circular(12),
+              ),
               labelColor: p.primary,
               unselectedLabelColor: p.textSecondary,
-              labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-              tabs: [for (final t in [l.tabMyAnalyses, l.tabOrders]) Tab(child: FittedBox(fit: BoxFit.scaleDown, child: Text(t)))],
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
+              ),
+              tabs: [
+                for (final t in [l.tabMyAnalyses, l.tabOrders])
+                  Tab(
+                    child: FittedBox(fit: BoxFit.scaleDown, child: Text(t)),
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: 12),
@@ -62,10 +78,19 @@ class _AnalysesScreenState extends ConsumerState<AnalysesScreen> with SingleTick
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
-                AmanFilterChip(label: l.catAll, selected: _category == null, onTap: () => setState(() => _category = null)),
+                AmanFilterChip(
+                  label: l.catAll,
+                  selected: _category == null,
+                  onTap: () => setState(() => _category = null),
+                ),
                 for (final c in LabCategory.values) ...[
                   const SizedBox(width: 8),
-                  AmanFilterChip(label: c.label(l), selected: _category == c, onTap: () => setState(() => _category = _category == c ? null : c)),
+                  AmanFilterChip(
+                    label: c.label(l),
+                    selected: _category == c,
+                    onTap: () =>
+                        setState(() => _category = _category == c ? null : c),
+                  ),
                 ],
               ],
             ),
@@ -83,17 +108,29 @@ class _AnalysesScreenState extends ConsumerState<AnalysesScreen> with SingleTick
                       value: results,
                       onRetry: () => ref.invalidate(labResultsProvider),
                       builder: (all) {
-                        final list = all.where((r) => _category == null || r.category == _category).toList();
+                        final list = all
+                            .where(
+                              (r) =>
+                                  _category == null || r.category == _category,
+                            )
+                            .toList();
                         if (list.isEmpty) {
-                          return ListView(children: [
-                            const SizedBox(height: 40),
-                            EmptyState(icon: Icons.science_rounded, title: l.labNoAnalyses, body: l.labNoAnalysesBody),
-                          ]);
+                          return ListView(
+                            children: [
+                              const SizedBox(height: 40),
+                              EmptyState(
+                                icon: Icons.science_rounded,
+                                title: l.labNoAnalyses,
+                                body: l.labNoAnalysesBody,
+                              ),
+                            ],
+                          );
                         }
                         return ListView.separated(
                           padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
                           itemCount: list.length,
-                          separatorBuilder: (_, _) => const SizedBox(height: 10),
+                          separatorBuilder: (_, _) =>
+                              const SizedBox(height: 10),
                           itemBuilder: (_, i) {
                             final r = list[i];
                             return AnalysisCard(
@@ -101,7 +138,8 @@ class _AnalysesScreenState extends ConsumerState<AnalysesScreen> with SingleTick
                               category: r.category,
                               date: r.date,
                               status: r.status,
-                              subtitle: '${context.fmt.shortDate(r.date)} · ${r.laboratory.replaceAll(' · DEMO', '')}',
+                              subtitle:
+                                  '${context.fmt.shortDate(r.date)} · ${r.laboratory.replaceAll(' · DEMO', '')}',
                               onTap: () => context.push('/analyses/${r.id}'),
                             );
                           },
@@ -112,17 +150,28 @@ class _AnalysesScreenState extends ConsumerState<AnalysesScreen> with SingleTick
                       value: orders,
                       onRetry: () => ref.invalidate(labOrdersProvider),
                       builder: (all) {
-                        final list = all.where((o) => _category == null || o.category == _category).toList();
+                        final list = all
+                            .where(
+                              (o) =>
+                                  _category == null || o.category == _category,
+                            )
+                            .toList();
                         if (list.isEmpty) {
-                          return ListView(children: [
-                            const SizedBox(height: 40),
-                            EmptyState(icon: Icons.assignment_rounded, title: l.labNoOrders),
-                          ]);
+                          return ListView(
+                            children: [
+                              const SizedBox(height: 40),
+                              EmptyState(
+                                icon: Icons.assignment_rounded,
+                                title: l.labNoOrders,
+                              ),
+                            ],
+                          );
                         }
                         return ListView.separated(
                           padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
                           itemCount: list.length,
-                          separatorBuilder: (_, _) => const SizedBox(height: 10),
+                          separatorBuilder: (_, _) =>
+                              const SizedBox(height: 10),
                           itemBuilder: (_, i) {
                             final o = list[i];
                             return AnalysisCard(
@@ -130,7 +179,8 @@ class _AnalysesScreenState extends ConsumerState<AnalysesScreen> with SingleTick
                               category: o.category,
                               date: o.date,
                               status: o.status,
-                              subtitle: '${l.labPrescribedBy(o.doctorName)} · ${context.fmt.shortDate(o.date)}',
+                              subtitle:
+                                  '${l.labPrescribedBy(o.doctorName)} · ${context.fmt.shortDate(o.date)}',
                             );
                           },
                         );

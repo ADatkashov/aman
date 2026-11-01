@@ -19,7 +19,8 @@ class MedicalRecordScreen extends ConsumerStatefulWidget {
   const MedicalRecordScreen({super.key});
 
   @override
-  ConsumerState<MedicalRecordScreen> createState() => _MedicalRecordScreenState();
+  ConsumerState<MedicalRecordScreen> createState() =>
+      _MedicalRecordScreenState();
 }
 
 class _MedicalRecordScreenState extends ConsumerState<MedicalRecordScreen> {
@@ -53,7 +54,9 @@ class _MedicalRecordScreenState extends ConsumerState<MedicalRecordScreen> {
         title: l.recordTitle,
         actions: [
           AmanIconButton(
-            icon: _range == null ? Icons.date_range_rounded : Icons.event_available_rounded,
+            icon: _range == null
+                ? Icons.date_range_rounded
+                : Icons.event_available_rounded,
             tooltip: l.recFilterDates,
             color: _range == null ? null : p.primary,
             onPressed: _pickRange,
@@ -96,11 +99,23 @@ class _MedicalRecordScreenState extends ConsumerState<MedicalRecordScreen> {
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Row(
                 children: [
-                  StatusBadge(label: '${fmt.shortDate(_range!.start)} – ${fmt.shortDate(_range!.end)}', tone: BadgeTone.info, icon: Icons.date_range_rounded),
+                  StatusBadge(
+                    label:
+                        '${fmt.shortDate(_range!.start)} – ${fmt.shortDate(_range!.end)}',
+                    tone: BadgeTone.info,
+                    icon: Icons.date_range_rounded,
+                  ),
                   const SizedBox(width: 8),
                   InkWell(
                     onTap: () => setState(() => _range = null),
-                    child: Padding(padding: const EdgeInsets.all(4), child: Icon(Icons.close_rounded, size: 18, color: p.textSecondary)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.close_rounded,
+                        size: 18,
+                        color: p.textSecondary,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -116,7 +131,12 @@ class _MedicalRecordScreenState extends ConsumerState<MedicalRecordScreen> {
                 value: entries,
                 onRetry: () => ref.invalidate(medicalEntriesProvider),
                 builder: (all) {
-                  final filtered = filterEntries(all, type: _type, from: _range?.start, to: _range?.end);
+                  final filtered = filterEntries(
+                    all,
+                    type: _type,
+                    from: _range?.start,
+                    to: _range?.end,
+                  );
                   return ListView(
                     padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
                     children: [
@@ -124,7 +144,11 @@ class _MedicalRecordScreenState extends ConsumerState<MedicalRecordScreen> {
                         AmanCard(
                           child: Column(
                             children: [
-                              InfoRow(icon: Icons.person_rounded, label: l.fullNameLabel, value: profile.fullName),
+                              InfoRow(
+                                icon: Icons.person_rounded,
+                                label: l.fullNameLabel,
+                                value: profile.fullName,
+                              ),
                               InfoRow(
                                 icon: Icons.cake_rounded,
                                 label: l.birthDateLabel,
@@ -132,7 +156,11 @@ class _MedicalRecordScreenState extends ConsumerState<MedicalRecordScreen> {
                                     ? '—'
                                     : '${fmt.dayMonthYear(profile.birthDate!)} · ${l.recAgeValue(profile.ageAt(DateTime.now()) ?? 0)}',
                               ),
-                              InfoRow(icon: Icons.bloodtype_rounded, label: l.bloodTypeLabel, value: profile.bloodType ?? '—'),
+                              InfoRow(
+                                icon: Icons.bloodtype_rounded,
+                                label: l.bloodTypeLabel,
+                                value: profile.bloodType ?? '—',
+                              ),
                             ],
                           ),
                         ),
@@ -141,23 +169,44 @@ class _MedicalRecordScreenState extends ConsumerState<MedicalRecordScreen> {
                         const SizedBox(height: 10),
                       ],
                       if (filtered.isEmpty)
-                        EmptyState(icon: Icons.folder_open_rounded, title: l.recEmpty, compact: true)
+                        EmptyState(
+                          icon: Icons.folder_open_rounded,
+                          title: l.recEmpty,
+                          compact: true,
+                        )
                       else
                         for (final e in filtered)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
-                            child: MedicalRecordCard(entry: e, onTap: () => _open(context, e)),
+                            child: MedicalRecordCard(
+                              entry: e,
+                              onTap: () => _open(context, e),
+                            ),
                           ),
                       const SizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(16)),
+                        decoration: BoxDecoration(
+                          color: p.lightBlue,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.verified_user_rounded, size: 18, color: p.primary),
+                            Icon(
+                              Icons.verified_user_rounded,
+                              size: 18,
+                              color: p.primary,
+                            ),
                             const SizedBox(width: 10),
-                            Expanded(child: Text(l.recDisclaimer, style: t.bodySmall?.copyWith(color: p.textPrimary))),
+                            Expanded(
+                              child: Text(
+                                l.recDisclaimer,
+                                style: t.bodySmall?.copyWith(
+                                  color: p.textPrimary,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

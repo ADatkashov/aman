@@ -11,7 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Future<void> _render(WidgetTester tester, String path, {required Color? background, required double logoScale}) async {
+Future<void> _render(
+  WidgetTester tester,
+  String path, {
+  required Color? background,
+  required double logoScale,
+}) async {
   const size = 1024.0;
   final key = GlobalKey();
   await tester.pumpWidget(
@@ -33,14 +38,18 @@ Future<void> _render(WidgetTester tester, String path, {required Color? backgrou
                     ),
                   ),
             alignment: Alignment.center,
-            child: AmanLogoMark(size: size * logoScale, monochrome: background != null),
+            child: AmanLogoMark(
+              size: size * logoScale,
+              monochrome: background != null,
+            ),
           ),
         ),
       ),
     ),
   );
   await tester.runAsync(() async {
-    final boundary = key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    final boundary =
+        key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
     final image = await boundary.toImage();
     final data = await image.toByteData(format: ui.ImageByteFormat.png);
     File(path).writeAsBytesSync(data!.buffer.asUint8List());
@@ -52,7 +61,17 @@ void main() {
     tester.view.physicalSize = const Size(1200, 1200);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    await _render(tester, 'assets/icon/aman_icon.png', background: const Color(0xFF0866E9), logoScale: 0.66);
-    await _render(tester, 'assets/icon/aman_icon_fg.png', background: null, logoScale: 0.5);
+    await _render(
+      tester,
+      'assets/icon/aman_icon.png',
+      background: const Color(0xFF0866E9),
+      logoScale: 0.66,
+    );
+    await _render(
+      tester,
+      'assets/icon/aman_icon_fg.png',
+      background: null,
+      logoScale: 0.5,
+    );
   });
 }

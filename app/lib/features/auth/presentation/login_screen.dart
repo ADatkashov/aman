@@ -38,16 +38,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!_form.currentState!.validate()) return;
     setState(() => _loading = true);
     try {
-      await ref.read(authControllerProvider.notifier).login(_phone.text, _password.text);
+      await ref
+          .read(authControllerProvider.notifier)
+          .login(_phone.text, _password.text);
     } catch (e) {
-      if (mounted) showSnack(context, errorMessage(context.l10n, e), error: true);
+      if (mounted) {
+        showSnack(context, errorMessage(context.l10n, e), error: true);
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
   }
 
   void _fillDemo() {
-    _phone.text = KzPhone.maskNational(KzPhone.nationalDigits(DemoAccount.phone));
+    _phone.text = KzPhone.maskNational(
+      KzPhone.nationalDigits(DemoAccount.phone),
+    );
     _password.text = DemoAccount.password;
   }
 
@@ -77,20 +83,39 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () => context.push('/forgot'),
-                child: Text(l.forgotPassword, style: TextStyle(color: p.primary, fontWeight: FontWeight.w600)),
+                child: Text(
+                  l.forgotPassword,
+                  style: TextStyle(
+                    color: p.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 8),
-            PrimaryButton(label: l.signIn, onPressed: _submit, loading: _loading),
+            PrimaryButton(
+              label: l.signIn,
+              onPressed: _submit,
+              loading: _loading,
+            ),
             const SizedBox(height: 16),
             Wrap(
               alignment: WrapAlignment.center,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Text(l.noAccount, style: Theme.of(context).textTheme.bodyMedium),
+                Text(
+                  l.noAccount,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
                 TextButton(
                   onPressed: () => context.push('/register'),
-                  child: Text(l.signUp, style: TextStyle(color: p.primary, fontWeight: FontWeight.w700)),
+                  child: Text(
+                    l.signUp,
+                    style: TextStyle(
+                      color: p.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -107,14 +132,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
-                            l.demoAccountHint(DemoAccount.password, KzPhone.format(DemoAccount.phone)),
+                            l.demoAccountHint(
+                              DemoAccount.password,
+                              KzPhone.format(DemoAccount.phone),
+                            ),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 6),
-                    Text(l.useDemoAccount, style: TextStyle(color: p.primary, fontWeight: FontWeight.w700, fontSize: 13)),
+                    Text(
+                      l.useDemoAccount,
+                      style: TextStyle(
+                        color: p.primary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -65,9 +65,16 @@ class RemoteAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<PatientProfile> login({required String phone, required String password}) async {
-    final res = await _api.run((d) => d.post<Json>('/auth/login',
-        data: {'phone': _phone(phone), 'password': password}));
+  Future<PatientProfile> login({
+    required String phone,
+    required String password,
+  }) async {
+    final res = await _api.run(
+      (d) => d.post<Json>(
+        '/auth/login',
+        data: {'phone': _phone(phone), 'password': password},
+      ),
+    );
     return _storeSession(res.data!);
   }
 
@@ -78,31 +85,48 @@ class RemoteAuthRepository implements AuthRepository {
     required String password,
     required bool consentAccepted,
   }) async {
-    final res = await _api.run((d) => d.post<Json>('/auth/register', data: {
+    final res = await _api.run(
+      (d) => d.post<Json>(
+        '/auth/register',
+        data: {
           'fullName': fullName.trim(),
           'phone': _phone(phone),
           'password': password,
           'consentAccepted': consentAccepted,
-        }));
+        },
+      ),
+    );
     return res.data?['demoOtp'] as String?;
   }
 
   @override
   Future<String?> requestOtp(String phone) async {
-    final res = await _api.run((d) => d.post<Json>('/auth/otp/request', data: {'phone': _phone(phone)}));
+    final res = await _api.run(
+      (d) => d.post<Json>('/auth/otp/request', data: {'phone': _phone(phone)}),
+    );
     return res.data?['demoOtp'] as String?;
   }
 
   @override
-  Future<PatientProfile> confirmPhone({required String phone, required String code}) async {
+  Future<PatientProfile> confirmPhone({
+    required String phone,
+    required String code,
+  }) async {
     final res = await _api.run(
-        (d) => d.post<Json>('/auth/otp/verify', data: {'phone': _phone(phone), 'code': code}));
+      (d) => d.post<Json>(
+        '/auth/otp/verify',
+        data: {'phone': _phone(phone), 'code': code},
+      ),
+    );
     return _storeSession(res.data!);
   }
 
   @override
   Future<String?> requestPasswordReset(String phone) async {
-    final res = await _api.run((d) => d.post<Json>('/auth/password/forgot', data: {'phone': _phone(phone)}));
+    final res = await _api.run(
+      (d) =>
+          d.post<Json>('/auth/password/forgot', data: {'phone': _phone(phone)}),
+    );
     return res.data?['demoOtp'] as String?;
   }
 
@@ -112,13 +136,23 @@ class RemoteAuthRepository implements AuthRepository {
     required String code,
     required String newPassword,
   }) async {
-    await _api.run((d) => d.post<Json>('/auth/password/reset',
-        data: {'phone': _phone(phone), 'code': code, 'newPassword': newPassword}));
+    await _api.run(
+      (d) => d.post<Json>(
+        '/auth/password/reset',
+        data: {
+          'phone': _phone(phone),
+          'code': code,
+          'newPassword': newPassword,
+        },
+      ),
+    );
   }
 
   @override
   Future<PatientProfile> updateProfile(PatientProfile profile) async {
-    final res = await _api.run((d) => d.put<Json>('/patients/me', data: profile.toJson()));
+    final res = await _api.run(
+      (d) => d.put<Json>('/patients/me', data: profile.toJson()),
+    );
     return PatientProfile.fromJson(res.data!);
   }
 
@@ -126,7 +160,9 @@ class RemoteAuthRepository implements AuthRepository {
   Future<void> logout() async {
     final refresh = await _tokens.readRefreshToken();
     try {
-      await _api.run((d) => d.post<Json>('/auth/logout', data: {'refreshToken': refresh}));
+      await _api.run(
+        (d) => d.post<Json>('/auth/logout', data: {'refreshToken': refresh}),
+      );
     } catch (_) {
       // Local sign-out must always succeed, even when offline.
     } finally {
@@ -140,44 +176,60 @@ class RemoteCatalogRepository implements CatalogRepository {
   final ApiClient _api;
 
   @override
-  Future<List<Doctor>> doctors() async =>
-      _list((await _api.run((d) => d.get<List<dynamic>>('/doctors'))).data, Doctor.fromJson);
+  Future<List<Doctor>> doctors() async => _list(
+    (await _api.run((d) => d.get<List<dynamic>>('/doctors'))).data,
+    Doctor.fromJson,
+  );
 
   @override
-  Future<Doctor> doctor(String id) async =>
-      Doctor.fromJson((await _api.run((d) => d.get<Json>('/doctors/$id'))).data!);
+  Future<Doctor> doctor(String id) async => Doctor.fromJson(
+    (await _api.run((d) => d.get<Json>('/doctors/$id'))).data!,
+  );
 
   @override
-  Future<List<Clinic>> clinics() async =>
-      _list((await _api.run((d) => d.get<List<dynamic>>('/clinics'))).data, Clinic.fromJson);
+  Future<List<Clinic>> clinics() async => _list(
+    (await _api.run((d) => d.get<List<dynamic>>('/clinics'))).data,
+    Clinic.fromJson,
+  );
 
   @override
-  Future<Clinic> clinic(String id) async =>
-      Clinic.fromJson((await _api.run((d) => d.get<Json>('/clinics/$id'))).data!);
+  Future<Clinic> clinic(String id) async => Clinic.fromJson(
+    (await _api.run((d) => d.get<Json>('/clinics/$id'))).data!,
+  );
 
   @override
   Future<List<DoctorReview>> reviews(String doctorId) async => _list(
-      (await _api.run((d) => d.get<List<dynamic>>('/doctors/$doctorId/reviews'))).data,
-      DoctorReview.fromJson);
+    (await _api.run((d) => d.get<List<dynamic>>('/doctors/$doctorId/reviews')))
+        .data,
+    DoctorReview.fromJson,
+  );
 
   @override
   Future<List<TimeSlot>> slots(String doctorId, DateTime date) async {
     final day = date.toIso8601String().substring(0, 10);
-    final res = await _api.run((d) =>
-        d.get<List<dynamic>>('/doctors/$doctorId/schedule', queryParameters: {'date': day}));
+    final res = await _api.run(
+      (d) => d.get<List<dynamic>>(
+        '/doctors/$doctorId/schedule',
+        queryParameters: {'date': day},
+      ),
+    );
     return _list(res.data, TimeSlot.fromJson);
   }
 
   @override
   Future<DateTime?> nextSlot(String doctorId) async {
-    final res = await _api.run((d) => d.get<Json>('/doctors/$doctorId/next-slot'));
+    final res = await _api.run(
+      (d) => d.get<Json>('/doctors/$doctorId/next-slot'),
+    );
     final s = res.data?['start'] as String?;
     return s == null ? null : DateTime.parse(s).toLocal();
   }
 
   @override
   Future<Set<String>> favorites() async {
-    final res = await _api.run((d) => d.get<List<dynamic>>('/patients/me/favorites'));
+    final res = await _api.run(
+      (d) => d.get<List<dynamic>>('/patients/me/favorites'),
+    );
     return res.data!.map((e) => e.toString()).toSet();
   }
 
@@ -198,12 +250,15 @@ class RemoteAppointmentRepository implements AppointmentRepository {
   final ApiClient _api;
 
   @override
-  Future<List<Appointment>> list() async =>
-      _list((await _api.run((d) => d.get<List<dynamic>>('/appointments'))).data, Appointment.fromJson);
+  Future<List<Appointment>> list() async => _list(
+    (await _api.run((d) => d.get<List<dynamic>>('/appointments'))).data,
+    Appointment.fromJson,
+  );
 
   @override
-  Future<Appointment> get(String id) async =>
-      Appointment.fromJson((await _api.run((d) => d.get<Json>('/appointments/$id'))).data!);
+  Future<Appointment> get(String id) async => Appointment.fromJson(
+    (await _api.run((d) => d.get<Json>('/appointments/$id'))).data!,
+  );
 
   @override
   Future<Appointment> create({
@@ -211,31 +266,51 @@ class RemoteAppointmentRepository implements AppointmentRepository {
     required DateTime start,
     required String reason,
   }) async {
-    final res = await _api.run((d) => d.post<Json>('/appointments', data: {
+    final res = await _api.run(
+      (d) => d.post<Json>(
+        '/appointments',
+        data: {
           'doctorId': int.tryParse(doctorId) ?? doctorId,
           'start': start.toUtc().toIso8601String(),
           'reason': reason.trim(),
-        }));
+        },
+      ),
+    );
     return Appointment.fromJson(res.data!);
   }
 
   @override
   Future<Appointment> cancel(String id, {String? reason}) async {
-    final res = await _api.run((d) => d.patch<Json>('/appointments/$id/cancel', data: {'reason': reason}));
+    final res = await _api.run(
+      (d) =>
+          d.patch<Json>('/appointments/$id/cancel', data: {'reason': reason}),
+    );
     return Appointment.fromJson(res.data!);
   }
 
   @override
   Future<Appointment> reschedule(String id, DateTime newStart) async {
-    final res = await _api.run((d) => d.patch<Json>('/appointments/$id/reschedule',
-        data: {'start': newStart.toUtc().toIso8601String()}));
+    final res = await _api.run(
+      (d) => d.patch<Json>(
+        '/appointments/$id/reschedule',
+        data: {'start': newStart.toUtc().toIso8601String()},
+      ),
+    );
     return Appointment.fromJson(res.data!);
   }
 
   @override
-  Future<Appointment> review(String id, {required int rating, String? text}) async {
+  Future<Appointment> review(
+    String id, {
+    required int rating,
+    String? text,
+  }) async {
     final res = await _api.run(
-        (d) => d.post<Json>('/appointments/$id/review', data: {'rating': rating, 'text': text}));
+      (d) => d.post<Json>(
+        '/appointments/$id/review',
+        data: {'rating': rating, 'text': text},
+      ),
+    );
     return Appointment.fromJson(res.data!);
   }
 }
@@ -246,15 +321,20 @@ class RemoteLabRepository implements LabRepository {
 
   @override
   Future<List<LabResult>> results() async => _list(
-      (await _api.run((d) => d.get<List<dynamic>>('/laboratory/results'))).data, LabResult.fromJson);
+    (await _api.run((d) => d.get<List<dynamic>>('/laboratory/results'))).data,
+    LabResult.fromJson,
+  );
 
   @override
-  Future<LabResult> result(String id) async =>
-      LabResult.fromJson((await _api.run((d) => d.get<Json>('/laboratory/results/$id'))).data!);
+  Future<LabResult> result(String id) async => LabResult.fromJson(
+    (await _api.run((d) => d.get<Json>('/laboratory/results/$id'))).data!,
+  );
 
   @override
   Future<List<LabOrder>> orders() async {
-    final res = await _api.run((d) => d.get<List<dynamic>>('/laboratory/orders'));
+    final res = await _api.run(
+      (d) => d.get<List<dynamic>>('/laboratory/orders'),
+    );
     return _list(
       res.data,
       (j) => LabOrder(
@@ -275,7 +355,9 @@ class RemoteMedicalRecordRepository implements MedicalRecordRepository {
 
   @override
   Future<List<MedicalEntry>> entries() async => _list(
-      (await _api.run((d) => d.get<List<dynamic>>('/medical-records'))).data, MedicalEntry.fromJson);
+    (await _api.run((d) => d.get<List<dynamic>>('/medical-records'))).data,
+    MedicalEntry.fromJson,
+  );
 }
 
 class RemoteDocumentRepository implements DocumentRepository {
@@ -284,14 +366,22 @@ class RemoteDocumentRepository implements DocumentRepository {
 
   @override
   Future<List<MedicalDocument>> list() async => _list(
-      (await _api.run((d) => d.get<List<dynamic>>('/documents'))).data, MedicalDocument.fromJson);
+    (await _api.run((d) => d.get<List<dynamic>>('/documents'))).data,
+    MedicalDocument.fromJson,
+  );
 
   @override
   Future<MedicalDocument> get(String id) async {
-    final doc = MedicalDocument.fromJson((await _api.run((d) => d.get<Json>('/documents/$id'))).data!);
+    final doc = MedicalDocument.fromJson(
+      (await _api.run((d) => d.get<Json>('/documents/$id'))).data!,
+    );
     if (!doc.isImage) return doc;
-    final bytes = await _api.run((d) => d.get<List<int>>('/documents/$id/content',
-        options: Options(responseType: ResponseType.bytes)));
+    final bytes = await _api.run(
+      (d) => d.get<List<int>>(
+        '/documents/$id/content',
+        options: Options(responseType: ResponseType.bytes),
+      ),
+    );
     return MedicalDocument(
       id: doc.id,
       title: doc.title,
@@ -323,7 +413,8 @@ class RemoteDocumentRepository implements DocumentRepository {
   }
 
   @override
-  Future<void> delete(String id) async => _api.run((d) => d.delete<void>('/documents/$id'));
+  Future<void> delete(String id) async =>
+      _api.run((d) => d.delete<void>('/documents/$id'));
 }
 
 class RemoteNotificationRepository implements NotificationRepository {
@@ -332,15 +423,19 @@ class RemoteNotificationRepository implements NotificationRepository {
 
   @override
   Future<List<AppNotification>> list() async => _list(
-      (await _api.run((d) => d.get<List<dynamic>>('/notifications'))).data, AppNotification.fromJson);
+    (await _api.run((d) => d.get<List<dynamic>>('/notifications'))).data,
+    AppNotification.fromJson,
+  );
 
   @override
   Future<void> markRead(String id) async =>
       _api.run((d) => d.patch<void>('/notifications/$id/read'));
 
   @override
-  Future<void> markAllRead() async => _api.run((d) => d.patch<void>('/notifications/read-all'));
+  Future<void> markAllRead() async =>
+      _api.run((d) => d.patch<void>('/notifications/read-all'));
 
   @override
-  Future<void> delete(String id) async => _api.run((d) => d.delete<void>('/notifications/$id'));
+  Future<void> delete(String id) async =>
+      _api.run((d) => d.delete<void>('/notifications/$id'));
 }

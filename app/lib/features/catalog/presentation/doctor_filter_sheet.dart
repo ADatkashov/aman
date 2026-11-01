@@ -33,16 +33,16 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
     final t = Theme.of(context).textTheme;
 
     Widget group(String title, List<Widget> chips) => Padding(
-          padding: const EdgeInsets.only(bottom: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: t.titleSmall),
-              const SizedBox(height: 10),
-              Wrap(spacing: 8, runSpacing: 8, children: chips),
-            ],
-          ),
-        );
+      padding: const EdgeInsets.only(bottom: 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: t.titleSmall),
+          const SizedBox(height: 10),
+          Wrap(spacing: 8, runSpacing: 8, children: chips),
+        ],
+      ),
+    );
 
     final sortLabels = {
       DoctorSort.popularity: l.sortPopularity,
@@ -70,72 +70,100 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
                     AmanFilterChip(
                       label: e.value,
                       selected: _draft.sort == e.key,
-                      onTap: () => setState(() => _draft = _draft.copyWith(sort: e.key)),
+                      onTap: () =>
+                          setState(() => _draft = _draft.copyWith(sort: e.key)),
                     ),
                 ]),
                 group(l.filterClinic, [
                   AmanFilterChip(
                     label: l.anyOption,
                     selected: _draft.clinicId == null,
-                    onTap: () => setState(() => _draft = _draft.copyWith(clinicId: null)),
+                    onTap: () => setState(
+                      () => _draft = _draft.copyWith(clinicId: null),
+                    ),
                   ),
                   for (final c in clinics)
                     AmanFilterChip(
                       label: c.name.replaceAll(' · DEMO', ''),
                       selected: _draft.clinicId == c.id,
-                      onTap: () => setState(() => _draft = _draft.copyWith(clinicId: c.id)),
+                      onTap: () => setState(
+                        () => _draft = _draft.copyWith(clinicId: c.id),
+                      ),
                     ),
                 ]),
                 group(l.filterRating, [
                   AmanFilterChip(
                     label: l.anyOption,
                     selected: _draft.minRating == null,
-                    onTap: () => setState(() => _draft = _draft.copyWith(minRating: null)),
+                    onTap: () => setState(
+                      () => _draft = _draft.copyWith(minRating: null),
+                    ),
                   ),
                   for (final r in [4.5, 4.7, 4.9])
                     AmanFilterChip(
                       label: '★ ${fmt.decimal(r)}+',
                       selected: _draft.minRating == r,
-                      onTap: () => setState(() => _draft = _draft.copyWith(minRating: r)),
+                      onTap: () => setState(
+                        () => _draft = _draft.copyWith(minRating: r),
+                      ),
                     ),
                 ]),
                 group(l.filterPrice, [
                   AmanFilterChip(
                     label: l.anyOption,
                     selected: _draft.maxPriceKzt == null,
-                    onTap: () => setState(() => _draft = _draft.copyWith(maxPriceKzt: null)),
+                    onTap: () => setState(
+                      () => _draft = _draft.copyWith(maxPriceKzt: null),
+                    ),
                   ),
                   for (final price in [10000, 15000, 20000])
                     AmanFilterChip(
                       label: '≤ ${fmt.money(price)}',
                       selected: _draft.maxPriceKzt == price,
-                      onTap: () => setState(() => _draft = _draft.copyWith(maxPriceKzt: price)),
+                      onTap: () => setState(
+                        () => _draft = _draft.copyWith(maxPriceKzt: price),
+                      ),
                     ),
                 ]),
                 group(l.filterExperience, [
                   AmanFilterChip(
                     label: l.anyOption,
                     selected: _draft.minExperience == null,
-                    onTap: () => setState(() => _draft = _draft.copyWith(minExperience: null)),
+                    onTap: () => setState(
+                      () => _draft = _draft.copyWith(minExperience: null),
+                    ),
                   ),
                   for (final y in [5, 10, 15])
                     AmanFilterChip(
                       label: '$y+',
                       selected: _draft.minExperience == y,
-                      onTap: () => setState(() => _draft = _draft.copyWith(minExperience: y)),
+                      onTap: () => setState(
+                        () => _draft = _draft.copyWith(minExperience: y),
+                      ),
                     ),
                 ]),
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(20, 8, 20, 16 + MediaQuery.of(context).padding.bottom),
+            padding: EdgeInsets.fromLTRB(
+              20,
+              8,
+              20,
+              16 + MediaQuery.of(context).padding.bottom,
+            ),
             child: Row(
               children: [
                 Expanded(
                   child: SecondaryButton(
                     label: l.reset,
-                    onPressed: () => setState(() => _draft = DoctorFilter.empty.copyWith(query: _draft.query, specialty: _draft.specialty, favoritesOnly: _draft.favoritesOnly)),
+                    onPressed: () => setState(
+                      () => _draft = DoctorFilter.empty.copyWith(
+                        query: _draft.query,
+                        specialty: _draft.specialty,
+                        favoritesOnly: _draft.favoritesOnly,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),

@@ -11,9 +11,12 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 1100))..forward();
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1100),
+  )..forward();
 
   @override
   void dispose() {
@@ -44,11 +47,23 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 children: [
                   const AmanLogoMark(size: 112, monochrome: true),
                   const SizedBox(height: 20),
-                  const Text('AMAN',
-                      style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.w900, letterSpacing: 6)),
+                  const Text(
+                    'AMAN',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 6,
+                    ),
+                  ),
                   const SizedBox(height: 8),
-                  Text(context.l10n.tagline,
-                      style: TextStyle(color: Colors.white.withValues(alpha: 0.85), fontSize: 15)),
+                  Text(
+                    context.l10n.tagline,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.85),
+                      fontSize: 15,
+                    ),
+                  ),
                 ],
               ),
             ),

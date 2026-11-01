@@ -7,22 +7,22 @@ import '../../../core/widgets/misc_widgets.dart';
 import '../domain/lab_result.dart';
 
 BadgeTone labTone(LabStatus s) => switch (s) {
-      LabStatus.pending => BadgeTone.neutral,
-      LabStatus.processing => BadgeTone.warning,
-      LabStatus.ready => BadgeTone.success,
-      LabStatus.attention => BadgeTone.error,
-    };
+  LabStatus.pending => BadgeTone.neutral,
+  LabStatus.processing => BadgeTone.warning,
+  LabStatus.ready => BadgeTone.success,
+  LabStatus.attention => BadgeTone.error,
+};
 
 IconData labIcon(LabCategory c) => switch (c) {
-      LabCategory.cbc => Icons.bloodtype_rounded,
-      LabCategory.biochemistry => Icons.science_rounded,
-      LabCategory.urine => Icons.water_drop_rounded,
-      LabCategory.hormones => Icons.hub_rounded,
-      LabCategory.vitamins => Icons.wb_sunny_rounded,
-      LabCategory.immunology => Icons.shield_rounded,
-      LabCategory.pcr => Icons.biotech_rounded,
-      LabCategory.other => Icons.description_rounded,
-    };
+  LabCategory.cbc => Icons.bloodtype_rounded,
+  LabCategory.biochemistry => Icons.science_rounded,
+  LabCategory.urine => Icons.water_drop_rounded,
+  LabCategory.hormones => Icons.hub_rounded,
+  LabCategory.vitamins => Icons.wb_sunny_rounded,
+  LabCategory.immunology => Icons.shield_rounded,
+  LabCategory.pcr => Icons.biotech_rounded,
+  LabCategory.other => Icons.description_rounded,
+};
 
 class AnalysisCard extends StatelessWidget {
   const AnalysisCard({
@@ -56,7 +56,10 @@ class AnalysisCard extends StatelessWidget {
           Container(
             width: 46,
             height: 46,
-            decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(14)),
+            decoration: BoxDecoration(
+              color: p.lightBlue,
+              borderRadius: BorderRadius.circular(14),
+            ),
             child: Icon(labIcon(category), color: p.primary),
           ),
           const SizedBox(width: 12),
@@ -64,15 +67,26 @@ class AnalysisCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, maxLines: 2, overflow: TextOverflow.ellipsis, style: t.titleSmall),
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: t.titleSmall,
+                ),
                 const SizedBox(height: 3),
-                Text(subtitle ?? context.fmt.shortDate(date), maxLines: 2, overflow: TextOverflow.ellipsis, style: t.bodySmall),
+                Text(
+                  subtitle ?? context.fmt.shortDate(date),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: t.bodySmall,
+                ),
                 const SizedBox(height: 6),
                 StatusBadge(label: status.label(l), tone: labTone(status)),
               ],
             ),
           ),
-          if (onTap != null) Icon(Icons.chevron_right_rounded, color: p.textSecondary),
+          if (onTap != null)
+            Icon(Icons.chevron_right_rounded, color: p.textSecondary),
         ],
       ),
     );

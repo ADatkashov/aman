@@ -11,9 +11,9 @@ enum LabCategory {
   other;
 
   static LabCategory fromId(String id) => LabCategory.values.firstWhere(
-        (c) => c.name == id,
-        orElse: () => LabCategory.other,
-      );
+    (c) => c.name == id,
+    orElse: () => LabCategory.other,
+  );
 }
 
 enum LabStatus {
@@ -23,9 +23,9 @@ enum LabStatus {
   attention;
 
   static LabStatus fromId(String id) => LabStatus.values.firstWhere(
-        (c) => c.name.toLowerCase() == id.toLowerCase(),
-        orElse: () => LabStatus.pending,
-      );
+    (c) => c.name.toLowerCase() == id.toLowerCase(),
+    orElse: () => LabStatus.pending,
+  );
 }
 
 /// A single measured value together with the reference interval supplied by
@@ -49,15 +49,16 @@ class LabIndicator {
   bool get hasReference => refMin != null || refMax != null;
 
   bool get isOutOfRange =>
-      (refMin != null && value < refMin!) || (refMax != null && value > refMax!);
+      (refMin != null && value < refMin!) ||
+      (refMax != null && value > refMax!);
 
   factory LabIndicator.fromJson(Map<String, dynamic> json) => LabIndicator(
-        name: LocalizedText.fromJson(json['name']),
-        value: (json['value'] as num).toDouble(),
-        unit: json['unit'] as String,
-        refMin: (json['refMin'] as num?)?.toDouble(),
-        refMax: (json['refMax'] as num?)?.toDouble(),
-      );
+    name: LocalizedText.fromJson(json['name']),
+    value: (json['value'] as num).toDouble(),
+    unit: json['unit'] as String,
+    refMin: (json['refMin'] as num?)?.toDouble(),
+    refMax: (json['refMax'] as num?)?.toDouble(),
+  );
 }
 
 class LabResult {
@@ -88,18 +89,18 @@ class LabResult {
   bool get hasValues => indicators.isNotEmpty;
 
   factory LabResult.fromJson(Map<String, dynamic> json) => LabResult(
-        id: json['id'].toString(),
-        testCode: json['testCode'] as String,
-        category: LabCategory.fromId(json['category'] as String),
-        name: LocalizedText.fromJson(json['name']),
-        date: DateTime.parse(json['date'] as String),
-        laboratory: json['laboratory'] as String,
-        status: LabStatus.fromId(json['status'] as String),
-        indicators: ((json['indicators'] ?? const []) as List)
-            .map((e) => LabIndicator.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        documentId: json['documentId']?.toString(),
-      );
+    id: json['id'].toString(),
+    testCode: json['testCode'] as String,
+    category: LabCategory.fromId(json['category'] as String),
+    name: LocalizedText.fromJson(json['name']),
+    date: DateTime.parse(json['date'] as String),
+    laboratory: json['laboratory'] as String,
+    status: LabStatus.fromId(json['status'] as String),
+    indicators: ((json['indicators'] ?? const []) as List)
+        .map((e) => LabIndicator.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    documentId: json['documentId']?.toString(),
+  );
 }
 
 /// A laboratory test prescribed by a doctor that has not been resulted yet.

@@ -5,12 +5,18 @@
 /// * `AMAN_MAPS_PROVIDER` — `demo`, `2gis` or `google` (route deep links).
 class AppConfig {
   const AppConfig({
-    this.apiMode = const String.fromEnvironment('AMAN_API_MODE', defaultValue: 'demo'),
+    this.apiMode = const String.fromEnvironment(
+      'AMAN_API_MODE',
+      defaultValue: 'demo',
+    ),
     this.apiBaseUrl = const String.fromEnvironment(
       'AMAN_API_URL',
       defaultValue: 'http://10.0.2.2:8080/api/v1',
     ),
-    this.mapsProvider = const String.fromEnvironment('AMAN_MAPS_PROVIDER', defaultValue: '2gis'),
+    this.mapsProvider = const String.fromEnvironment(
+      'AMAN_MAPS_PROVIDER',
+      defaultValue: '2gis',
+    ),
   });
 
   final String apiMode;

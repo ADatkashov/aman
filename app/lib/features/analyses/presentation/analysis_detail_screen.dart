@@ -31,7 +31,10 @@ class AnalysisDetailScreen extends ConsumerWidget {
       appBar: CustomAppBar(title: l.labResultTitle),
       body: result.when(
         loading: () => const LoadingState(itemCount: 3, itemHeight: 130),
-        error: (e, _) => ErrorState(error: e, onRetry: () => ref.invalidate(labResultProvider(resultId))),
+        error: (e, _) => ErrorState(
+          error: e,
+          onRetry: () => ref.invalidate(labResultProvider(resultId)),
+        ),
         data: (r) => ListView(
           padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
           children: [
@@ -44,18 +47,34 @@ class AnalysisDetailScreen extends ConsumerWidget {
                       Container(
                         width: 48,
                         height: 48,
-                        decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(14)),
+                        decoration: BoxDecoration(
+                          color: p.lightBlue,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                         child: Icon(labIcon(r.category), color: p.primary),
                       ),
                       const SizedBox(width: 12),
-                      Expanded(child: Text(r.name.of(lang), style: t.titleMedium)),
+                      Expanded(
+                        child: Text(r.name.of(lang), style: t.titleMedium),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 12),
-                  StatusBadge(label: r.status.label(l), tone: labTone(r.status)),
+                  StatusBadge(
+                    label: r.status.label(l),
+                    tone: labTone(r.status),
+                  ),
                   const SizedBox(height: 8),
-                  InfoRow(icon: Icons.event_rounded, label: l.labDate, value: fmt.dayMonthYear(r.date)),
-                  InfoRow(icon: Icons.biotech_rounded, label: l.labLaboratory, value: r.laboratory),
+                  InfoRow(
+                    icon: Icons.event_rounded,
+                    label: l.labDate,
+                    value: fmt.dayMonthYear(r.date),
+                  ),
+                  InfoRow(
+                    icon: Icons.biotech_rounded,
+                    label: l.labLaboratory,
+                    value: r.laboratory,
+                  ),
                 ],
               ),
             ),
@@ -66,12 +85,17 @@ class AnalysisDetailScreen extends ConsumerWidget {
                   children: [
                     Icon(Icons.hourglass_top_rounded, color: p.warning),
                     const SizedBox(width: 12),
-                    Expanded(child: Text(l.labResultPending, style: t.bodyMedium)),
+                    Expanded(
+                      child: Text(l.labResultPending, style: t.bodyMedium),
+                    ),
                   ],
                 ),
               ),
             for (var i = 0; i < r.indicators.length; i++) ...[
-              _IndicatorCard(indicator: r.indicators[i], trend: trendFor(all, r, i)),
+              _IndicatorCard(
+                indicator: r.indicators[i],
+                trend: trendFor(all, r, i),
+              ),
               const SizedBox(height: 12),
             ],
             if (r.documentId != null) ...[
@@ -81,7 +105,9 @@ class AnalysisDetailScreen extends ConsumerWidget {
                   children: [
                     Icon(Icons.picture_as_pdf_rounded, color: p.error),
                     const SizedBox(width: 12),
-                    Expanded(child: Text(l.labOpenDocument, style: t.titleSmall)),
+                    Expanded(
+                      child: Text(l.labOpenDocument, style: t.titleSmall),
+                    ),
                     Icon(Icons.chevron_right_rounded, color: p.textSecondary),
                   ],
                 ),
@@ -90,13 +116,21 @@ class AnalysisDetailScreen extends ConsumerWidget {
             ],
             Container(
               padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(16)),
+              decoration: BoxDecoration(
+                color: p.lightBlue,
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(Icons.info_outline_rounded, size: 18, color: p.primary),
                   const SizedBox(width: 10),
-                  Expanded(child: Text(l.labDisclaimer, style: t.bodySmall?.copyWith(color: p.textPrimary))),
+                  Expanded(
+                    child: Text(
+                      l.labDisclaimer,
+                      style: t.bodySmall?.copyWith(color: p.textPrimary),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -116,7 +150,9 @@ class _IndicatorCard extends StatelessWidget {
     final l = context.l10n;
     final f = context.fmt.compact;
     final i = indicator;
-    if (i.refMin != null && i.refMax != null) return l.labRefRange(f(i.refMax!), f(i.refMin!));
+    if (i.refMin != null && i.refMax != null) {
+      return l.labRefRange(f(i.refMax!), f(i.refMin!));
+    }
     if (i.refMax != null) return l.labRefLess(f(i.refMax!));
     if (i.refMin != null) return l.labRefMore(f(i.refMin!));
     return '—';
@@ -141,9 +177,17 @@ class _IndicatorCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(child: Text(name, style: t.titleSmall)),
-              Text(fmt.compact(i.value), style: t.headlineSmall?.copyWith(color: out ? p.error : p.textPrimary)),
+              Text(
+                fmt.compact(i.value),
+                style: t.headlineSmall?.copyWith(
+                  color: out ? p.error : p.textPrimary,
+                ),
+              ),
               const SizedBox(width: 4),
-              Padding(padding: const EdgeInsets.only(bottom: 3), child: Text(i.unit, style: t.bodySmall)),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 3),
+                child: Text(i.unit, style: t.bodySmall),
+              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -156,7 +200,10 @@ class _IndicatorCard extends StatelessWidget {
                 TextSpan(text: '${l.labReference}: '),
                 TextSpan(
                   text: '${_range(context)} ${i.unit}'.trim(),
-                  style: TextStyle(fontWeight: FontWeight.w700, color: p.textPrimary),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: p.textPrimary,
+                  ),
                 ),
               ],
             ),
@@ -166,7 +213,9 @@ class _IndicatorCard extends StatelessWidget {
             StatusBadge(
               label: out ? l.labOutOfRange : l.labInRange,
               tone: out ? BadgeTone.error : BadgeTone.success,
-              icon: out ? Icons.error_outline_rounded : Icons.check_circle_outline_rounded,
+              icon: out
+                  ? Icons.error_outline_rounded
+                  : Icons.check_circle_outline_rounded,
             ),
           ],
           if (trend.length >= 2) ...[
@@ -202,18 +251,34 @@ class _RangeBar extends StatelessWidget {
         builder: (_, c) => Stack(
           alignment: Alignment.centerLeft,
           children: [
-            Container(height: 8, decoration: BoxDecoration(color: p.border, borderRadius: BorderRadius.circular(6))),
+            Container(
+              height: 8,
+              decoration: BoxDecoration(
+                color: p.border,
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
             Positioned(
               left: c.maxWidth * 0.2,
               width: c.maxWidth * 0.6,
-              child: Container(height: 8, decoration: BoxDecoration(color: p.success.withValues(alpha: 0.35), borderRadius: BorderRadius.circular(6))),
+              child: Container(
+                height: 8,
+                decoration: BoxDecoration(
+                  color: p.success.withValues(alpha: 0.35),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
             ),
             Positioned(
               left: c.maxWidth * pos - 8,
               child: Container(
                 width: 16,
                 height: 16,
-                decoration: BoxDecoration(color: color, shape: BoxShape.circle, border: Border.all(color: p.surface, width: 3)),
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: p.surface, width: 3),
+                ),
               ),
             ),
           ],

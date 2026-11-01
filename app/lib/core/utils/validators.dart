@@ -26,7 +26,10 @@ abstract final class Validators {
   /// At least 8 characters with a letter and a digit.
   static FieldError? password(String? v) {
     if (v == null || v.isEmpty) return FieldError.required;
-    final ok = v.length >= 8 && RegExp(r'[A-Za-zА-Яа-яЁёӘәҒғҚқҢңӨөҰұҮүҺһІі]').hasMatch(v) && RegExp(r'\d').hasMatch(v);
+    final ok =
+        v.length >= 8 &&
+        RegExp(r'[A-Za-zА-Яа-яЁёӘәҒғҚқҢңӨөҰұҮүҺһІі]').hasMatch(v) &&
+        RegExp(r'\d').hasMatch(v);
     return ok ? null : FieldError.weakPassword;
   }
 
@@ -38,7 +41,9 @@ abstract final class Validators {
   static FieldError? fullName(String? v) {
     if (v == null || v.trim().isEmpty) return FieldError.required;
     final parts = v.trim().split(RegExp(r'\s+'));
-    return (parts.length >= 2 && parts.every((p) => p.length >= 2)) ? null : FieldError.nameTooShort;
+    return (parts.length >= 2 && parts.every((p) => p.length >= 2))
+        ? null
+        : FieldError.nameTooShort;
   }
 
   static FieldError? optionalEmail(String? v) {

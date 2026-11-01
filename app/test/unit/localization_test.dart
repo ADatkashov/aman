@@ -10,13 +10,15 @@ import 'package:flutter_test/flutter_test.dart';
 import '../support/test_app.dart';
 
 Map<String, dynamic> _arb(String lang) =>
-    jsonDecode(File('lib/l10n/app_$lang.arb').readAsStringSync()) as Map<String, dynamic>;
+    jsonDecode(File('lib/l10n/app_$lang.arb').readAsStringSync())
+        as Map<String, dynamic>;
 
 void main() {
   setUpAll(initTestLocale);
 
   test('all three languages define exactly the same keys', () {
-    Set<String> keys(String l) => _arb(l).keys.where((k) => !k.startsWith('@')).toSet();
+    Set<String> keys(String l) =>
+        _arb(l).keys.where((k) => !k.startsWith('@')).toSet();
     final en = keys('en');
     expect(keys('ru'), en, reason: 'ru differs from en');
     expect(keys('kk'), en, reason: 'kk differs from en');
@@ -26,7 +28,9 @@ void main() {
   test('no empty translations', () {
     for (final lang in ['en', 'ru', 'kk']) {
       _arb(lang).forEach((k, v) {
-        if (!k.startsWith('@') && v is String) expect(v.trim(), isNotEmpty, reason: '$lang:$k');
+        if (!k.startsWith('@') && v is String) {
+          expect(v.trim(), isNotEmpty, reason: '$lang:$k');
+        }
       });
     }
   });
@@ -37,15 +41,27 @@ void main() {
     for (final lang in ['ru', 'kk']) {
       final other = _arb(lang);
       for (final k in en.keys.where((k) => !k.startsWith('@'))) {
-        final a = re.allMatches(en[k] as String).map((m) => m.group(1)).where((p) => p != 'plural').toSet();
-        final b = re.allMatches(other[k] as String).map((m) => m.group(1)).where((p) => p != 'plural').toSet();
+        final a = re
+            .allMatches(en[k] as String)
+            .map((m) => m.group(1))
+            .where((p) => p != 'plural')
+            .toSet();
+        final b = re
+            .allMatches(other[k] as String)
+            .map((m) => m.group(1))
+            .where((p) => p != 'plural')
+            .toSet();
         expect(b, a, reason: '$lang:$k');
       }
     }
   });
 
   test('supported locales and lookups', () {
-    expect(AppL10n.supportedLocales.map((l) => l.languageCode).toSet(), {'kk', 'ru', 'en'});
+    expect(AppL10n.supportedLocales.map((l) => l.languageCode).toSet(), {
+      'kk',
+      'ru',
+      'en',
+    });
     expect(lookupAppL10n(const Locale('en')).navHome, 'Home');
     expect(lookupAppL10n(const Locale('ru')).navHome, 'Главная');
     expect(lookupAppL10n(const Locale('kk')).navHome, 'Басты бет');
@@ -60,7 +76,10 @@ void main() {
     final en = lookupAppL10n(const Locale('en'));
     expect(en.experienceYears(1), '1 year of experience');
     expect(en.experienceYears(5), '5 years of experience');
-    expect(lookupAppL10n(const Locale('kk')).experienceYears(7), '7 жыл тәжірибе');
+    expect(
+      lookupAppL10n(const Locale('kk')).experienceYears(7),
+      '7 жыл тәжірибе',
+    );
   });
 
   test('money is formatted in KZT per locale', () {

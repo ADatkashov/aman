@@ -13,7 +13,8 @@ class DocumentsController extends AsyncNotifier<List<MedicalDocument>> {
     return ref.watch(documentRepositoryProvider).list();
   }
 
-  Future<void> _reload() async => state = AsyncData(await ref.read(documentRepositoryProvider).list());
+  Future<void> _reload() async =>
+      state = AsyncData(await ref.read(documentRepositoryProvider).list());
 
   Future<MedicalDocument> upload({
     required String fileName,
@@ -35,7 +36,9 @@ class DocumentsController extends AsyncNotifier<List<MedicalDocument>> {
 }
 
 final documentsProvider =
-    AsyncNotifierProvider<DocumentsController, List<MedicalDocument>>(DocumentsController.new);
+    AsyncNotifierProvider<DocumentsController, List<MedicalDocument>>(
+      DocumentsController.new,
+    );
 
 final documentProvider = FutureProvider.family<MedicalDocument, String>(
   (ref, id) => ref.watch(documentRepositoryProvider).get(id),

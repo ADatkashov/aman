@@ -7,7 +7,8 @@ enum NotificationType {
   newPrescription,
   scheduleChanged;
 
-  static NotificationType fromId(String id) => NotificationType.values.firstWhere(
+  static NotificationType fromId(String id) =>
+      NotificationType.values.firstWhere(
         (c) => c.name.toLowerCase() == id.toLowerCase().replaceAll('_', ''),
         orElse: () => NotificationType.appointmentCreated,
       );
@@ -37,15 +38,16 @@ class AppNotification {
   final String? route;
 
   AppNotification copyWith({bool? read}) => AppNotification(
-        id: id,
-        type: type,
-        createdAt: createdAt,
-        read: read ?? this.read,
-        params: params,
-        route: route,
-      );
+    id: id,
+    type: type,
+    createdAt: createdAt,
+    read: read ?? this.read,
+    params: params,
+    route: route,
+  );
 
-  factory AppNotification.fromJson(Map<String, dynamic> json) => AppNotification(
+  factory AppNotification.fromJson(Map<String, dynamic> json) =>
+      AppNotification(
         id: json['id'].toString(),
         type: NotificationType.fromId(json['type'] as String),
         createdAt: DateTime.parse(json['createdAt'] as String).toLocal(),

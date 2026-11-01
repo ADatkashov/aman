@@ -54,11 +54,26 @@ class SpecialtyStep extends ConsumerWidget {
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: BoxDecoration(color: draft.specialty == s ? p.primary : p.lightBlue, borderRadius: BorderRadius.circular(12)),
-                  child: Icon(s.icon, color: draft.specialty == s ? Colors.white : p.primary, size: 22),
+                  decoration: BoxDecoration(
+                    color: draft.specialty == s ? p.primary : p.lightBlue,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    s.icon,
+                    color: draft.specialty == s ? Colors.white : p.primary,
+                    size: 22,
+                  ),
                 ),
                 const SizedBox(width: 10),
-                Expanded(child: Text(s.label(l), style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14))),
+                Expanded(
+                  child: Text(
+                    s.label(l),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -86,7 +101,10 @@ class DoctorStep extends ConsumerWidget {
         final list = all.where((d) => d.specialty == draft.specialty).toList()
           ..sort((a, b) => b.rating.compareTo(a.rating));
         if (list.isEmpty) {
-          return EmptyState(icon: Icons.person_search_rounded, title: l.noDoctorsForSpecialty);
+          return EmptyState(
+            icon: Icons.person_search_rounded,
+            title: l.noDoctorsForSpecialty,
+          );
         }
         return ListView.separated(
           padding: const EdgeInsets.all(20),
@@ -104,7 +122,12 @@ class DoctorStep extends ConsumerWidget {
               },
               child: Row(
                 children: [
-                  DoctorAvatar(seed: d.avatarSeed, size: 64, female: d.isFemale, photoUrl: d.photoUrl),
+                  DoctorAvatar(
+                    seed: d.avatarSeed,
+                    size: 64,
+                    female: d.isFemale,
+                    photoUrl: d.photoUrl,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -112,16 +135,29 @@ class DoctorStep extends ConsumerWidget {
                       children: [
                         Text(d.fullName, style: t.titleSmall),
                         const SizedBox(height: 4),
-                        Wrap(spacing: 10, children: [
-                          RatingBadge(rating: d.rating, reviews: d.reviewsCount),
-                          Text(l.experienceYears(d.experienceYears), style: t.bodySmall),
-                        ]),
+                        Wrap(
+                          spacing: 10,
+                          children: [
+                            RatingBadge(
+                              rating: d.rating,
+                              reviews: d.reviewsCount,
+                            ),
+                            Text(
+                              l.experienceYears(d.experienceYears),
+                              style: t.bodySmall,
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 4),
-                        Text(context.fmt.money(d.priceKzt), style: t.titleSmall?.copyWith(color: p.primary)),
+                        Text(
+                          context.fmt.money(d.priceKzt),
+                          style: t.titleSmall?.copyWith(color: p.primary),
+                        ),
                       ],
                     ),
                   ),
-                  if (selected) Icon(Icons.check_circle_rounded, color: p.primary),
+                  if (selected)
+                    Icon(Icons.check_circle_rounded, color: p.primary),
                 ],
               ),
             );
@@ -140,8 +176,12 @@ class ClinicStep extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     final draft = ref.watch(bookingDraftProvider);
-    final clinic = draft.doctor == null ? null : ref.watch(clinicLookupProvider)(draft.doctor!.clinicId);
-    if (clinic == null) return const LoadingState(itemCount: 1, itemHeight: 220);
+    final clinic = draft.doctor == null
+        ? null
+        : ref.watch(clinicLookupProvider)(draft.doctor!.clinicId);
+    if (clinic == null) {
+      return const LoadingState(itemCount: 1, itemHeight: 220);
+    }
     final config = ref.watch(appConfigProvider);
     return ListView(
       padding: const EdgeInsets.all(20),
@@ -153,8 +193,12 @@ class ClinicStep extends ConsumerWidget {
             Expanded(
               child: OutlinedButton.icon(
                 onPressed: () async {
-                  final ok = await ref.read(urlOpenerProvider).open(ExternalLinks.route(clinic, config));
-                  if (!ok && context.mounted) showSnack(context, l.routeOpenFailed, error: true);
+                  final ok = await ref
+                      .read(urlOpenerProvider)
+                      .open(ExternalLinks.route(clinic, config));
+                  if (!ok && context.mounted) {
+                    showSnack(context, l.routeOpenFailed, error: true);
+                  }
                 },
                 icon: const Icon(Icons.directions_rounded),
                 label: Text(l.buildRoute),
@@ -180,8 +224,13 @@ class DateStep extends ConsumerWidget {
     final now = ref.watch(clockProvider)();
     final today = Dates.dateOnly(now);
     final gridStart = today.subtract(Duration(days: today.weekday - 1));
-    final lastBookable = today.add(const Duration(days: ScheduleService.bookingHorizonDays));
-    final weekdays = [for (var i = 0; i < 7; i++) fmt.weekdayShort(gridStart.add(Duration(days: i)))];
+    final lastBookable = today.add(
+      const Duration(days: ScheduleService.bookingHorizonDays),
+    );
+    final weekdays = [
+      for (var i = 0; i < 7; i++)
+        fmt.weekdayShort(gridStart.add(Duration(days: i))),
+    ];
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
@@ -192,14 +241,24 @@ class DateStep extends ConsumerWidget {
                 children: [
                   Icon(Icons.calendar_month_rounded, color: p.primary),
                   const SizedBox(width: 8),
-                  Text(fmt.monthYear(draft.date ?? today), style: Theme.of(context).textTheme.titleMedium),
+                  Text(
+                    fmt.monthYear(draft.date ?? today),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
               Row(
                 children: [
                   for (final w in weekdays)
-                    Expanded(child: Center(child: Text(w, style: Theme.of(context).textTheme.labelSmall))),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          w,
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                      ),
+                    ),
                 ],
               ),
               const SizedBox(height: 8),
@@ -211,40 +270,56 @@ class DateStep extends ConsumerWidget {
                 crossAxisSpacing: 6,
                 children: [
                   for (var i = 0; i < 35; i++)
-                    Builder(builder: (_) {
-                      final d = gridStart.add(Duration(days: i));
-                      final enabled = !d.isBefore(today) && !d.isAfter(lastBookable);
-                      final selected = draft.date != null && Dates.sameDay(d, draft.date!);
-                      return Semantics(
-                        button: true,
-                        enabled: enabled,
-                        selected: selected,
-                        label: fmt.fullDateLine(d),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(12),
-                          onTap: enabled
-                              ? () {
-                                  ref.read(bookingDraftProvider.notifier).pickDate(d);
-                                  onPicked();
-                                }
-                              : null,
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: selected ? p.primary : (Dates.sameDay(d, today) ? p.lightBlue : null),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              '${d.day}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: selected ? Colors.white : (enabled ? p.textPrimary : p.textSecondary.withValues(alpha: 0.4)),
+                    Builder(
+                      builder: (_) {
+                        final d = gridStart.add(Duration(days: i));
+                        final enabled =
+                            !d.isBefore(today) && !d.isAfter(lastBookable);
+                        final selected =
+                            draft.date != null && Dates.sameDay(d, draft.date!);
+                        return Semantics(
+                          button: true,
+                          enabled: enabled,
+                          selected: selected,
+                          label: fmt.fullDateLine(d),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(12),
+                            onTap: enabled
+                                ? () {
+                                    ref
+                                        .read(bookingDraftProvider.notifier)
+                                        .pickDate(d);
+                                    onPicked();
+                                  }
+                                : null,
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: selected
+                                    ? p.primary
+                                    : (Dates.sameDay(d, today)
+                                          ? p.lightBlue
+                                          : null),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                '${d.day}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: selected
+                                      ? Colors.white
+                                      : (enabled
+                                            ? p.textPrimary
+                                            : p.textSecondary.withValues(
+                                                alpha: 0.4,
+                                              )),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      },
+                    ),
                 ],
               ),
             ],
@@ -264,8 +339,12 @@ class TimeStep extends ConsumerWidget {
     final l = context.l10n;
     final fmt = context.fmt;
     final draft = ref.watch(bookingDraftProvider);
-    if (draft.doctor == null || draft.date == null) return const SizedBox.shrink();
-    final slots = ref.watch(slotsProvider((doctorId: draft.doctor!.id, date: draft.date!)));
+    if (draft.doctor == null || draft.date == null) {
+      return const SizedBox.shrink();
+    }
+    final slots = ref.watch(
+      slotsProvider((doctorId: draft.doctor!.id, date: draft.date!)),
+    );
     return AsyncBody(
       value: slots,
       onRetry: () => ref.invalidate(slotsProvider),
@@ -273,12 +352,19 @@ class TimeStep extends ConsumerWidget {
       builder: (list) {
         final anyFree = list.any((s) => s.available);
         if (list.isEmpty || !anyFree) {
-          return EmptyState(icon: Icons.event_busy_rounded, title: l.noSlotsOnDay, body: fmt.fullDateLine(draft.date!));
+          return EmptyState(
+            icon: Icons.event_busy_rounded,
+            title: l.noSlotsOnDay,
+            body: fmt.fullDateLine(draft.date!),
+          );
         }
         return ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Text(fmt.fullDateLine(draft.date!), style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              fmt.fullDateLine(draft.date!),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 14),
             Wrap(
               spacing: 10,
@@ -289,7 +375,9 @@ class TimeStep extends ConsumerWidget {
                     label: fmt.time(s.start),
                     enabled: s.available,
                     selected: draft.slot == s.start,
-                    onTap: () => ref.read(bookingDraftProvider.notifier).pickSlot(s.start),
+                    onTap: () => ref
+                        .read(bookingDraftProvider.notifier)
+                        .pickSlot(s.start),
                   ),
               ],
             ),
@@ -310,7 +398,9 @@ class ReasonStep extends ConsumerStatefulWidget {
 }
 
 class _ReasonStepState extends ConsumerState<ReasonStep> {
-  late final TextEditingController _c = TextEditingController(text: ref.read(bookingDraftProvider).reason);
+  late final TextEditingController _c = TextEditingController(
+    text: ref.read(bookingDraftProvider).reason,
+  );
 
   @override
   void dispose() {
@@ -321,7 +411,12 @@ class _ReasonStepState extends ConsumerState<ReasonStep> {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    final chips = [l.reasonChipCheckup, l.reasonChipConsult, l.reasonChipFollowUp, l.reasonChipResults];
+    final chips = [
+      l.reasonChipCheckup,
+      l.reasonChipConsult,
+      l.reasonChipFollowUp,
+      l.reasonChipResults,
+    ];
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
@@ -334,7 +429,8 @@ class _ReasonStepState extends ConsumerState<ReasonStep> {
             maxLines: 4,
             maxLength: 300,
             validator: Validators.reason,
-            onChanged: (v) => ref.read(bookingDraftProvider.notifier).setReason(v),
+            onChanged: (v) =>
+                ref.read(bookingDraftProvider.notifier).setReason(v),
           ),
         ),
         const SizedBox(height: 14),
@@ -383,25 +479,50 @@ class ConfirmStep extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  DoctorAvatar(seed: doctor.avatarSeed, size: 60, female: doctor.isFemale, photoUrl: doctor.photoUrl),
+                  DoctorAvatar(
+                    seed: doctor.avatarSeed,
+                    size: 60,
+                    female: doctor.isFemale,
+                    photoUrl: doctor.photoUrl,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(doctor.fullName, style: t.titleSmall),
-                        Text(doctor.specialty.label(l), style: t.bodySmall?.copyWith(color: p.primary)),
+                        Text(
+                          doctor.specialty.label(l),
+                          style: t.bodySmall?.copyWith(color: p.primary),
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
               const Divider(height: 28),
-              InfoRow(icon: Icons.event_rounded, label: l.dateTimeLabel, value: '${fmt.fullDateLine(slot)}, ${fmt.time(slot)}'),
+              InfoRow(
+                icon: Icons.event_rounded,
+                label: l.dateTimeLabel,
+                value: '${fmt.fullDateLine(slot)}, ${fmt.time(slot)}',
+              ),
               if (clinic != null)
-                InfoRow(icon: Icons.location_on_rounded, label: l.clinicLabel, value: '${clinic.name.replaceAll(' · DEMO', '')}\n${clinic.fullAddress}'),
-              InfoRow(icon: Icons.edit_note_rounded, label: l.reasonLabel, value: draft.reason.trim()),
-              InfoRow(icon: Icons.payments_rounded, label: l.priceLabel, value: fmt.money(doctor.priceKzt)),
+                InfoRow(
+                  icon: Icons.location_on_rounded,
+                  label: l.clinicLabel,
+                  value:
+                      '${clinic.name.replaceAll(' · DEMO', '')}\n${clinic.fullAddress}',
+                ),
+              InfoRow(
+                icon: Icons.edit_note_rounded,
+                label: l.reasonLabel,
+                value: draft.reason.trim(),
+              ),
+              InfoRow(
+                icon: Icons.payments_rounded,
+                label: l.priceLabel,
+                value: fmt.money(doctor.priceKzt),
+              ),
             ],
           ),
         ),
@@ -421,7 +542,9 @@ class ConfirmStep extends ConsumerWidget {
 /// Convenience wrapper so the wizard can create the appointment.
 Future<String> confirmBooking(WidgetRef ref) async {
   final draft = ref.read(bookingDraftProvider);
-  final created = await ref.read(appointmentsProvider.notifier).create(
+  final created = await ref
+      .read(appointmentsProvider.notifier)
+      .create(
         doctorId: draft.doctor!.id,
         start: draft.slot!,
         reason: draft.reason,

@@ -31,9 +31,11 @@ final doctorReviewsProvider = FutureProvider.family<List<DoctorReview>, String>(
 
 typedef SlotsKey = ({String doctorId, DateTime date});
 
-final slotsProvider = FutureProvider.autoDispose.family<List<TimeSlot>, SlotsKey>(
-  (ref, key) => ref.watch(catalogRepositoryProvider).slots(key.doctorId, key.date),
-);
+final slotsProvider = FutureProvider.autoDispose
+    .family<List<TimeSlot>, SlotsKey>(
+      (ref, key) =>
+          ref.watch(catalogRepositoryProvider).slots(key.doctorId, key.date),
+    );
 
 final nextSlotProvider = FutureProvider.autoDispose.family<DateTime?, String>(
   (ref, doctorId) => ref.watch(catalogRepositoryProvider).nextSlot(doctorId),
@@ -48,14 +50,18 @@ class FavoritesController extends AsyncNotifier<Set<String>> {
 
   /// Returns `true` if the doctor is now a favorite.
   Future<bool> toggle(String doctorId) async {
-    final updated = await ref.read(catalogRepositoryProvider).toggleFavorite(doctorId);
+    final updated = await ref
+        .read(catalogRepositoryProvider)
+        .toggleFavorite(doctorId);
     state = AsyncData(updated);
     return updated.contains(doctorId);
   }
 }
 
 final favoritesProvider =
-    AsyncNotifierProvider<FavoritesController, Set<String>>(FavoritesController.new);
+    AsyncNotifierProvider<FavoritesController, Set<String>>(
+      FavoritesController.new,
+    );
 
 class DoctorFilterController extends Notifier<DoctorFilter> {
   @override
@@ -66,7 +72,9 @@ class DoctorFilterController extends Notifier<DoctorFilter> {
 }
 
 final doctorFilterProvider =
-    NotifierProvider<DoctorFilterController, DoctorFilter>(DoctorFilterController.new);
+    NotifierProvider<DoctorFilterController, DoctorFilter>(
+      DoctorFilterController.new,
+    );
 
 /// Doctors after search, filtering and sorting.
 final filteredDoctorsProvider = Provider<AsyncValue<List<Doctor>>>((ref) {
@@ -74,7 +82,9 @@ final filteredDoctorsProvider = Provider<AsyncValue<List<Doctor>>>((ref) {
   final locale = ref.watch(localeProvider);
   final favorites = ref.watch(favoritesProvider).value ?? const <String>{};
   final l10n = lookupAppL10n(locale);
-  return ref.watch(doctorsProvider).whenData(
+  return ref
+      .watch(doctorsProvider)
+      .whenData(
         (doctors) => filter.apply(
           doctors,
           favorites: favorites,
@@ -88,7 +98,9 @@ List<Clinic> searchClinics(Iterable<Clinic> clinics, String query) {
   final q = query.trim().toLowerCase();
   if (q.isEmpty) return clinics.toList();
   return clinics
-      .where((c) => '${c.name} ${c.city} ${c.address}'.toLowerCase().contains(q))
+      .where(
+        (c) => '${c.name} ${c.city} ${c.address}'.toLowerCase().contains(q),
+      )
       .toList();
 }
 
@@ -108,4 +120,3 @@ final doctorLookupProvider = Provider<DoctorLookup>((ref) {
   final map = {for (final d in doctors) d.id: d};
   return (id) => map[id];
 });
-

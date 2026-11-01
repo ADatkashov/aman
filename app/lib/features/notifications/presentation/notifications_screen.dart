@@ -25,19 +25,41 @@ import '../domain/app_notification.dart';
   final when = start == null ? '' : whenLabel(l, fmt, start, now);
   final doctor = n.params['doctor'] ?? '';
   return switch (n.type) {
-    NotificationType.appointmentCreated =>
-      (title: l.ntCreatedTitle, body: l.ntCreatedBody(doctor, when), icon: Icons.event_available_rounded),
-    NotificationType.appointmentReminder =>
-      (title: l.ntReminderTitle, body: l.ntReminderBody(doctor, when), icon: Icons.alarm_rounded),
-    NotificationType.appointmentRescheduled =>
-      (title: l.ntRescheduledTitle, body: l.ntRescheduledBody(doctor, when), icon: Icons.update_rounded),
-    NotificationType.appointmentCancelled =>
-      (title: l.ntCancelledTitle, body: l.ntCancelledBody(doctor, when), icon: Icons.event_busy_rounded),
-    NotificationType.labReady => (title: l.ntLabReadyTitle, body: l.ntLabReadyBody, icon: Icons.science_rounded),
-    NotificationType.newPrescription =>
-      (title: l.ntPrescriptionTitle, body: l.ntPrescriptionBody(doctor), icon: Icons.medication_rounded),
-    NotificationType.scheduleChanged =>
-      (title: l.ntScheduleTitle, body: l.ntScheduleBody(doctor), icon: Icons.edit_calendar_rounded),
+    NotificationType.appointmentCreated => (
+      title: l.ntCreatedTitle,
+      body: l.ntCreatedBody(doctor, when),
+      icon: Icons.event_available_rounded,
+    ),
+    NotificationType.appointmentReminder => (
+      title: l.ntReminderTitle,
+      body: l.ntReminderBody(doctor, when),
+      icon: Icons.alarm_rounded,
+    ),
+    NotificationType.appointmentRescheduled => (
+      title: l.ntRescheduledTitle,
+      body: l.ntRescheduledBody(doctor, when),
+      icon: Icons.update_rounded,
+    ),
+    NotificationType.appointmentCancelled => (
+      title: l.ntCancelledTitle,
+      body: l.ntCancelledBody(doctor, when),
+      icon: Icons.event_busy_rounded,
+    ),
+    NotificationType.labReady => (
+      title: l.ntLabReadyTitle,
+      body: l.ntLabReadyBody,
+      icon: Icons.science_rounded,
+    ),
+    NotificationType.newPrescription => (
+      title: l.ntPrescriptionTitle,
+      body: l.ntPrescriptionBody(doctor),
+      icon: Icons.medication_rounded,
+    ),
+    NotificationType.scheduleChanged => (
+      title: l.ntScheduleTitle,
+      body: l.ntScheduleBody(doctor),
+      icon: Icons.edit_calendar_rounded,
+    ),
   };
 }
 
@@ -73,10 +95,16 @@ class NotificationsScreen extends ConsumerWidget {
           onRetry: () => ref.invalidate(notificationsProvider),
           builder: (list) {
             if (list.isEmpty) {
-              return ListView(children: [
-                const SizedBox(height: 60),
-                EmptyState(icon: Icons.notifications_none_rounded, title: l.noNotificationsTitle, body: l.noNotificationsBody),
-              ]);
+              return ListView(
+                children: [
+                  const SizedBox(height: 60),
+                  EmptyState(
+                    icon: Icons.notifications_none_rounded,
+                    title: l.noNotificationsTitle,
+                    body: l.noNotificationsBody,
+                  ),
+                ],
+              );
             }
             return ListView.separated(
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
@@ -91,12 +119,20 @@ class NotificationsScreen extends ConsumerWidget {
                   background: Container(
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.only(right: 24),
-                    decoration: BoxDecoration(color: p.error, borderRadius: BorderRadius.circular(20)),
-                    child: const Icon(Icons.delete_rounded, color: Colors.white),
+                    decoration: BoxDecoration(
+                      color: p.error,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Icon(
+                      Icons.delete_rounded,
+                      color: Colors.white,
+                    ),
                   ),
                   onDismissed: (_) async {
                     await controller.delete(n.id);
-                    if (context.mounted) showSnack(context, l.notificationDeleted);
+                    if (context.mounted) {
+                      showSnack(context, l.notificationDeleted);
+                    }
                   },
                   child: Material(
                     color: n.read ? p.surface : p.lightBlue,
@@ -105,7 +141,9 @@ class NotificationsScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                       onTap: () async {
                         await controller.markRead(n.id);
-                        if (n.route != null && context.mounted) context.push(n.route!);
+                        if (n.route != null && context.mounted) {
+                          context.push(n.route!);
+                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(14),
@@ -115,7 +153,10 @@ class NotificationsScreen extends ConsumerWidget {
                             Container(
                               width: 42,
                               height: 42,
-                              decoration: BoxDecoration(color: p.primary.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(13)),
+                              decoration: BoxDecoration(
+                                color: p.primary.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(13),
+                              ),
                               child: Icon(r.icon, color: p.primary, size: 22),
                             ),
                             const SizedBox(width: 12),
@@ -123,14 +164,32 @@ class NotificationsScreen extends ConsumerWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(children: [
-                                    Expanded(child: Text(r.title, style: t.titleSmall)),
-                                    if (!n.read) Container(width: 9, height: 9, decoration: BoxDecoration(color: p.primary, shape: BoxShape.circle)),
-                                  ]),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          r.title,
+                                          style: t.titleSmall,
+                                        ),
+                                      ),
+                                      if (!n.read)
+                                        Container(
+                                          width: 9,
+                                          height: 9,
+                                          decoration: BoxDecoration(
+                                            color: p.primary,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                   const SizedBox(height: 3),
                                   Text(r.body, style: t.bodyMedium),
                                   const SizedBox(height: 4),
-                                  Text(whenLabel(l, fmt, n.createdAt, now), style: t.bodySmall),
+                                  Text(
+                                    whenLabel(l, fmt, n.createdAt, now),
+                                    style: t.bodySmall,
+                                  ),
                                 ],
                               ),
                             ),
@@ -138,9 +197,15 @@ class NotificationsScreen extends ConsumerWidget {
                               tooltip: l.deleteNotification,
                               onPressed: () async {
                                 await controller.delete(n.id);
-                                if (context.mounted) showSnack(context, l.notificationDeleted);
+                                if (context.mounted) {
+                                  showSnack(context, l.notificationDeleted);
+                                }
                               },
-                              icon: Icon(Icons.close_rounded, size: 18, color: p.textSecondary),
+                              icon: Icon(
+                                Icons.close_rounded,
+                                size: 18,
+                                color: p.textSecondary,
+                              ),
                             ),
                           ],
                         ),

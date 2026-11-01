@@ -30,4 +30,6 @@ class SystemFilePickerService implements FilePickerService {
   }
 }
 
-final filePickerProvider = Provider<FilePickerService>((ref) => const SystemFilePickerService());
+final filePickerProvider = Provider<FilePickerService>(
+  (ref) => const SystemFilePickerService(),
+);

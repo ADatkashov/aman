@@ -17,12 +17,29 @@ class MainShell extends StatelessWidget {
       body: shell,
       bottomNavigationBar: CustomBottomNavigation(
         currentIndex: shell.currentIndex,
-        onTap: (i) => shell.goBranch(i, initialLocation: i == shell.currentIndex),
+        onTap: (i) =>
+            shell.goBranch(i, initialLocation: i == shell.currentIndex),
         destinations: [
-          NavDestinationData(Icons.home_outlined, Icons.home_rounded, l.navHome),
-          NavDestinationData(Icons.calendar_month_outlined, Icons.calendar_month_rounded, l.navAppointments),
-          NavDestinationData(Icons.grid_view_outlined, Icons.grid_view_rounded, l.navServices),
-          NavDestinationData(Icons.person_outline_rounded, Icons.person_rounded, l.navProfile),
+          NavDestinationData(
+            Icons.home_outlined,
+            Icons.home_rounded,
+            l.navHome,
+          ),
+          NavDestinationData(
+            Icons.calendar_month_outlined,
+            Icons.calendar_month_rounded,
+            l.navAppointments,
+          ),
+          NavDestinationData(
+            Icons.grid_view_outlined,
+            Icons.grid_view_rounded,
+            l.navServices,
+          ),
+          NavDestinationData(
+            Icons.person_outline_rounded,
+            Icons.person_rounded,
+            l.navProfile,
+          ),
         ],
       ),
     );

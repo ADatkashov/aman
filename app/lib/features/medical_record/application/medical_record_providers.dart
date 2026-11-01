@@ -18,9 +18,14 @@ List<MedicalEntry> filterEntries(
 }) {
   return all.where((e) {
     if (type != null && e.type != type) return false;
-    if (from != null && e.date.isBefore(DateTime(from.year, from.month, from.day))) return false;
-    if (to != null && e.date.isAfter(DateTime(to.year, to.month, to.day, 23, 59, 59))) return false;
+    if (from != null &&
+        e.date.isBefore(DateTime(from.year, from.month, from.day))) {
+      return false;
+    }
+    if (to != null &&
+        e.date.isAfter(DateTime(to.year, to.month, to.day, 23, 59, 59))) {
+      return false;
+    }
     return true;
-  }).toList()
-    ..sort((a, b) => b.date.compareTo(a.date));
+  }).toList()..sort((a, b) => b.date.compareTo(a.date));
 }

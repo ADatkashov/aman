@@ -24,7 +24,11 @@ void main() {
       expect(KzPhone.maskNational('7001234567'), '700 123 45 67');
       expect(KzPhone.maskNational('70012'), '700 12');
       expect(KzPhone.nationalDigits('+7 700 123 45 67 999'), '7001234567');
-      expect(KzPhone.nationalDigits('7001234567'), '7001234567', reason: 'national numbers may start with 7');
+      expect(
+        KzPhone.nationalDigits('7001234567'),
+        '7001234567',
+        reason: 'national numbers may start with 7',
+      );
       expect(KzPhone.nationalDigits('87001234567'), '7001234567');
     });
   });
@@ -65,16 +69,47 @@ void main() {
     test('accepts PDF/JPG/PNG within 10 MB', () {
       expect(DocumentPolicy.validate('a.PDF', 100), 'application/pdf');
       expect(DocumentPolicy.validate('a.jpeg', 100), 'image/jpeg');
-      expect(DocumentPolicy.validate('a.png', DocumentPolicy.maxBytes), 'image/png');
+      expect(
+        DocumentPolicy.validate('a.png', DocumentPolicy.maxBytes),
+        'image/png',
+      );
     });
 
     test('rejects empty, oversized and unsupported files', () {
-      expect(() => DocumentPolicy.validate('a.pdf', 0), throwsA(isA<UploadException>().having((e) => e.failure, 'f', UploadFailure.empty)));
-      expect(() => DocumentPolicy.validate('a.pdf', DocumentPolicy.maxBytes + 1),
-          throwsA(isA<UploadException>().having((e) => e.failure, 'f', UploadFailure.tooLarge)));
-      expect(() => DocumentPolicy.validate('virus.exe', 10),
-          throwsA(isA<UploadException>().having((e) => e.failure, 'f', UploadFailure.unsupportedType)));
-      expect(() => DocumentPolicy.validate('noext', 10), throwsA(isA<UploadException>()));
+      expect(
+        () => DocumentPolicy.validate('a.pdf', 0),
+        throwsA(
+          isA<UploadException>().having(
+            (e) => e.failure,
+            'f',
+            UploadFailure.empty,
+          ),
+        ),
+      );
+      expect(
+        () => DocumentPolicy.validate('a.pdf', DocumentPolicy.maxBytes + 1),
+        throwsA(
+          isA<UploadException>().having(
+            (e) => e.failure,
+            'f',
+            UploadFailure.tooLarge,
+          ),
+        ),
+      );
+      expect(
+        () => DocumentPolicy.validate('virus.exe', 10),
+        throwsA(
+          isA<UploadException>().having(
+            (e) => e.failure,
+            'f',
+            UploadFailure.unsupportedType,
+          ),
+        ),
+      );
+      expect(
+        () => DocumentPolicy.validate('noext', 10),
+        throwsA(isA<UploadException>()),
+      );
     });
   });
 }

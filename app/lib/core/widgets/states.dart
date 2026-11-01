@@ -17,9 +17,12 @@ class Skeleton extends StatefulWidget {
   State<Skeleton> createState() => _SkeletonState();
 }
 
-class _SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin {
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 1300))..repeat();
+class _SkeletonState extends State<Skeleton>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1300),
+  )..repeat();
 
   @override
   void dispose() {
@@ -101,18 +104,29 @@ class EmptyState extends StatelessWidget {
             Container(
               width: compact ? 64 : 92,
               height: compact ? 64 : 92,
-              decoration: BoxDecoration(color: p.lightBlue, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                color: p.lightBlue,
+                shape: BoxShape.circle,
+              ),
               child: Icon(icon, size: compact ? 30 : 42, color: p.primary),
             ),
             SizedBox(height: compact ? 12 : 20),
             Text(title, style: t.titleMedium, textAlign: TextAlign.center),
             if (body != null) ...[
               const SizedBox(height: 8),
-              Text(body!, style: t.bodyMedium?.copyWith(color: p.textSecondary), textAlign: TextAlign.center),
+              Text(
+                body!,
+                style: t.bodyMedium?.copyWith(color: p.textSecondary),
+                textAlign: TextAlign.center,
+              ),
             ],
             if (actionLabel != null && onAction != null) ...[
               const SizedBox(height: 20),
-              PrimaryButton(label: actionLabel!, onPressed: onAction, expand: false),
+              PrimaryButton(
+                label: actionLabel!,
+                onPressed: onAction,
+                expand: false,
+              ),
             ],
           ],
         ),

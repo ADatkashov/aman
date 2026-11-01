@@ -24,15 +24,25 @@ Future<void> showTelemedicineSheet(BuildContext context, WidgetRef ref) {
               Container(
                 width: 72,
                 height: 72,
-                decoration: BoxDecoration(color: p.lightBlue, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: p.lightBlue,
+                  shape: BoxShape.circle,
+                ),
                 child: Icon(Icons.videocam_rounded, size: 34, color: p.primary),
               ),
               const SizedBox(height: 16),
-              Text(l.telemedTitle, style: Theme.of(sheetContext).textTheme.titleLarge, textAlign: TextAlign.center),
+              Text(
+                l.telemedTitle,
+                style: Theme.of(sheetContext).textTheme.titleLarge,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 8),
-              Text(l.telemedBody,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(sheetContext).textTheme.bodyMedium?.copyWith(color: p.textSecondary)),
+              Text(
+                l.telemedBody,
+                textAlign: TextAlign.center,
+                style: Theme.of(sheetContext).textTheme.bodyMedium
+                    ?.copyWith(color: p.textSecondary),
+              ),
               const SizedBox(height: 20),
               PrimaryButton(
                 label: l.bookDoctor,

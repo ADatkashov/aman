@@ -20,10 +20,16 @@ final labResultProvider = FutureProvider.family<LabResult, String>(
 
 /// Series of (date, value) for the first indicator of [result]'s test type,
 /// oldest first. Used for the dynamics chart.
-List<LabTrendPoint> trendFor(List<LabResult> all, LabResult result, int indicatorIndex) {
+List<LabTrendPoint> trendFor(
+  List<LabResult> all,
+  LabResult result,
+  int indicatorIndex,
+) {
   if (indicatorIndex >= result.indicators.length) return const [];
   final points = <LabTrendPoint>[];
-  for (final r in all.where((r) => r.testCode == result.testCode && r.hasValues)) {
+  for (final r in all.where(
+    (r) => r.testCode == result.testCode && r.hasValues,
+  )) {
     if (indicatorIndex < r.indicators.length) {
       points.add(LabTrendPoint(r.date, r.indicators[indicatorIndex].value));
     }

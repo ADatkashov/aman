@@ -22,7 +22,10 @@ abstract class AuthRepository {
   /// Restores the session from secure storage; `null` if signed out.
   Future<PatientProfile?> restoreSession();
 
-  Future<PatientProfile> login({required String phone, required String password});
+  Future<PatientProfile> login({
+    required String phone,
+    required String password,
+  });
 
   /// Creates a pending account and sends an OTP to [phone].
   /// Returns the OTP only in demo mode (so that it can be displayed).
@@ -37,7 +40,10 @@ abstract class AuthRepository {
   Future<String?> requestOtp(String phone);
 
   /// Verifies the OTP of a freshly registered account and signs in.
-  Future<PatientProfile> confirmPhone({required String phone, required String code});
+  Future<PatientProfile> confirmPhone({
+    required String phone,
+    required String code,
+  });
 
   Future<String?> requestPasswordReset(String phone);
 

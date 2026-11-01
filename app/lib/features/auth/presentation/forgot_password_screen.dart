@@ -17,13 +17,16 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
   final String? initialPhone;
 
   @override
-  ConsumerState<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
 class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _phoneForm = GlobalKey<FormState>();
   final _resetForm = GlobalKey<FormState>();
-  late final TextEditingController _phone = TextEditingController(text: widget.initialPhone ?? '');
+  late final TextEditingController _phone = TextEditingController(
+    text: widget.initialPhone ?? '',
+  );
   final _code = TextEditingController();
   final _password = TextEditingController();
   bool _codeSent = false;
@@ -43,7 +46,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     try {
       await action();
     } catch (e) {
-      if (mounted) showSnack(context, errorMessage(context.l10n, e), error: true);
+      if (mounted) {
+        showSnack(context, errorMessage(context.l10n, e), error: true);
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -52,7 +57,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Future<void> _sendCode() async {
     if (!_phoneForm.currentState!.validate()) return;
     await _run(() async {
-      final code = await ref.read(authControllerProvider.notifier).requestPasswordReset(_phone.text);
+      final code = await ref
+          .read(authControllerProvider.notifier)
+          .requestPasswordReset(_phone.text);
       setState(() {
         _codeSent = true;
         _demoCode = code;
@@ -63,7 +70,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Future<void> _reset() async {
     if (!_resetForm.currentState!.validate()) return;
     await _run(() async {
-      await ref.read(authControllerProvider.notifier).resetPassword(_phone.text, _code.text, _password.text);
+      await ref
+          .read(authControllerProvider.notifier)
+          .resetPassword(_phone.text, _code.text, _password.text);
       if (!mounted) return;
       showSnack(context, context.l10n.passwordResetDone);
       context.pop();
@@ -84,22 +93,39 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   OtpEntry(
                     controller: _code,
                     onResend: () async {
-                      final code = await ref.read(authControllerProvider.notifier).requestPasswordReset(_phone.text);
+                      final code = await ref
+                          .read(authControllerProvider.notifier)
+                          .requestPasswordReset(_phone.text);
                       if (mounted) setState(() => _demoCode = code);
                     },
                   ),
                   if (_demoCode != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Row(children: [
-                        const DemoTag(),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(l.otpDemoHint(_demoCode!), style: Theme.of(context).textTheme.bodySmall)),
-                      ]),
+                      child: Row(
+                        children: [
+                          const DemoTag(),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              l.otpDemoHint(_demoCode!),
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  PasswordField(controller: _password, label: l.newPasswordLabel, onSubmitted: (_) => _reset()),
+                  PasswordField(
+                    controller: _password,
+                    label: l.newPasswordLabel,
+                    onSubmitted: (_) => _reset(),
+                  ),
                   const SizedBox(height: 20),
-                  PrimaryButton(label: l.resetButton, onPressed: _reset, loading: _loading),
+                  PrimaryButton(
+                    label: l.resetButton,
+                    onPressed: _reset,
+                    loading: _loading,
+                  ),
                 ],
               ),
             )
@@ -109,7 +135,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 children: [
                   KzPhoneField(controller: _phone),
                   const SizedBox(height: 20),
-                  PrimaryButton(label: l.sendCode, onPressed: _sendCode, loading: _loading),
+                  PrimaryButton(
+                    label: l.sendCode,
+                    onPressed: _sendCode,
+                    loading: _loading,
+                  ),
                 ],
               ),
             ),

@@ -34,9 +34,14 @@ class ClinicDetailScreen extends ConsumerWidget {
       appBar: CustomAppBar(title: l.clinicsTitle),
       body: clinic.when(
         loading: () => const LoadingState(itemCount: 3, itemHeight: 120),
-        error: (e, _) => ErrorState(error: e, onRetry: () => ref.invalidate(clinicProvider(clinicId))),
+        error: (e, _) => ErrorState(
+          error: e,
+          onRetry: () => ref.invalidate(clinicProvider(clinicId)),
+        ),
         data: (c) {
-          final clinicDoctors = (doctors.value ?? const []).where((d) => d.clinicId == c.id).toList();
+          final clinicDoctors = (doctors.value ?? const [])
+              .where((d) => d.clinicId == c.id)
+              .toList();
           return Column(
             children: [
               Expanded(
@@ -47,7 +52,12 @@ class ClinicDetailScreen extends ConsumerWidget {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        Expanded(child: Text(c.name.replaceAll(' · DEMO', ''), style: t.headlineSmall)),
+                        Expanded(
+                          child: Text(
+                            c.name.replaceAll(' · DEMO', ''),
+                            style: t.headlineSmall,
+                          ),
+                        ),
                         if (c.isDemo) const DemoTag(),
                       ],
                     ),
@@ -61,15 +71,27 @@ class ClinicDetailScreen extends ConsumerWidget {
                     AmanCard(
                       child: Column(
                         children: [
-                          InfoRow(icon: Icons.location_on_rounded, label: c.city, value: c.address),
-                          InfoRow(icon: Icons.schedule_rounded, label: l.clinicHours, value: c.workingHours.of(lang)),
+                          InfoRow(
+                            icon: Icons.location_on_rounded,
+                            label: c.city,
+                            value: c.address,
+                          ),
+                          InfoRow(
+                            icon: Icons.schedule_rounded,
+                            label: l.clinicHours,
+                            value: c.workingHours.of(lang),
+                          ),
                           InfoRow(
                             icon: Icons.call_rounded,
                             label: l.clinicContacts,
                             value: c.phone,
                             onTap: () async {
-                              final ok = await ref.read(urlOpenerProvider).open(ExternalLinks.phone(c));
-                              if (!ok && context.mounted) showSnack(context, l.callFailed, error: true);
+                              final ok = await ref
+                                  .read(urlOpenerProvider)
+                                  .open(ExternalLinks.phone(c));
+                              if (!ok && context.mounted) {
+                                showSnack(context, l.callFailed, error: true);
+                              }
                             },
                           ),
                         ],
@@ -79,17 +101,27 @@ class ClinicDetailScreen extends ConsumerWidget {
                     Text(l.clinicServices, style: t.titleMedium),
                     const SizedBox(height: 10),
                     AmanCard(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
                       child: Column(
                         children: [
                           for (var i = 0; i < c.services.length; i++) ...[
                             if (i > 0) const Divider(),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Row(children: [
-                                Expanded(child: Text(c.services[i].name.of(lang))),
-                                Text(fmt.money(c.services[i].priceKzt), style: t.titleSmall),
-                              ]),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(c.services[i].name.of(lang)),
+                                  ),
+                                  Text(
+                                    fmt.money(c.services[i].priceKzt),
+                                    style: t.titleSmall,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ],
@@ -106,14 +138,24 @@ class ClinicDetailScreen extends ConsumerWidget {
                           padding: const EdgeInsets.all(12),
                           child: Row(
                             children: [
-                              DoctorAvatar(seed: d.avatarSeed, size: 52, female: d.isFemale, photoUrl: d.photoUrl),
+                              DoctorAvatar(
+                                seed: d.avatarSeed,
+                                size: 52,
+                                female: d.isFemale,
+                                photoUrl: d.photoUrl,
+                              ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(d.fullName, style: t.titleSmall),
-                                    Text(d.specialty.label(l), style: t.bodySmall?.copyWith(color: p.primary)),
+                                    Text(
+                                      d.specialty.label(l),
+                                      style: t.bodySmall?.copyWith(
+                                        color: p.primary,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

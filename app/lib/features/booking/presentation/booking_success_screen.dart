@@ -18,12 +18,16 @@ class BookingSuccessScreen extends ConsumerStatefulWidget {
   final String appointmentId;
 
   @override
-  ConsumerState<BookingSuccessScreen> createState() => _BookingSuccessScreenState();
+  ConsumerState<BookingSuccessScreen> createState() =>
+      _BookingSuccessScreenState();
 }
 
-class _BookingSuccessScreenState extends ConsumerState<BookingSuccessScreen> with SingleTickerProviderStateMixin {
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 700))..forward();
+class _BookingSuccessScreenState extends ConsumerState<BookingSuccessScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 700),
+  )..forward();
 
   @override
   void dispose() {
@@ -58,29 +62,66 @@ class _BookingSuccessScreenState extends ConsumerState<BookingSuccessScreen> wit
                       const SizedBox(height: 12),
                       Center(
                         child: ScaleTransition(
-                          scale: CurvedAnimation(parent: _c, curve: Curves.elasticOut),
+                          scale: CurvedAnimation(
+                            parent: _c,
+                            curve: Curves.elasticOut,
+                          ),
                           child: Container(
                             width: 104,
                             height: 104,
-                            decoration: BoxDecoration(color: p.success.withValues(alpha: 0.14), shape: BoxShape.circle),
-                            child: Icon(Icons.check_circle_rounded, size: 68, color: p.success),
+                            decoration: BoxDecoration(
+                              color: p.success.withValues(alpha: 0.14),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.check_circle_rounded,
+                              size: 68,
+                              color: p.success,
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Text(l.bookingSuccessTitle, textAlign: TextAlign.center, style: t.headlineMedium),
+                      Text(
+                        l.bookingSuccessTitle,
+                        textAlign: TextAlign.center,
+                        style: t.headlineMedium,
+                      ),
                       const SizedBox(height: 6),
-                      Text(l.bookingSuccessBody, textAlign: TextAlign.center, style: t.bodyMedium?.copyWith(color: p.textSecondary)),
+                      Text(
+                        l.bookingSuccessBody,
+                        textAlign: TextAlign.center,
+                        style: t.bodyMedium?.copyWith(color: p.textSecondary),
+                      ),
                       const SizedBox(height: 24),
                       AmanCard(
                         child: Column(
                           children: [
-                            InfoRow(icon: Icons.confirmation_number_rounded, label: l.bookingNumber, value: a.number),
+                            InfoRow(
+                              icon: Icons.confirmation_number_rounded,
+                              label: l.bookingNumber,
+                              value: a.number,
+                            ),
                             if (doctor != null)
-                              InfoRow(icon: Icons.person_rounded, label: l.doctorLabel, value: '${doctor.fullName}\n${doctor.specialty.label(l)}'),
-                            InfoRow(icon: Icons.event_rounded, label: l.dateTimeLabel, value: '${fmt.fullDateLine(a.start)}, ${fmt.time(a.start)}'),
+                              InfoRow(
+                                icon: Icons.person_rounded,
+                                label: l.doctorLabel,
+                                value:
+                                    '${doctor.fullName}\n${doctor.specialty.label(l)}',
+                              ),
+                            InfoRow(
+                              icon: Icons.event_rounded,
+                              label: l.dateTimeLabel,
+                              value:
+                                  '${fmt.fullDateLine(a.start)}, ${fmt.time(a.start)}',
+                            ),
                             if (clinic != null)
-                              InfoRow(icon: Icons.location_on_rounded, label: l.clinicLabel, value: '${clinic.name.replaceAll(' · DEMO', '')}\n${clinic.fullAddress}'),
+                              InfoRow(
+                                icon: Icons.location_on_rounded,
+                                label: l.clinicLabel,
+                                value:
+                                    '${clinic.name.replaceAll(' · DEMO', '')}\n${clinic.fullAddress}',
+                              ),
                           ],
                         ),
                       ),
@@ -95,10 +136,19 @@ class _BookingSuccessScreenState extends ConsumerState<BookingSuccessScreen> wit
                                   appointment: a,
                                   doctor: doctor,
                                   clinic: clinic,
-                                  title: '${l.appName}: ${doctor.specialty.label(l)}',
+                                  title:
+                                      '${l.appName}: ${doctor.specialty.label(l)}',
                                 );
-                                final ok = await ref.read(urlOpenerProvider).open(uri);
-                                if (!ok && context.mounted) showSnack(context, l.calendarOpenFailed, error: true);
+                                final ok = await ref
+                                    .read(urlOpenerProvider)
+                                    .open(uri);
+                                if (!ok && context.mounted) {
+                                  showSnack(
+                                    context,
+                                    l.calendarOpenFailed,
+                                    error: true,
+                                  );
+                                }
                               },
                       ),
                     ],
@@ -108,8 +158,14 @@ class _BookingSuccessScreenState extends ConsumerState<BookingSuccessScreen> wit
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      PrimaryButton(label: l.goToAppointments, onPressed: () => context.go('/appointments')),
-                      TextButton(onPressed: () => context.go('/home'), child: Text(l.backHome)),
+                      PrimaryButton(
+                        label: l.goToAppointments,
+                        onPressed: () => context.go('/appointments'),
+                      ),
+                      TextButton(
+                        onPressed: () => context.go('/home'),
+                        child: Text(l.backHome),
+                      ),
                     ],
                   ),
                 ),

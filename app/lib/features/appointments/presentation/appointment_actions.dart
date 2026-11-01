@@ -12,7 +12,11 @@ import '../application/appointments_controller.dart';
 import '../domain/appointment.dart';
 
 /// Cancel flow: confirmation dialog with optional reason, then the use case.
-Future<void> cancelFlow(BuildContext context, WidgetRef ref, Appointment a) async {
+Future<void> cancelFlow(
+  BuildContext context,
+  WidgetRef ref,
+  Appointment a,
+) async {
   final l = context.l10n;
   final reason = TextEditingController();
   final confirmed = await showDialog<bool>(
@@ -25,11 +29,18 @@ Future<void> cancelFlow(BuildContext context, WidgetRef ref, Appointment a) asyn
         children: [
           Text(l.cancelConfirmBody),
           const SizedBox(height: 14),
-          TextField(controller: reason, decoration: InputDecoration(hintText: l.cancelReasonHint), maxLength: 200),
+          TextField(
+            controller: reason,
+            decoration: InputDecoration(hintText: l.cancelReasonHint),
+            maxLength: 200,
+          ),
         ],
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l.keepAppointment)),
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, false),
+          child: Text(l.keepAppointment),
+        ),
         FilledButton(
           style: FilledButton.styleFrom(backgroundColor: ctx.palette.error),
           onPressed: () => Navigator.pop(ctx, true),
@@ -42,18 +53,28 @@ Future<void> cancelFlow(BuildContext context, WidgetRef ref, Appointment a) asyn
   reason.dispose();
   if (confirmed != true || !context.mounted) return;
   try {
-    await ref.read(appointmentsProvider.notifier).cancel(a.id, reason: text.isEmpty ? null : text);
+    await ref
+        .read(appointmentsProvider.notifier)
+        .cancel(a.id, reason: text.isEmpty ? null : text);
     if (context.mounted) showSnack(context, l.appointmentCancelledSnack);
   } catch (e) {
     if (context.mounted) {
       final clinic = ref.read(clinicLookupProvider)(a.clinicId);
-      showSnack(context, errorMessage(l, e, changeHours: clinic?.changeDeadlineHours ?? 2), error: true);
+      showSnack(
+        context,
+        errorMessage(l, e, changeHours: clinic?.changeDeadlineHours ?? 2),
+        error: true,
+      );
     }
   }
 }
 
 /// Review bottom sheet with a 5-star rating and optional comment.
-Future<void> reviewFlow(BuildContext context, WidgetRef ref, Appointment a) async {
+Future<void> reviewFlow(
+  BuildContext context,
+  WidgetRef ref,
+  Appointment a,
+) async {
   final l = context.l10n;
   final result = await showModalBottomSheet<(int, String)>(
     context: context,
@@ -62,7 +83,9 @@ Future<void> reviewFlow(BuildContext context, WidgetRef ref, Appointment a) asyn
   );
   if (result == null || !context.mounted) return;
   try {
-    await ref.read(appointmentsProvider.notifier).review(a.id, rating: result.$1, text: result.$2);
+    await ref
+        .read(appointmentsProvider.notifier)
+        .review(a.id, rating: result.$1, text: result.$2);
     if (context.mounted) showSnack(context, l.reviewThanks);
   } catch (e) {
     if (context.mounted) showSnack(context, errorMessage(l, e), error: true);
@@ -91,7 +114,12 @@ class _ReviewSheetState extends State<_ReviewSheet> {
     final l = context.l10n;
     final p = context.palette;
     return Padding(
-      padding: EdgeInsets.fromLTRB(24, 0, 24, 20 + MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.fromLTRB(
+        24,
+        0,
+        24,
+        20 + MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -107,15 +135,27 @@ class _ReviewSheetState extends State<_ReviewSheet> {
                   iconSize: 38,
                   tooltip: '$i',
                   onPressed: () => setState(() => _rating = i),
-                  icon: Icon(i <= _rating ? Icons.star_rounded : Icons.star_border_rounded, color: p.warning),
+                  icon: Icon(
+                    i <= _rating
+                        ? Icons.star_rounded
+                        : Icons.star_border_rounded,
+                    color: p.warning,
+                  ),
                 ),
             ],
           ),
-          TextField(controller: _text, maxLines: 3, maxLength: 300, decoration: InputDecoration(hintText: l.reviewCommentHint)),
+          TextField(
+            controller: _text,
+            maxLines: 3,
+            maxLength: 300,
+            decoration: InputDecoration(hintText: l.reviewCommentHint),
+          ),
           const SizedBox(height: 8),
           PrimaryButton(
             label: l.submit,
-            onPressed: _rating == 0 ? null : () => Navigator.pop(context, (_rating, _text.text.trim())),
+            onPressed: _rating == 0
+                ? null
+                : () => Navigator.pop(context, (_rating, _text.text.trim())),
           ),
         ],
       ),

@@ -54,16 +54,15 @@ List<Override> testOverrides({
   required FakeUrlOpener opener,
   TokenStorage? tokens,
   FilePickerService? picker,
-}) =>
-    [
-      sharedPreferencesProvider.overrideWithValue(prefs),
-      clockProvider.overrideWithValue(() => testNow),
-      demoStoreProvider.overrideWithValue(store),
-      tokenStorageProvider.overrideWithValue(tokens ?? MemoryTokenStorage()),
-      urlOpenerProvider.overrideWithValue(opener),
-      filePickerProvider.overrideWithValue(picker ?? FakeFilePicker(null)),
-      splashDoneProvider.overrideWith((ref) async {}),
-    ];
+}) => [
+  sharedPreferencesProvider.overrideWithValue(prefs),
+  clockProvider.overrideWithValue(() => testNow),
+  demoStoreProvider.overrideWithValue(store),
+  tokenStorageProvider.overrideWithValue(tokens ?? MemoryTokenStorage()),
+  urlOpenerProvider.overrideWithValue(opener),
+  filePickerProvider.overrideWithValue(picker ?? FakeFilePicker(null)),
+  splashDoneProvider.overrideWith((ref) async {}),
+];
 
 /// Pumps the whole app. Pass [signedIn] to start with a restored session.
 Future<TestEnv> pumpApp(
@@ -88,10 +87,18 @@ Future<TestEnv> pumpApp(
   addTearDown(tester.view.reset);
 
   final container = ProviderContainer(
-    overrides: testOverrides(prefs: prefs, store: store, opener: opener, tokens: tokens, picker: picker),
+    overrides: testOverrides(
+      prefs: prefs,
+      store: store,
+      opener: opener,
+      tokens: tokens,
+      picker: picker,
+    ),
   );
   addTearDown(container.dispose);
-  await tester.pumpWidget(UncontrolledProviderScope(container: container, child: const AmanApp()));
+  await tester.pumpWidget(
+    UncontrolledProviderScope(container: container, child: const AmanApp()),
+  );
   await settle(tester);
   return TestEnv(container: container, opener: opener, store: store);
 }
@@ -103,11 +110,17 @@ Future<void> settle(WidgetTester tester, {int frames = 12}) async {
   }
 }
 
-Future<void> tapText(WidgetTester tester, String text, {bool last = false}) async {
+Future<void> tapText(
+  WidgetTester tester,
+  String text, {
+  bool last = false,
+}) async {
   final finder = find.text(text);
   expect(finder, findsWidgets, reason: 'text "$text" not found');
   final target = last ? finder.last : finder.first;
-  await tester.pump(const Duration(milliseconds: 400)); // let focus-scroll animations finish
+  await tester.pump(
+    const Duration(milliseconds: 400),
+  ); // let focus-scroll animations finish
   await tester.ensureVisible(target);
   await tester.pump(const Duration(milliseconds: 50));
   await tester.tap(target);
@@ -137,6 +150,8 @@ Future<void> scrollHorizontallyTo(WidgetTester tester, Finder finder) async {
   await tester.scrollUntilVisible(
     finder,
     120,
-    scrollable: find.byWidgetPredicate((w) => w is Scrollable && w.axis == Axis.horizontal).last,
+    scrollable: find
+        .byWidgetPredicate((w) => w is Scrollable && w.axis == Axis.horizontal)
+        .last,
   );
 }

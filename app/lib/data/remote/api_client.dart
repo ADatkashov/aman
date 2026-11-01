@@ -15,36 +15,43 @@ import '../../features/documents/domain/medical_document.dart';
 /// Error body: `{ "status": 409, "code": "SLOT_TAKEN", "message": "..." }`.
 class ApiClient {
   ApiClient({required AppConfig config, required TokenStorage tokens, Dio? dio})
-      // ignore: prefer_initializing_formals
-      : _tokens = tokens,
-        _dio = dio ??
-            Dio(BaseOptions(
+    // ignore: prefer_initializing_formals
+    : _tokens = tokens,
+      _dio =
+          dio ??
+          Dio(
+            BaseOptions(
               baseUrl: config.apiBaseUrl,
               connectTimeout: const Duration(seconds: 10),
               receiveTimeout: const Duration(seconds: 20),
               headers: {'Accept': 'application/json'},
-            )) {
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        final token = await _tokens.readAccessToken();
-        if (token != null && !options.path.startsWith('/auth/')) {
-          options.headers['Authorization'] = 'Bearer $token';
-        }
-        handler.next(options);
-      },
-      onError: (error, handler) async {
-        final isAuthCall = error.requestOptions.path.startsWith('/auth/');
-        if (error.response?.statusCode == 401 && !isAuthCall && await _refresh()) {
-          try {
-            final retry = await _dio.fetch<dynamic>(error.requestOptions);
-            return handler.resolve(retry);
-          } on DioException catch (e) {
-            return handler.next(e);
+            ),
+          ) {
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final token = await _tokens.readAccessToken();
+          if (token != null && !options.path.startsWith('/auth/')) {
+            options.headers['Authorization'] = 'Bearer $token';
           }
-        }
-        handler.next(error);
-      },
-    ));
+          handler.next(options);
+        },
+        onError: (error, handler) async {
+          final isAuthCall = error.requestOptions.path.startsWith('/auth/');
+          if (error.response?.statusCode == 401 &&
+              !isAuthCall &&
+              await _refresh()) {
+            try {
+              final retry = await _dio.fetch<dynamic>(error.requestOptions);
+              return handler.resolve(retry);
+            } on DioException catch (e) {
+              return handler.next(e);
+            }
+          }
+          handler.next(error);
+        },
+      ),
+    );
   }
 
   final Dio _dio;
@@ -53,13 +60,17 @@ class ApiClient {
 
   Dio get dio => _dio;
 
-  Future<bool> _refresh() => _refreshing ??= _doRefresh().whenComplete(() => _refreshing = null);
+  Future<bool> _refresh() =>
+      _refreshing ??= _doRefresh().whenComplete(() => _refreshing = null);
 
   Future<bool> _doRefresh() async {
     final refresh = await _tokens.readRefreshToken();
     if (refresh == null) return false;
     try {
-      final res = await _dio.post<Map<String, dynamic>>('/auth/refresh', data: {'refreshToken': refresh});
+      final res = await _dio.post<Map<String, dynamic>>(
+        '/auth/refresh',
+        data: {'refreshToken': refresh},
+      );
       final body = res.data!;
       await _tokens.saveTokens(
         access: body['accessToken'] as String,
@@ -116,7 +127,9 @@ class ApiClient {
       case 'FILE_TYPE_NOT_ALLOWED':
         return const UploadException(UploadFailure.unsupportedType);
     }
-    if (res.statusCode == 404) return const BookingException(BookingFailure.notFound);
+    if (res.statusCode == 404) {
+      return const BookingException(BookingFailure.notFound);
+    }
     return e;
   }
 }

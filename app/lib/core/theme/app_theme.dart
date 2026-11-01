@@ -10,19 +10,22 @@ abstract final class AppTheme {
   static ThemeData get dark => _build(AmanPalette.dark, Brightness.dark);
 
   static ThemeData _build(AmanPalette p, Brightness brightness) {
-    final scheme = ColorScheme.fromSeed(
-      seedColor: AmanPalette.light.primary,
-      brightness: brightness,
-    ).copyWith(
-      primary: p.primary,
-      onPrimary: brightness == Brightness.light ? Colors.white : const Color(0xFF06142B),
-      secondary: p.secondary,
-      surface: p.surface,
-      onSurface: p.textPrimary,
-      error: p.error,
-      outline: p.border,
-      surfaceContainerHighest: p.lightBlue,
-    );
+    final scheme =
+        ColorScheme.fromSeed(
+          seedColor: AmanPalette.light.primary,
+          brightness: brightness,
+        ).copyWith(
+          primary: p.primary,
+          onPrimary: brightness == Brightness.light
+              ? Colors.white
+              : const Color(0xFF06142B),
+          secondary: p.secondary,
+          surface: p.surface,
+          onSurface: p.textPrimary,
+          error: p.error,
+          outline: p.border,
+          surfaceContainerHighest: p.lightBlue,
+        );
 
     final text = _textTheme(p);
 
@@ -52,7 +55,10 @@ abstract final class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: p.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         hintStyle: text.bodyMedium?.copyWith(color: p.textSecondary),
         border: _inputBorder(p.border),
         enabledBorder: _inputBorder(p.border),
@@ -70,20 +76,24 @@ abstract final class AppTheme {
         backgroundColor: p.surface,
         showDragHandle: true,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(Corners.sheet)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(Corners.sheet),
+          ),
         ),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: p.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       ),
-      pageTransitionsTheme: const PageTransitionsTheme(builders: {
-        TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.linux: FadeForwardsPageTransitionsBuilder(),
-        TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.windows: FadeForwardsPageTransitionsBuilder(),
-      }),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.linux: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.windows: FadeForwardsPageTransitionsBuilder(),
+        },
+      ),
     );
   }
 

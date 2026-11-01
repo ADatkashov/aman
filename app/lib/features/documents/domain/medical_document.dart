@@ -10,9 +10,9 @@ enum DocumentKind {
   other;
 
   static DocumentKind fromId(String id) => DocumentKind.values.firstWhere(
-        (c) => c.name.toLowerCase() == id.toLowerCase().replaceAll('_', ''),
-        orElse: () => DocumentKind.other,
-      );
+    (c) => c.name.toLowerCase() == id.toLowerCase().replaceAll('_', ''),
+    orElse: () => DocumentKind.other,
+  );
 }
 
 class MedicalDocument {
@@ -47,7 +47,8 @@ class MedicalDocument {
   bool get isPdf => mimeType == 'application/pdf';
   bool get isImage => mimeType.startsWith('image/');
 
-  factory MedicalDocument.fromJson(Map<String, dynamic> json) => MedicalDocument(
+  factory MedicalDocument.fromJson(Map<String, dynamic> json) =>
+      MedicalDocument(
         id: json['id'].toString(),
         title: json['title'] as String,
         kind: DocumentKind.fromId(json['kind'] as String),
@@ -79,11 +80,15 @@ abstract final class DocumentPolicy {
   /// Returns the mime type for [fileName] or throws [UploadException].
   static String validate(String fileName, int sizeBytes) {
     if (sizeBytes <= 0) throw const UploadException(UploadFailure.empty);
-    if (sizeBytes > maxBytes) throw const UploadException(UploadFailure.tooLarge);
+    if (sizeBytes > maxBytes) {
+      throw const UploadException(UploadFailure.tooLarge);
+    }
     final dot = fileName.lastIndexOf('.');
     final ext = dot < 0 ? '' : fileName.substring(dot + 1).toLowerCase();
     final mime = allowed[ext];
-    if (mime == null) throw const UploadException(UploadFailure.unsupportedType);
+    if (mime == null) {
+      throw const UploadException(UploadFailure.unsupportedType);
+    }
     return mime;
   }
 }

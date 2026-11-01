@@ -55,8 +55,13 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
 
   Future<bool> _confirmLeave() async {
     final l = context.l10n;
-    return confirmAction(context,
-        title: l.bookingCancelTitle, body: l.bookingCancelBody, confirmLabel: l.leave, destructive: true);
+    return confirmAction(
+      context,
+      title: l.bookingCancelTitle,
+      body: l.bookingCancelBody,
+      confirmLabel: l.leave,
+      destructive: true,
+    );
   }
 
   Future<void> _submit() async {
@@ -73,7 +78,9 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               e.failure == BookingFailure.slotInPast ||
               e.failure == BookingFailure.outsideSchedule)) {
         ref.invalidate(slotsProvider);
-        ref.read(bookingDraftProvider.notifier).pickDate(ref.read(bookingDraftProvider).date!);
+        ref
+            .read(bookingDraftProvider.notifier)
+            .pickDate(ref.read(bookingDraftProvider).date!);
         _go(4);
       }
     } finally {
@@ -89,7 +96,15 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     ref.watch(bookingDraftProvider); // rebuild when selections change
     ref.watch(clinicsProvider);
 
-    final headings = [l.chooseSpecialty, l.chooseDoctor, l.chooseClinic, l.chooseDate, l.chooseTime, l.reasonLabel, l.stepConfirm];
+    final headings = [
+      l.chooseSpecialty,
+      l.chooseDoctor,
+      l.chooseClinic,
+      l.chooseDate,
+      l.chooseTime,
+      l.reasonLabel,
+      l.stepConfirm,
+    ];
     final isLast = _step == _stepCount - 1;
 
     final body = switch (_step) {
@@ -146,7 +161,9 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             height: 5,
-                            margin: EdgeInsets.only(right: i == _stepCount - 1 ? 0 : 5),
+                            margin: EdgeInsets.only(
+                              right: i == _stepCount - 1 ? 0 : 5,
+                            ),
                             decoration: BoxDecoration(
                               color: i <= _step ? p.primary : p.border,
                               borderRadius: BorderRadius.circular(4),
@@ -168,7 +185,10 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                 transitionBuilder: (child, anim) => FadeTransition(
                   opacity: anim,
                   child: SlideTransition(
-                    position: Tween(begin: const Offset(0.06, 0), end: Offset.zero).animate(anim),
+                    position: Tween(
+                      begin: const Offset(0.06, 0),
+                      end: Offset.zero,
+                    ).animate(anim),
                     child: child,
                   ),
                 ),

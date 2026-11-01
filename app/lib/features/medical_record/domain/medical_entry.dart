@@ -12,7 +12,8 @@ enum MedicalEntryType {
   lab,
   document;
 
-  static MedicalEntryType fromId(String id) => MedicalEntryType.values.firstWhere(
+  static MedicalEntryType fromId(String id) =>
+      MedicalEntryType.values.firstWhere(
         (c) => c.name.toLowerCase() == id.toLowerCase().replaceAll('_', ''),
         orElse: () => MedicalEntryType.document,
       );
@@ -42,12 +43,14 @@ class MedicalEntry {
   final String sourceRef;
 
   factory MedicalEntry.fromJson(Map<String, dynamic> json) => MedicalEntry(
-        id: json['id'].toString(),
-        type: MedicalEntryType.fromId(json['type'] as String),
-        date: DateTime.parse(json['date'] as String),
-        title: LocalizedText.fromJson(json['title']),
-        details: json['details'] == null ? null : LocalizedText.fromJson(json['details']),
-        doctorName: json['doctorName'] as String?,
-        sourceRef: (json['sourceRef'] ?? '') as String,
-      );
+    id: json['id'].toString(),
+    type: MedicalEntryType.fromId(json['type'] as String),
+    date: DateTime.parse(json['date'] as String),
+    title: LocalizedText.fromJson(json['title']),
+    details: json['details'] == null
+        ? null
+        : LocalizedText.fromJson(json['details']),
+    doctorName: json['doctorName'] as String?,
+    sourceRef: (json['sourceRef'] ?? '') as String,
+  );
 }

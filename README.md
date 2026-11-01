@@ -55,7 +55,7 @@ Details: [Architecture](docs/ARCHITECTURE.md) · [ER diagram](docs/ER_DIAGRAM.md
 * **Client:** Flutter 3.x / Dart 3, Material 3 with a custom design system, `flutter_riverpod`, `go_router`, `dio`,
   `flutter_secure_storage`, `intl` + generated ARB localizations (kk / ru / en), `file_picker`, `url_launcher`.
 * **Server:** Spring Boot 3.3, Spring Security (stateless JWT), Spring Data JPA, Flyway, PostgreSQL, springdoc OpenAPI.
-* **Quality:** `flutter analyze`, 97 Flutter unit/widget tests, JUnit 5 + MockMvc integration tests on the backend.
+* **Quality:** `flutter analyze`, 105 Flutter unit & widget tests (incl. a contract test against real API JSON), 34 JUnit 5 / MockMvc backend tests.
 
 ## Testing
 

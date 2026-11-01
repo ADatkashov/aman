@@ -22,7 +22,12 @@ class OtpArgs {
 
 /// Reusable 4-digit code input with resend countdown.
 class OtpEntry extends StatefulWidget {
-  const OtpEntry({super.key, required this.controller, required this.onResend, this.onSubmitted});
+  const OtpEntry({
+    super.key,
+    required this.controller,
+    required this.onResend,
+    this.onSubmitted,
+  });
 
   final TextEditingController controller;
   final Future<void> Function() onResend;
@@ -72,8 +77,16 @@ class _OtpEntryState extends State<OtpEntry> {
           keyboardType: TextInputType.number,
           maxLength: 4,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          style: const TextStyle(fontSize: 34, letterSpacing: 18, fontWeight: FontWeight.w800),
-          decoration: InputDecoration(counterText: '', hintText: '••••', labelText: l.otpLabel),
+          style: const TextStyle(
+            fontSize: 34,
+            letterSpacing: 18,
+            fontWeight: FontWeight.w800,
+          ),
+          decoration: InputDecoration(
+            counterText: '',
+            hintText: '••••',
+            labelText: l.otpLabel,
+          ),
           onFieldSubmitted: (_) => widget.onSubmitted?.call(),
           validator: (v) => Validators.otp(v)?.message(l),
         ),
@@ -86,8 +99,13 @@ class _OtpEntryState extends State<OtpEntry> {
                   _start();
                 },
           child: Text(
-            _left > 0 ? '${l.resendCode} · 0:${_left.toString().padLeft(2, '0')}' : l.resendCode,
-            style: TextStyle(color: _left > 0 ? p.textSecondary : p.primary, fontWeight: FontWeight.w600),
+            _left > 0
+                ? '${l.resendCode} · 0:${_left.toString().padLeft(2, '0')}'
+                : l.resendCode,
+            style: TextStyle(
+              color: _left > 0 ? p.textSecondary : p.primary,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ],
@@ -125,10 +143,14 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     if (!_form.currentState!.validate()) return;
     setState(() => _loading = true);
     try {
-      await ref.read(authControllerProvider.notifier).confirmPhone(widget.args.phone, _code.text);
+      await ref
+          .read(authControllerProvider.notifier)
+          .confirmPhone(widget.args.phone, _code.text);
       if (mounted) context.go('/profile-setup');
     } catch (e) {
-      if (mounted) showSnack(context, errorMessage(context.l10n, e), error: true);
+      if (mounted) {
+        showSnack(context, errorMessage(context.l10n, e), error: true);
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -138,7 +160,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final normalized = KzPhone.normalize(widget.args.phone);
-    final shown = normalized == null ? widget.args.phone : KzPhone.format(normalized);
+    final shown = normalized == null
+        ? widget.args.phone
+        : KzPhone.format(normalized);
     return AuthScaffold(
       title: l.otpTitle,
       subtitle: l.otpSubtitle(shown),
@@ -150,7 +174,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               controller: _code,
               onSubmitted: _verify,
               onResend: () async {
-                final code = await ref.read(authControllerProvider.notifier).resendOtp(widget.args.phone);
+                final code = await ref
+                    .read(authControllerProvider.notifier)
+                    .resendOtp(widget.args.phone);
                 if (!context.mounted) return;
                 setState(() => _demoCode = code);
                 showSnack(context, l.codeResent);
@@ -162,12 +188,21 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 children: [
                   const DemoTag(),
                   const SizedBox(width: 8),
-                  Expanded(child: Text(l.otpDemoHint(_demoCode!), style: Theme.of(context).textTheme.bodySmall)),
+                  Expanded(
+                    child: Text(
+                      l.otpDemoHint(_demoCode!),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
                 ],
               ),
             ],
             const SizedBox(height: 24),
-            PrimaryButton(label: l.verify, onPressed: _verify, loading: _loading),
+            PrimaryButton(
+              label: l.verify,
+              onPressed: _verify,
+              loading: _loading,
+            ),
           ],
         ),
       ),

@@ -7,7 +7,12 @@ import 'buttons.dart';
 enum BadgeTone { success, warning, error, info, neutral }
 
 class StatusBadge extends StatelessWidget {
-  const StatusBadge({super.key, required this.label, this.tone = BadgeTone.info, this.icon});
+  const StatusBadge({
+    super.key,
+    required this.label,
+    this.tone = BadgeTone.info,
+    this.icon,
+  });
 
   final String label;
   final BadgeTone tone;
@@ -32,12 +37,19 @@ class StatusBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null) ...[Icon(icon, size: 13, color: color), const SizedBox(width: 4)],
+          if (icon != null) ...[
+            Icon(icon, size: 13, color: color),
+            const SizedBox(width: 4),
+          ],
           Flexible(
             child: Text(
               label,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: color),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: color,
+              ),
             ),
           ),
         ],
@@ -61,7 +73,10 @@ class RatingBadge extends StatelessWidget {
       children: [
         Icon(Icons.star_rounded, size: 17, color: p.warning),
         const SizedBox(width: 3),
-        Text(fmt.decimal(rating), style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13)),
+        Text(
+          fmt.decimal(rating),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+        ),
         if (reviews != null) ...[
           const SizedBox(width: 4),
           Text('(${reviews!})', style: Theme.of(context).textTheme.bodySmall),
@@ -72,7 +87,12 @@ class RatingBadge extends StatelessWidget {
 }
 
 class SectionHeader extends StatelessWidget {
-  const SectionHeader({super.key, required this.title, this.actionLabel, this.onAction});
+  const SectionHeader({
+    super.key,
+    required this.title,
+    this.actionLabel,
+    this.onAction,
+  });
 
   final String title;
   final String? actionLabel;
@@ -85,12 +105,16 @@ class SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          Expanded(child: Text(title, style: Theme.of(context).textTheme.titleLarge)),
+          Expanded(
+            child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+          ),
           if (onAction != null)
             TextButton(
               onPressed: onAction,
-              child: Text(actionLabel ?? context.l10n.seeAll,
-                  style: TextStyle(color: p.primary, fontWeight: FontWeight.w700)),
+              child: Text(
+                actionLabel ?? context.l10n.seeAll,
+                style: TextStyle(color: p.primary, fontWeight: FontWeight.w700),
+              ),
             ),
         ],
       ),
@@ -100,7 +124,13 @@ class SectionHeader extends StatelessWidget {
 
 /// Small label + value pair used on detail screens.
 class InfoRow extends StatelessWidget {
-  const InfoRow({super.key, required this.icon, required this.label, required this.value, this.onTap});
+  const InfoRow({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.value,
+    this.onTap,
+  });
 
   final IconData icon;
   final String label;
@@ -122,7 +152,10 @@ class InfoRow extends StatelessWidget {
             Container(
               width: 38,
               height: 38,
-              decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(
+                color: p.lightBlue,
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Icon(icon, size: 19, color: p.primary),
             ),
             const SizedBox(width: 12),
@@ -156,8 +189,14 @@ class DemoTag extends StatelessWidget {
         color: p.warning.withValues(alpha: 0.16),
         borderRadius: BorderRadius.circular(6),
       ),
-      child: Text(context.l10n.demoBadge,
-          style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: p.warning)),
+      child: Text(
+        context.l10n.demoBadge,
+        style: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w800,
+          color: p.warning,
+        ),
+      ),
     );
   }
 }
@@ -200,16 +239,21 @@ void showSnack(BuildContext context, String message, {bool error = false}) {
   final p = context.palette;
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
-    ..showSnackBar(SnackBar(
-      content: Row(
-        children: [
-          Icon(error ? Icons.error_outline_rounded : Icons.check_circle_rounded,
-              color: error ? p.error : p.success, size: 20),
-          const SizedBox(width: 10),
-          Expanded(child: Text(message)),
-        ],
+    ..showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              error ? Icons.error_outline_rounded : Icons.check_circle_rounded,
+              color: error ? p.error : p.success,
+              size: 20,
+            ),
+            const SizedBox(width: 10),
+            Expanded(child: Text(message)),
+          ],
+        ),
       ),
-    ));
+    );
 }
 
 /// Bottom call-to-action bar used on detail / wizard screens.
@@ -222,7 +266,12 @@ class BottomActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = context.palette;
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 12, 20, 12 + MediaQuery.of(context).padding.bottom),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        12,
+        20,
+        12 + MediaQuery.of(context).padding.bottom,
+      ),
       decoration: BoxDecoration(
         color: p.surface,
         border: Border(top: BorderSide(color: p.border)),
@@ -234,13 +283,21 @@ class BottomActionBar extends StatelessWidget {
 
 /// Convenience: primary button with a trailing arrow.
 class ContinueButton extends StatelessWidget {
-  const ContinueButton({super.key, required this.onPressed, this.label, this.loading = false});
+  const ContinueButton({
+    super.key,
+    required this.onPressed,
+    this.label,
+    this.loading = false,
+  });
 
   final VoidCallback? onPressed;
   final String? label;
   final bool loading;
 
   @override
-  Widget build(BuildContext context) =>
-      PrimaryButton(label: label ?? context.l10n.continueAction, onPressed: onPressed, loading: loading);
+  Widget build(BuildContext context) => PrimaryButton(
+    label: label ?? context.l10n.continueAction,
+    onPressed: onPressed,
+    loading: loading,
+  );
 }

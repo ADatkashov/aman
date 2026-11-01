@@ -51,25 +51,25 @@ class Doctor {
   }
 
   factory Doctor.fromJson(Map<String, dynamic> json) => Doctor(
-        id: json['id'].toString(),
-        fullName: json['fullName'] as String,
-        specialty: Specialty.fromId(json['specialty'] as String),
-        clinicId: json['clinicId'].toString(),
-        experienceYears: (json['experienceYears'] as num).toInt(),
-        rating: (json['rating'] as num).toDouble(),
-        reviewsCount: (json['reviewsCount'] as num).toInt(),
-        priceKzt: (json['priceKzt'] as num).toInt(),
-        education: LocalizedText.fromJson(json['education']),
-        qualification: LocalizedText.fromJson(json['qualification']),
-        about: LocalizedText.fromJson(json['about']),
-        languages: ((json['languages'] ?? const []) as List).cast<String>(),
-        services: ((json['services'] ?? const []) as List)
-            .map((e) => ClinicService.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        avatarSeed: (json['avatarSeed'] as num?)?.toInt() ?? 0,
-        isFemale: json['female'] as bool? ?? false,
-        photoUrl: json['photoUrl'] as String?,
-      );
+    id: json['id'].toString(),
+    fullName: json['fullName'] as String,
+    specialty: Specialty.fromId(json['specialty'] as String),
+    clinicId: json['clinicId'].toString(),
+    experienceYears: (json['experienceYears'] as num).toInt(),
+    rating: (json['rating'] as num).toDouble(),
+    reviewsCount: (json['reviewsCount'] as num).toInt(),
+    priceKzt: (json['priceKzt'] as num).toInt(),
+    education: LocalizedText.fromJson(json['education']),
+    qualification: LocalizedText.fromJson(json['qualification']),
+    about: LocalizedText.fromJson(json['about']),
+    languages: ((json['languages'] ?? const []) as List).cast<String>(),
+    services: ((json['services'] ?? const []) as List)
+        .map((e) => ClinicService.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    avatarSeed: (json['avatarSeed'] as num?)?.toInt() ?? 0,
+    isFemale: json['female'] as bool? ?? false,
+    photoUrl: json['photoUrl'] as String?,
+  );
 }
 
 /// Recurring weekly working pattern of a doctor.
@@ -102,9 +102,9 @@ class TimeSlot {
   final bool available;
 
   factory TimeSlot.fromJson(Map<String, dynamic> json) => TimeSlot(
-        start: DateTime.parse(json['start'] as String).toLocal(),
-        available: json['available'] as bool,
-      );
+    start: DateTime.parse(json['start'] as String).toLocal(),
+    available: json['available'] as bool,
+  );
 }
 
 class DoctorReview {
@@ -125,11 +125,11 @@ class DoctorReview {
   final DateTime date;
 
   factory DoctorReview.fromJson(Map<String, dynamic> json) => DoctorReview(
-        id: json['id'].toString(),
-        doctorId: json['doctorId'].toString(),
-        author: json['author'] as String,
-        rating: (json['rating'] as num).toInt(),
-        text: json['text'] as String,
-        date: DateTime.parse(json['date'] as String),
-      );
+    id: json['id'].toString(),
+    doctorId: json['doctorId'].toString(),
+    author: json['author'] as String,
+    rating: (json['rating'] as num).toInt(),
+    text: json['text'] as String,
+    date: DateTime.parse(json['date'] as String),
+  );
 }

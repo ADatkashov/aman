@@ -17,9 +17,17 @@ import '../../catalog/domain/clinic.dart';
 import '../../catalog/presentation/widgets/clinic_card.dart';
 import 'map_adapter.dart';
 
-Future<void> openRoute(BuildContext context, WidgetRef ref, Clinic clinic) async {
-  final ok = await ref.read(urlOpenerProvider).open(ExternalLinks.route(clinic, ref.read(appConfigProvider)));
-  if (!ok && context.mounted) showSnack(context, context.l10n.routeOpenFailed, error: true);
+Future<void> openRoute(
+  BuildContext context,
+  WidgetRef ref,
+  Clinic clinic,
+) async {
+  final ok = await ref
+      .read(urlOpenerProvider)
+      .open(ExternalLinks.route(clinic, ref.read(appConfigProvider)));
+  if (!ok && context.mounted) {
+    showSnack(context, context.l10n.routeOpenFailed, error: true);
+  }
 }
 
 class ClinicsScreen extends ConsumerStatefulWidget {
@@ -57,14 +65,19 @@ class _ClinicsScreenState extends ConsumerState<ClinicsScreen> {
         onRetry: () => ref.invalidate(clinicsProvider),
         builder: (all) {
           final cities = {for (final c in all) c.city}.toList()..sort();
-          final byCity = _city == null ? all : all.where((c) => c.city == _city).toList();
+          final byCity = _city == null
+              ? all
+              : all.where((c) => c.city == _city).toList();
           final list = searchClinics(byCity, _query);
           final selected = list.where((c) => c.id == _selectedId).firstOrNull;
           return Column(
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 10),
-                child: SearchField(hint: l.searchClinicsHint, onChanged: (v) => setState(() => _query = v)),
+                child: SearchField(
+                  hint: l.searchClinicsHint,
+                  onChanged: (v) => setState(() => _query = v),
+                ),
               ),
               SizedBox(
                 height: 42,
@@ -72,7 +85,11 @@ class _ClinicsScreenState extends ConsumerState<ClinicsScreen> {
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   children: [
-                    AmanFilterChip(label: l.all, selected: _city == null, onTap: () => setState(() => _city = null)),
+                    AmanFilterChip(
+                      label: l.all,
+                      selected: _city == null,
+                      onTap: () => setState(() => _city = null),
+                    ),
                     for (final city in cities) ...[
                       const SizedBox(width: 8),
                       AmanFilterChip(
@@ -90,36 +107,51 @@ class _ClinicsScreenState extends ConsumerState<ClinicsScreen> {
               const SizedBox(height: 10),
               Expanded(
                 child: list.isEmpty
-                    ? EmptyState(icon: Icons.location_off_rounded, title: l.noClinicsTitle)
+                    ? EmptyState(
+                        icon: Icons.location_off_rounded,
+                        title: l.noClinicsTitle,
+                      )
                     : _map
-                        ? Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: adapter.build(
-                                    context: context,
-                                    clinics: list,
-                                    selectedId: _selectedId,
-                                    onSelect: (c) => setState(() => _selectedId = c.id),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                if (!adapter.isLive) Text(l.mapDemoNote, style: Theme.of(context).textTheme.bodySmall, textAlign: TextAlign.center),
-                                const SizedBox(height: 8),
-                                if (selected != null)
-                                  _SelectedClinicCard(clinic: selected)
-                                else
-                                  Text(l.clinicsCount(list.length), style: Theme.of(context).textTheme.titleSmall),
-                              ],
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: adapter.build(
+                                context: context,
+                                clinics: list,
+                                selectedId: _selectedId,
+                                onSelect: (c) =>
+                                    setState(() => _selectedId = c.id),
+                              ),
                             ),
-                          )
-                        : ListView.separated(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
-                            itemCount: list.length,
-                            separatorBuilder: (_, _) => const SizedBox(height: 14),
-                            itemBuilder: (_, i) => ClinicCard(clinic: list[i], onTap: () => context.push('/clinics/${list[i].id}')),
-                          ),
+                            const SizedBox(height: 8),
+                            if (!adapter.isLive)
+                              Text(
+                                l.mapDemoNote,
+                                style: Theme.of(context).textTheme.bodySmall,
+                                textAlign: TextAlign.center,
+                              ),
+                            const SizedBox(height: 8),
+                            if (selected != null)
+                              _SelectedClinicCard(clinic: selected)
+                            else
+                              Text(
+                                l.clinicsCount(list.length),
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                          ],
+                        ),
+                      )
+                    : ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
+                        itemCount: list.length,
+                        separatorBuilder: (_, _) => const SizedBox(height: 14),
+                        itemBuilder: (_, i) => ClinicCard(
+                          clinic: list[i],
+                          onTap: () => context.push('/clinics/${list[i].id}'),
+                        ),
+                      ),
               ),
             ],
           );
@@ -142,18 +174,38 @@ class _SelectedClinicCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [
-            Expanded(child: Text(clinic.name.replaceAll(' · DEMO', ''), style: t.titleSmall)),
-            RatingBadge(rating: clinic.rating),
-          ]),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  clinic.name.replaceAll(' · DEMO', ''),
+                  style: t.titleSmall,
+                ),
+              ),
+              RatingBadge(rating: clinic.rating),
+            ],
+          ),
           const SizedBox(height: 4),
           Text(clinic.fullAddress, style: t.bodySmall),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: SecondaryButton(label: l.details, height: 44, onPressed: () => context.push('/clinics/${clinic.id}'))),
+              Expanded(
+                child: SecondaryButton(
+                  label: l.details,
+                  height: 44,
+                  onPressed: () => context.push('/clinics/${clinic.id}'),
+                ),
+              ),
               const SizedBox(width: 10),
-              Expanded(child: PrimaryButton(label: l.buildRoute, height: 44, icon: Icons.directions_rounded, onPressed: () => openRoute(context, ref, clinic))),
+              Expanded(
+                child: PrimaryButton(
+                  label: l.buildRoute,
+                  height: 44,
+                  icon: Icons.directions_rounded,
+                  onPressed: () => openRoute(context, ref, clinic),
+                ),
+              ),
             ],
           ),
         ],

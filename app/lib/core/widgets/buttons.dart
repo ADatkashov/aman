@@ -34,20 +34,30 @@ class PrimaryButton extends StatelessWidget {
               key: ValueKey('loading'),
               width: 22,
               height: 22,
-              child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white),
+              child: CircularProgressIndicator(
+                strokeWidth: 2.4,
+                color: Colors.white,
+              ),
             )
           : Row(
               key: const ValueKey('label'),
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (icon != null) ...[Icon(icon, size: 20, color: Colors.white), const SizedBox(width: 8)],
+                if (icon != null) ...[
+                  Icon(icon, size: 20, color: Colors.white),
+                  const SizedBox(width: 8),
+                ],
                 Flexible(
                   child: Text(
                     label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ],
@@ -73,7 +83,13 @@ class PrimaryButton extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
               boxShadow: enabled
-                  ? [BoxShadow(color: p.primary.withValues(alpha: 0.28), blurRadius: 18, offset: const Offset(0, 8))]
+                  ? [
+                      BoxShadow(
+                        color: p.primary.withValues(alpha: 0.28),
+                        blurRadius: 18,
+                        offset: const Offset(0, 8),
+                      ),
+                    ]
                   : null,
             ),
             child: InkWell(
@@ -135,7 +151,11 @@ class SecondaryButton extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             foregroundColor: color,
             backgroundColor: destructive ? Colors.transparent : p.lightBlue,
-            side: BorderSide(color: destructive ? p.error.withValues(alpha: 0.5) : Colors.transparent),
+            side: BorderSide(
+              color: destructive
+                  ? p.error.withValues(alpha: 0.5)
+                  : Colors.transparent,
+            ),
             shape: RoundedRectangleBorder(borderRadius: Corners.buttonRadius),
             padding: const EdgeInsets.symmetric(horizontal: 20),
           ),
@@ -143,12 +163,20 @@ class SecondaryButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (icon != null) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
+              if (icon != null) ...[
+                Icon(icon, size: 20),
+                const SizedBox(width: 8),
+              ],
               Flexible(
-                child: Text(label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ],
           ),

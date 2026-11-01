@@ -35,9 +35,11 @@ class _DoctorsScreenState extends ConsumerState<DoctorsScreen> {
     _search = TextEditingController(text: ref.read(doctorFilterProvider).query);
     if (widget.favoritesOnly) {
       // Deferred: providers must not be modified while the tree is building.
-      Future.microtask(() => ref
-          .read(doctorFilterProvider.notifier)
-          .set(DoctorFilter.empty.copyWith(favoritesOnly: true)));
+      Future.microtask(
+        () => ref
+            .read(doctorFilterProvider.notifier)
+            .set(DoctorFilter.empty.copyWith(favoritesOnly: true)),
+      );
     }
   }
 
@@ -47,8 +49,9 @@ class _DoctorsScreenState extends ConsumerState<DoctorsScreen> {
     super.dispose();
   }
 
-  void _update(DoctorFilter Function(DoctorFilter) fn) =>
-      ref.read(doctorFilterProvider.notifier).set(fn(ref.read(doctorFilterProvider)));
+  void _update(DoctorFilter Function(DoctorFilter) fn) => ref
+      .read(doctorFilterProvider.notifier)
+      .set(fn(ref.read(doctorFilterProvider)));
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +67,13 @@ class _DoctorsScreenState extends ConsumerState<DoctorsScreen> {
         actions: [
           if (!widget.favoritesOnly)
             AmanIconButton(
-              icon: filter.favoritesOnly ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+              icon: filter.favoritesOnly
+                  ? Icons.favorite_rounded
+                  : Icons.favorite_border_rounded,
               tooltip: l.favoritesOnly,
               color: filter.favoritesOnly ? context.palette.error : null,
-              onPressed: () => _update((f) => f.copyWith(favoritesOnly: !f.favoritesOnly)),
+              onPressed: () =>
+                  _update((f) => f.copyWith(favoritesOnly: !f.favoritesOnly)),
             ),
         ],
       ),
@@ -79,7 +85,9 @@ class _DoctorsScreenState extends ConsumerState<DoctorsScreen> {
               controller: _search,
               hint: l.searchDoctorsHint,
               onChanged: (v) => _update((f) => f.copyWith(query: v)),
-              filterBadge: filter.activeAdvancedCount + (filter.sort != DoctorSort.popularity ? 1 : 0),
+              filterBadge:
+                  filter.activeAdvancedCount +
+                  (filter.sort != DoctorSort.popularity ? 1 : 0),
               onFilterTap: () => showDoctorFilterSheet(context),
             ),
           ),
@@ -99,7 +107,11 @@ class _DoctorsScreenState extends ConsumerState<DoctorsScreen> {
                   AmanFilterChip(
                     label: s.label(l),
                     selected: filter.specialty == s,
-                    onTap: () => _update((f) => f.copyWith(specialty: filter.specialty == s ? null : s)),
+                    onTap: () => _update(
+                      (f) => f.copyWith(
+                        specialty: filter.specialty == s ? null : s,
+                      ),
+                    ),
                   ),
                 ],
               ],
@@ -119,23 +131,33 @@ class _DoctorsScreenState extends ConsumerState<DoctorsScreen> {
                 onRetry: () => ref.invalidate(doctorsProvider),
                 builder: (list) {
                   if (list.isEmpty) {
-                    return ListView(children: [
-                      const SizedBox(height: 60),
-                      EmptyState(
-                        icon: widget.favoritesOnly || filter.favoritesOnly
-                            ? Icons.favorite_border_rounded
-                            : Icons.search_off_rounded,
-                        title: widget.favoritesOnly ? l.noFavoritesTitle : l.noDoctorsTitle,
-                        body: widget.favoritesOnly ? l.noFavoritesBody : l.noDoctorsBody,
-                        actionLabel: widget.favoritesOnly ? null : l.resetFilters,
-                        onAction: widget.favoritesOnly
-                            ? null
-                            : () {
-                                _search.clear();
-                                ref.read(doctorFilterProvider.notifier).reset();
-                              },
-                      ),
-                    ]);
+                    return ListView(
+                      children: [
+                        const SizedBox(height: 60),
+                        EmptyState(
+                          icon: widget.favoritesOnly || filter.favoritesOnly
+                              ? Icons.favorite_border_rounded
+                              : Icons.search_off_rounded,
+                          title: widget.favoritesOnly
+                              ? l.noFavoritesTitle
+                              : l.noDoctorsTitle,
+                          body: widget.favoritesOnly
+                              ? l.noFavoritesBody
+                              : l.noDoctorsBody,
+                          actionLabel: widget.favoritesOnly
+                              ? null
+                              : l.resetFilters,
+                          onAction: widget.favoritesOnly
+                              ? null
+                              : () {
+                                  _search.clear();
+                                  ref
+                                      .read(doctorFilterProvider.notifier)
+                                      .reset();
+                                },
+                        ),
+                      ],
+                    );
                   }
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
@@ -147,7 +169,9 @@ class _DoctorsScreenState extends ConsumerState<DoctorsScreen> {
                         doctor: d,
                         onTap: () => context.push('/doctors/${d.id}'),
                         onBook: () {
-                          ref.read(bookingDraftProvider.notifier).start(doctor: d);
+                          ref
+                              .read(bookingDraftProvider.notifier)
+                              .start(doctor: d);
                           context.push('/booking');
                         },
                       );

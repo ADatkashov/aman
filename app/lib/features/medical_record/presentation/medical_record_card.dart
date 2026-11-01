@@ -6,17 +6,17 @@ import '../../../core/widgets/aman_card.dart';
 import '../domain/medical_entry.dart';
 
 IconData entryIcon(MedicalEntryType t) => switch (t) {
-      MedicalEntryType.visit => Icons.event_available_rounded,
-      MedicalEntryType.diagnosis => Icons.assignment_rounded,
-      MedicalEntryType.prescription => Icons.medication_rounded,
-      MedicalEntryType.allergy => Icons.warning_amber_rounded,
-      MedicalEntryType.chronic => Icons.monitor_heart_rounded,
-      MedicalEntryType.pastIllness => Icons.history_rounded,
-      MedicalEntryType.procedure => Icons.healing_rounded,
-      MedicalEntryType.vaccination => Icons.vaccines_rounded,
-      MedicalEntryType.lab => Icons.science_rounded,
-      MedicalEntryType.document => Icons.description_rounded,
-    };
+  MedicalEntryType.visit => Icons.event_available_rounded,
+  MedicalEntryType.diagnosis => Icons.assignment_rounded,
+  MedicalEntryType.prescription => Icons.medication_rounded,
+  MedicalEntryType.allergy => Icons.warning_amber_rounded,
+  MedicalEntryType.chronic => Icons.monitor_heart_rounded,
+  MedicalEntryType.pastIllness => Icons.history_rounded,
+  MedicalEntryType.procedure => Icons.healing_rounded,
+  MedicalEntryType.vaccination => Icons.vaccines_rounded,
+  MedicalEntryType.lab => Icons.science_rounded,
+  MedicalEntryType.document => Icons.description_rounded,
+};
 
 class MedicalRecordCard extends StatelessWidget {
   const MedicalRecordCard({super.key, required this.entry, this.onTap});
@@ -39,7 +39,10 @@ class MedicalRecordCard extends StatelessWidget {
           Container(
             width: 42,
             height: 42,
-            decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(13)),
+            decoration: BoxDecoration(
+              color: p.lightBlue,
+              borderRadius: BorderRadius.circular(13),
+            ),
             child: Icon(entryIcon(entry.type), color: p.primary, size: 22),
           ),
           const SizedBox(width: 12),
@@ -54,7 +57,10 @@ class MedicalRecordCard extends StatelessWidget {
                 ],
                 const SizedBox(height: 6),
                 Text(
-                  [context.fmt.shortDate(entry.date), if (entry.doctorName != null) entry.doctorName!].join(' · '),
+                  [
+                    context.fmt.shortDate(entry.date),
+                    if (entry.doctorName != null) entry.doctorName!,
+                  ].join(' · '),
                   style: t.bodySmall,
                 ),
                 const SizedBox(height: 2),
@@ -63,7 +69,10 @@ class MedicalRecordCard extends StatelessWidget {
                     Icon(Icons.verified_rounded, size: 13, color: p.success),
                     const SizedBox(width: 4),
                     Expanded(
-                      child: Text(l.recConfirmedBy(entry.sourceRef), style: t.labelSmall?.copyWith(color: p.success)),
+                      child: Text(
+                        l.recConfirmedBy(entry.sourceRef),
+                        style: t.labelSmall?.copyWith(color: p.success),
+                      ),
                     ),
                   ],
                 ),

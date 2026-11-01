@@ -27,14 +27,13 @@ class BookingDraft {
     String? reason,
     bool clearSlot = false,
     bool clearDoctor = false,
-  }) =>
-      BookingDraft(
-        specialty: specialty ?? this.specialty,
-        doctor: clearDoctor ? null : (doctor ?? this.doctor),
-        date: date ?? this.date,
-        slot: clearSlot ? null : (slot ?? this.slot),
-        reason: reason ?? this.reason,
-      );
+  }) => BookingDraft(
+    specialty: specialty ?? this.specialty,
+    doctor: clearDoctor ? null : (doctor ?? this.doctor),
+    date: date ?? this.date,
+    slot: clearSlot ? null : (slot ?? this.slot),
+    reason: reason ?? this.reason,
+  );
 }
 
 class BookingDraftController extends Notifier<BookingDraft> {
@@ -42,7 +41,8 @@ class BookingDraftController extends Notifier<BookingDraft> {
   BookingDraft build() => const BookingDraft();
 
   /// Starts a new wizard session, optionally with pre-selected steps.
-  void start({Specialty? specialty, Doctor? doctor, DateTime? slot}) => state = BookingDraft(
+  void start({Specialty? specialty, Doctor? doctor, DateTime? slot}) =>
+      state = BookingDraft(
         specialty: doctor?.specialty ?? specialty,
         doctor: doctor,
         date: slot == null ? null : DateTime(slot.year, slot.month, slot.day),
@@ -58,8 +58,11 @@ class BookingDraftController extends Notifier<BookingDraft> {
     );
   }
 
-  void pickDoctor(Doctor d) =>
-      state = state.copyWith(doctor: d, specialty: d.specialty, clearSlot: true);
+  void pickDoctor(Doctor d) => state = state.copyWith(
+    doctor: d,
+    specialty: d.specialty,
+    clearSlot: true,
+  );
 
   void pickDate(DateTime d) => state = state.copyWith(date: d, clearSlot: true);
   void pickSlot(DateTime s) => state = state.copyWith(slot: s);
@@ -67,4 +70,6 @@ class BookingDraftController extends Notifier<BookingDraft> {
 }
 
 final bookingDraftProvider =
-    NotifierProvider<BookingDraftController, BookingDraft>(BookingDraftController.new);
+    NotifierProvider<BookingDraftController, BookingDraft>(
+      BookingDraftController.new,
+    );

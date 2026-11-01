@@ -5,7 +5,8 @@ enum AppointmentStatus {
   completed,
   cancelled;
 
-  static AppointmentStatus fromId(String id) => AppointmentStatus.values.firstWhere(
+  static AppointmentStatus fromId(String id) =>
+      AppointmentStatus.values.firstWhere(
         (s) => s.name.toLowerCase() == id.toLowerCase(),
         orElse: () => AppointmentStatus.confirmed,
       );
@@ -66,38 +67,37 @@ class Appointment {
     String? cancelReason,
     int? rescheduledCount,
     int? reviewRating,
-  }) =>
-      Appointment(
-        id: id,
-        number: number,
-        doctorId: doctorId,
-        clinicId: clinicId,
-        start: start ?? this.start,
-        durationMinutes: durationMinutes,
-        status: status ?? this.status,
-        reason: reason,
-        priceKzt: priceKzt,
-        createdAt: createdAt,
-        rescheduledCount: rescheduledCount ?? this.rescheduledCount,
-        cancelReason: cancelReason ?? this.cancelReason,
-        reviewRating: reviewRating ?? this.reviewRating,
-      );
+  }) => Appointment(
+    id: id,
+    number: number,
+    doctorId: doctorId,
+    clinicId: clinicId,
+    start: start ?? this.start,
+    durationMinutes: durationMinutes,
+    status: status ?? this.status,
+    reason: reason,
+    priceKzt: priceKzt,
+    createdAt: createdAt,
+    rescheduledCount: rescheduledCount ?? this.rescheduledCount,
+    cancelReason: cancelReason ?? this.cancelReason,
+    reviewRating: reviewRating ?? this.reviewRating,
+  );
 
   factory Appointment.fromJson(Map<String, dynamic> json) => Appointment(
-        id: json['id'].toString(),
-        number: json['number'] as String,
-        doctorId: json['doctorId'].toString(),
-        clinicId: json['clinicId'].toString(),
-        start: DateTime.parse(json['start'] as String).toLocal(),
-        durationMinutes: (json['durationMinutes'] as num).toInt(),
-        status: AppointmentStatus.fromId(json['status'] as String),
-        reason: (json['reason'] ?? '') as String,
-        priceKzt: (json['priceKzt'] as num).toInt(),
-        createdAt: DateTime.parse(json['createdAt'] as String).toLocal(),
-        rescheduledCount: (json['rescheduledCount'] as num?)?.toInt() ?? 0,
-        cancelReason: json['cancelReason'] as String?,
-        reviewRating: (json['reviewRating'] as num?)?.toInt(),
-      );
+    id: json['id'].toString(),
+    number: json['number'] as String,
+    doctorId: json['doctorId'].toString(),
+    clinicId: json['clinicId'].toString(),
+    start: DateTime.parse(json['start'] as String).toLocal(),
+    durationMinutes: (json['durationMinutes'] as num).toInt(),
+    status: AppointmentStatus.fromId(json['status'] as String),
+    reason: (json['reason'] ?? '') as String,
+    priceKzt: (json['priceKzt'] as num).toInt(),
+    createdAt: DateTime.parse(json['createdAt'] as String).toLocal(),
+    rescheduledCount: (json['rescheduledCount'] as num?)?.toInt() ?? 0,
+    cancelReason: json['cancelReason'] as String?,
+    reviewRating: (json['reviewRating'] as num?)?.toInt(),
+  );
 }
 
 /// Errors surfaced by booking operations. Messages are mapped to localized

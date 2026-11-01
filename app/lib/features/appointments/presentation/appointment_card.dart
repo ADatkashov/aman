@@ -13,16 +13,23 @@ import '../domain/appointment.dart';
 
 /// Status shown to the user: a confirmed visit in the past reads as completed.
 AppointmentStatus displayStatus(Appointment a, DateTime now) =>
-    a.status == AppointmentStatus.confirmed && a.isCompleted(now) ? AppointmentStatus.completed : a.status;
+    a.status == AppointmentStatus.confirmed && a.isCompleted(now)
+    ? AppointmentStatus.completed
+    : a.status;
 
 BadgeTone toneFor(AppointmentStatus s) => switch (s) {
-      AppointmentStatus.confirmed => BadgeTone.info,
-      AppointmentStatus.completed => BadgeTone.success,
-      AppointmentStatus.cancelled => BadgeTone.error,
-    };
+  AppointmentStatus.confirmed => BadgeTone.info,
+  AppointmentStatus.completed => BadgeTone.success,
+  AppointmentStatus.cancelled => BadgeTone.error,
+};
 
 class AppointmentCard extends ConsumerWidget {
-  const AppointmentCard({super.key, required this.appointment, required this.onTap, this.trailing});
+  const AppointmentCard({
+    super.key,
+    required this.appointment,
+    required this.onTap,
+    this.trailing,
+  });
 
   final Appointment appointment;
   final VoidCallback onTap;
@@ -41,22 +48,38 @@ class AppointmentCard extends ConsumerWidget {
 
     return AmanCard(
       onTap: onTap,
-      semanticLabel: '${doctor?.fullName ?? ''} ${fmt.dateTime(appointment.start)}',
+      semanticLabel:
+          '${doctor?.fullName ?? ''} ${fmt.dateTime(appointment.start)}',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               if (doctor != null)
-                DoctorAvatar(seed: doctor.avatarSeed, size: 52, female: doctor.isFemale, photoUrl: doctor.photoUrl),
+                DoctorAvatar(
+                  seed: doctor.avatarSeed,
+                  size: 52,
+                  female: doctor.isFemale,
+                  photoUrl: doctor.photoUrl,
+                ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(doctor?.fullName ?? '—', maxLines: 2, overflow: TextOverflow.ellipsis, style: t.titleSmall),
-                    Text(doctor?.specialty.label(l) ?? '',
-                        style: t.bodySmall?.copyWith(color: p.primary, fontWeight: FontWeight.w600)),
+                    Text(
+                      doctor?.fullName ?? '—',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: t.titleSmall,
+                    ),
+                    Text(
+                      doctor?.specialty.label(l) ?? '',
+                      style: t.bodySmall?.copyWith(
+                        color: p.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const SizedBox(height: 6),
                     StatusBadge(label: status.label(l), tone: toneFor(status)),
                   ],
@@ -67,14 +90,22 @@ class AppointmentCard extends ConsumerWidget {
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(14)),
+            decoration: BoxDecoration(
+              color: p.lightBlue,
+              borderRadius: BorderRadius.circular(14),
+            ),
             child: Column(
               children: [
                 Row(
                   children: [
                     Icon(Icons.event_rounded, size: 18, color: p.primary),
                     const SizedBox(width: 8),
-                    Expanded(child: Text(whenLabel(l, fmt, appointment.start, now), style: t.titleSmall)),
+                    Expanded(
+                      child: Text(
+                        whenLabel(l, fmt, appointment.start, now),
+                        style: t.titleSmall,
+                      ),
+                    ),
                     Text('#${appointment.number}', style: t.labelSmall),
                   ],
                 ),
@@ -82,11 +113,19 @@ class AppointmentCard extends ConsumerWidget {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      Icon(Icons.location_on_outlined, size: 18, color: p.textSecondary),
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: 18,
+                        color: p.textSecondary,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text(clinic.name.replaceAll(' · DEMO', ''),
-                            maxLines: 1, overflow: TextOverflow.ellipsis, style: t.bodySmall),
+                        child: Text(
+                          clinic.name.replaceAll(' · DEMO', ''),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: t.bodySmall,
+                        ),
                       ),
                     ],
                   ),

@@ -35,7 +35,7 @@ class DemoAccountRecord {
 /// so that the UI behaves identically against either implementation.
 class DemoStore {
   DemoStore({DateTime Function()? clock, this.latency = Duration.zero})
-      : clock = clock ?? DateTime.now {
+    : clock = clock ?? DateTime.now {
     final now = this.clock();
     _seed = PatientSeed(now);
     appointments = [..._seed.appointments];
@@ -80,7 +80,8 @@ class DemoStore {
   int _idSeq = 1000;
   String? currentPatientId;
 
-  Future<void> delay() => latency == Duration.zero ? Future.value() : Future.delayed(latency);
+  Future<void> delay() =>
+      latency == Duration.zero ? Future.value() : Future.delayed(latency);
 
   String nextId(String prefix) => '$prefix${_idSeq++}';
 
@@ -92,23 +93,31 @@ class DemoStore {
     return base64Url.encode(List.generate(12, (_) => r.nextInt(256)));
   }
 
-  Doctor doctorById(String id) =>
-      doctors.firstWhere((d) => d.id == id, orElse: () => throw const BookingException(BookingFailure.notFound));
+  Doctor doctorById(String id) => doctors.firstWhere(
+    (d) => d.id == id,
+    orElse: () => throw const BookingException(BookingFailure.notFound),
+  );
 
-  Clinic clinicById(String id) =>
-      clinics.firstWhere((c) => c.id == id, orElse: () => throw const BookingException(BookingFailure.notFound));
+  Clinic clinicById(String id) => clinics.firstWhere(
+    (c) => c.id == id,
+    orElse: () => throw const BookingException(BookingFailure.notFound),
+  );
 
-  Appointment appointmentById(String id) => appointments.firstWhere((a) => a.id == id,
-      orElse: () => throw const BookingException(BookingFailure.notFound));
+  Appointment appointmentById(String id) => appointments.firstWhere(
+    (a) => a.id == id,
+    orElse: () => throw const BookingException(BookingFailure.notFound),
+  );
 
   /// Start times of all active appointments of [doctorId], including those of
   /// other (simulated) patients.
   Set<DateTime> bookedStarts(String doctorId, {String? excludeAppointmentId}) {
     final own = appointments
-        .where((a) =>
-            a.doctorId == doctorId &&
-            a.status == AppointmentStatus.confirmed &&
-            a.id != excludeAppointmentId)
+        .where(
+          (a) =>
+              a.doctorId == doctorId &&
+              a.status == AppointmentStatus.confirmed &&
+              a.id != excludeAppointmentId,
+        )
         .map((a) => a.start);
     return {...?_foreignBookings[doctorId], ...own};
   }
@@ -136,15 +145,22 @@ class DemoStore {
   }
 
   /// Validates and books a slot atomically (no awaits between check and add).
-  Appointment book({required String doctorId, required DateTime start, required String reason}) {
-    if (reason.trim().length < 3) throw const BookingException(BookingFailure.reasonRequired);
+  Appointment book({
+    required String doctorId,
+    required DateTime start,
+    required String reason,
+  }) {
+    if (reason.trim().length < 3) {
+      throw const BookingException(BookingFailure.reasonRequired);
+    }
     final doctor = doctorById(doctorId);
     final schedule = schedules[doctorId]!;
     final now = clock();
     if (!start.isAfter(now.add(ScheduleService.leadTime))) {
       throw const BookingException(BookingFailure.slotInPast);
     }
-    if (!ScheduleService.isWithinHorizon(start, now) || !ScheduleService.isOfferedSlot(schedule, start)) {
+    if (!ScheduleService.isWithinHorizon(start, now) ||
+        !ScheduleService.isOfferedSlot(schedule, start)) {
       throw const BookingException(BookingFailure.outsideSchedule);
     }
     if (bookedStarts(doctorId).contains(start)) {
@@ -167,25 +183,30 @@ class DemoStore {
       createdAt: now,
     );
     appointments = [appointment, ...appointments];
-    pushNotification(
-      NotificationType.appointmentCreated,
-      {'doctor': doctor.shortName, 'start': start.toIso8601String(), 'number': appointment.number},
-      '/appointments/${appointment.id}',
-    );
+    pushNotification(NotificationType.appointmentCreated, {
+      'doctor': doctor.shortName,
+      'start': start.toIso8601String(),
+      'number': appointment.number,
+    }, '/appointments/${appointment.id}');
     return appointment;
   }
 
   Appointment cancel(String id, {String? reason}) {
     final a = appointmentById(id);
     final clinic = clinicById(a.clinicId);
-    if (!a.canChange(clinic, clock())) throw const BookingException(BookingFailure.tooLateToChange);
-    final updated = a.copyWith(status: AppointmentStatus.cancelled, cancelReason: reason ?? '');
-    _replace(updated);
-    pushNotification(
-      NotificationType.appointmentCancelled,
-      {'doctor': doctorById(a.doctorId).shortName, 'start': a.start.toIso8601String(), 'number': a.number},
-      '/appointments/${a.id}',
+    if (!a.canChange(clinic, clock())) {
+      throw const BookingException(BookingFailure.tooLateToChange);
+    }
+    final updated = a.copyWith(
+      status: AppointmentStatus.cancelled,
+      cancelReason: reason ?? '',
     );
+    _replace(updated);
+    pushNotification(NotificationType.appointmentCancelled, {
+      'doctor': doctorById(a.doctorId).shortName,
+      'start': a.start.toIso8601String(),
+      'number': a.number,
+    }, '/appointments/${a.id}');
     return updated;
   }
 
@@ -193,24 +214,33 @@ class DemoStore {
     final a = appointmentById(id);
     final clinic = clinicById(a.clinicId);
     final now = clock();
-    if (!a.canChange(clinic, now)) throw const BookingException(BookingFailure.tooLateToChange);
+    if (!a.canChange(clinic, now)) {
+      throw const BookingException(BookingFailure.tooLateToChange);
+    }
     final schedule = schedules[a.doctorId]!;
     if (!newStart.isAfter(now.add(ScheduleService.leadTime))) {
       throw const BookingException(BookingFailure.slotInPast);
     }
-    if (!ScheduleService.isWithinHorizon(newStart, now) || !ScheduleService.isOfferedSlot(schedule, newStart)) {
+    if (!ScheduleService.isWithinHorizon(newStart, now) ||
+        !ScheduleService.isOfferedSlot(schedule, newStart)) {
       throw const BookingException(BookingFailure.outsideSchedule);
     }
-    if (bookedStarts(a.doctorId, excludeAppointmentId: a.id).contains(newStart)) {
+    if (bookedStarts(
+      a.doctorId,
+      excludeAppointmentId: a.id,
+    ).contains(newStart)) {
       throw const BookingException(BookingFailure.slotTaken);
     }
-    final updated = a.copyWith(start: newStart, rescheduledCount: a.rescheduledCount + 1);
-    _replace(updated);
-    pushNotification(
-      NotificationType.appointmentRescheduled,
-      {'doctor': doctorById(a.doctorId).shortName, 'start': newStart.toIso8601String(), 'number': a.number},
-      '/appointments/${a.id}',
+    final updated = a.copyWith(
+      start: newStart,
+      rescheduledCount: a.rescheduledCount + 1,
     );
+    _replace(updated);
+    pushNotification(NotificationType.appointmentRescheduled, {
+      'doctor': doctorById(a.doctorId).shortName,
+      'start': newStart.toIso8601String(),
+      'number': a.number,
+    }, '/appointments/${a.id}');
     return updated;
   }
 
@@ -219,17 +249,25 @@ class DemoStore {
     if (!a.isCompleted(clock()) || a.status == AppointmentStatus.cancelled) {
       throw const BookingException(BookingFailure.notCompleted);
     }
-    if (a.reviewRating != null) throw const BookingException(BookingFailure.alreadyReviewed);
+    if (a.reviewRating != null) {
+      throw const BookingException(BookingFailure.alreadyReviewed);
+    }
     final updated = a.copyWith(reviewRating: rating.clamp(1, 5));
     _replace(updated);
     return updated;
   }
 
   void _replace(Appointment updated) {
-    appointments = [for (final a in appointments) a.id == updated.id ? updated : a];
+    appointments = [
+      for (final a in appointments) a.id == updated.id ? updated : a,
+    ];
   }
 
-  void pushNotification(NotificationType type, Map<String, String> params, String? route) {
+  void pushNotification(
+    NotificationType type,
+    Map<String, String> params,
+    String? route,
+  ) {
     notifications = [
       AppNotification(
         id: nextId('n'),

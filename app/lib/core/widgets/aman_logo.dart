@@ -47,8 +47,15 @@ class _LogoPainter extends CustomPainter {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: monochrome
-            ? [Colors.white.withValues(alpha: 0.22), Colors.white.withValues(alpha: 0.12)]
-            : [AmanPalette.light.secondary, AmanPalette.light.primary, AmanPalette.light.primaryDark],
+            ? [
+                Colors.white.withValues(alpha: 0.22),
+                Colors.white.withValues(alpha: 0.12),
+              ]
+            : [
+                AmanPalette.light.secondary,
+                AmanPalette.light.primary,
+                AmanPalette.light.primaryDark,
+              ],
       ).createShader(Offset.zero & size);
     canvas.drawPath(shield, fill);
     if (monochrome) {
@@ -69,8 +76,16 @@ class _LogoPainter extends CustomPainter {
       ..strokeWidth = w * 0.085;
 
     // Top and bottom arms of the cross; the heartbeat line is its horizontal bar.
-    canvas.drawLine(Offset(w * 0.5, h * 0.21), Offset(w * 0.5, h * 0.27), stroke);
-    canvas.drawLine(Offset(w * 0.5, h * 0.73), Offset(w * 0.5, h * 0.79), stroke);
+    canvas.drawLine(
+      Offset(w * 0.5, h * 0.21),
+      Offset(w * 0.5, h * 0.27),
+      stroke,
+    );
+    canvas.drawLine(
+      Offset(w * 0.5, h * 0.73),
+      Offset(w * 0.5, h * 0.79),
+      stroke,
+    );
 
     final pulse = Path()
       ..moveTo(w * 0.20, h * 0.50)
@@ -83,12 +98,18 @@ class _LogoPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _LogoPainter old) => old.monochrome != monochrome;
+  bool shouldRepaint(covariant _LogoPainter old) =>
+      old.monochrome != monochrome;
 }
 
 /// Logo mark + "AMAN" wordmark.
 class AmanLogo extends StatelessWidget {
-  const AmanLogo({super.key, this.size = 40, this.light = false, this.showWordmark = true});
+  const AmanLogo({
+    super.key,
+    this.size = 40,
+    this.light = false,
+    this.showWordmark = true,
+  });
 
   final double size;
   final bool light;

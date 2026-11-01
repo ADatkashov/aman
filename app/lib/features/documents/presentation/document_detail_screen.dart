@@ -25,7 +25,10 @@ class DocumentDetailScreen extends ConsumerWidget {
       appBar: CustomAppBar(title: l.documentsTitle),
       body: doc.when(
         loading: () => const LoadingState(itemCount: 2, itemHeight: 160),
-        error: (e, _) => ErrorState(error: e, onRetry: () => ref.invalidate(documentProvider(documentId))),
+        error: (e, _) => ErrorState(
+          error: e,
+          onRetry: () => ref.invalidate(documentProvider(documentId)),
+        ),
         data: (d) => _Body(doc: d),
       ),
     );
@@ -51,24 +54,45 @@ class _Body extends ConsumerWidget {
             children: [
               Text(doc.title, style: t.titleLarge),
               const SizedBox(height: 8),
-              Wrap(spacing: 8, children: [
-                StatusBadge(label: doc.kind.label(l), tone: BadgeTone.info),
-                StatusBadge(label: doc.isPdf ? l.pdfLabel : doc.mimeType.split('/').last.toUpperCase(), tone: BadgeTone.neutral),
-              ]),
+              Wrap(
+                spacing: 8,
+                children: [
+                  StatusBadge(label: doc.kind.label(l), tone: BadgeTone.info),
+                  StatusBadge(
+                    label: doc.isPdf
+                        ? l.pdfLabel
+                        : doc.mimeType.split('/').last.toUpperCase(),
+                    tone: BadgeTone.neutral,
+                  ),
+                ],
+              ),
               const SizedBox(height: 8),
-              InfoRow(icon: Icons.event_rounded, label: l.labDate, value: fmt.dayMonthYear(doc.uploadedAt)),
-              InfoRow(icon: Icons.insert_drive_file_rounded, label: doc.fileName, value: formatSize(doc.sizeBytes)),
+              InfoRow(
+                icon: Icons.event_rounded,
+                label: l.labDate,
+                value: fmt.dayMonthYear(doc.uploadedAt),
+              ),
+              InfoRow(
+                icon: Icons.insert_drive_file_rounded,
+                label: doc.fileName,
+                value: formatSize(doc.sizeBytes),
+              ),
               InfoRow(
                 icon: Icons.person_rounded,
                 label: l.statusLabel,
-                value: doc.uploadedByPatient ? l.docUploadedBy : l.docUploadedByClinic,
+                value: doc.uploadedByPatient
+                    ? l.docUploadedBy
+                    : l.docUploadedByClinic,
               ),
             ],
           ),
         ),
         const SizedBox(height: 14),
         if (doc.isImage && doc.bytes != null)
-          ClipRRect(borderRadius: BorderRadius.circular(20), child: Image.memory(doc.bytes!, fit: BoxFit.contain))
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.memory(doc.bytes!, fit: BoxFit.contain),
+          )
         else if (doc.previewText != null)
           Container(
             padding: const EdgeInsets.all(22),
@@ -76,12 +100,24 @@ class _Body extends ConsumerWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: p.border),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 18, offset: const Offset(0, 8))],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 18,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(doc.previewText!.of(context.langCode), style: t.bodyMedium?.copyWith(color: const Color(0xFF172B4D), height: 1.6)),
+                Text(
+                  doc.previewText!.of(context.langCode),
+                  style: t.bodyMedium?.copyWith(
+                    color: const Color(0xFF172B4D),
+                    height: 1.6,
+                  ),
+                ),
                 const SizedBox(height: 14),
                 Text(l.docDemoNotice, style: t.labelSmall),
               ],

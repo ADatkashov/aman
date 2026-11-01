@@ -16,16 +16,23 @@ class LocaleController extends Notifier<Locale> {
     final prefs = ref.watch(sharedPreferencesProvider);
     final saved = prefs.getString(_key);
     final code = saved ?? PlatformDispatcher.instance.locale.languageCode;
-    return supportedLocales.firstWhere((l) => l.languageCode == code, orElse: () => const Locale('ru'));
+    return supportedLocales.firstWhere(
+      (l) => l.languageCode == code,
+      orElse: () => const Locale('ru'),
+    );
   }
 
   Future<void> set(Locale locale) async {
     state = locale;
-    await ref.read(sharedPreferencesProvider).setString(_key, locale.languageCode);
+    await ref
+        .read(sharedPreferencesProvider)
+        .setString(_key, locale.languageCode);
   }
 }
 
-final localeProvider = NotifierProvider<LocaleController, Locale>(LocaleController.new);
+final localeProvider = NotifierProvider<LocaleController, Locale>(
+  LocaleController.new,
+);
 
 class ThemeModeController extends Notifier<ThemeMode> {
   static const _key = 'aman.theme';
@@ -33,7 +40,10 @@ class ThemeModeController extends Notifier<ThemeMode> {
   @override
   ThemeMode build() {
     final saved = ref.watch(sharedPreferencesProvider).getString(_key);
-    return ThemeMode.values.firstWhere((m) => m.name == saved, orElse: () => ThemeMode.system);
+    return ThemeMode.values.firstWhere(
+      (m) => m.name == saved,
+      orElse: () => ThemeMode.system,
+    );
   }
 
   Future<void> set(ThemeMode mode) async {
@@ -42,7 +52,9 @@ class ThemeModeController extends Notifier<ThemeMode> {
   }
 }
 
-final themeModeProvider = NotifierProvider<ThemeModeController, ThemeMode>(ThemeModeController.new);
+final themeModeProvider = NotifierProvider<ThemeModeController, ThemeMode>(
+  ThemeModeController.new,
+);
 
 /// Whether the onboarding carousel has been completed.
 class OnboardingController extends Notifier<bool> {
@@ -57,4 +69,6 @@ class OnboardingController extends Notifier<bool> {
   }
 }
 
-final onboardedProvider = NotifierProvider<OnboardingController, bool>(OnboardingController.new);
+final onboardedProvider = NotifierProvider<OnboardingController, bool>(
+  OnboardingController.new,
+);

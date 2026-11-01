@@ -34,7 +34,10 @@ class AppointmentDetailScreen extends ConsumerWidget {
       appBar: CustomAppBar(title: l.appointmentDetails),
       body: appt.when(
         loading: () => const LoadingState(itemCount: 3, itemHeight: 140),
-        error: (e, _) => ErrorState(error: e, onRetry: () => ref.invalidate(appointmentsProvider)),
+        error: (e, _) => ErrorState(
+          error: e,
+          onRetry: () => ref.invalidate(appointmentsProvider),
+        ),
         data: (a) {
           final doctor = ref.watch(doctorLookupProvider)(a.doctorId);
           final clinic = ref.watch(clinicLookupProvider)(a.clinicId);
@@ -43,19 +46,33 @@ class AppointmentDetailScreen extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
             children: [
               AmanCard(
-                onTap: doctor == null ? null : () => context.push('/doctors/${doctor.id}'),
+                onTap: doctor == null
+                    ? null
+                    : () => context.push('/doctors/${doctor.id}'),
                 child: Row(
                   children: [
-                    if (doctor != null) DoctorAvatar(seed: doctor.avatarSeed, size: 64, female: doctor.isFemale, photoUrl: doctor.photoUrl),
+                    if (doctor != null)
+                      DoctorAvatar(
+                        seed: doctor.avatarSeed,
+                        size: 64,
+                        female: doctor.isFemale,
+                        photoUrl: doctor.photoUrl,
+                      ),
                     const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(doctor?.fullName ?? '—', style: t.titleMedium),
-                          Text(doctor?.specialty.label(l) ?? '', style: t.bodyMedium?.copyWith(color: p.primary)),
+                          Text(
+                            doctor?.specialty.label(l) ?? '',
+                            style: t.bodyMedium?.copyWith(color: p.primary),
+                          ),
                           const SizedBox(height: 6),
-                          StatusBadge(label: status.label(l), tone: toneFor(status)),
+                          StatusBadge(
+                            label: status.label(l),
+                            tone: toneFor(status),
+                          ),
                         ],
                       ),
                     ),
@@ -66,19 +83,41 @@ class AppointmentDetailScreen extends ConsumerWidget {
               AmanCard(
                 child: Column(
                   children: [
-                    InfoRow(icon: Icons.confirmation_number_rounded, label: l.bookingNumber, value: a.number),
-                    InfoRow(icon: Icons.event_rounded, label: l.dateTimeLabel, value: '${fmt.fullDateLine(a.start)}, ${fmt.time(a.start)}'),
+                    InfoRow(
+                      icon: Icons.confirmation_number_rounded,
+                      label: l.bookingNumber,
+                      value: a.number,
+                    ),
+                    InfoRow(
+                      icon: Icons.event_rounded,
+                      label: l.dateTimeLabel,
+                      value:
+                          '${fmt.fullDateLine(a.start)}, ${fmt.time(a.start)}',
+                    ),
                     if (clinic != null)
                       InfoRow(
                         icon: Icons.location_on_rounded,
                         label: l.clinicLabel,
-                        value: '${clinic.name.replaceAll(' · DEMO', '')}\n${clinic.fullAddress}',
+                        value:
+                            '${clinic.name.replaceAll(' · DEMO', '')}\n${clinic.fullAddress}',
                         onTap: () => context.push('/clinics/${clinic.id}'),
                       ),
-                    InfoRow(icon: Icons.edit_note_rounded, label: l.reasonLabel, value: a.reason.isEmpty ? '—' : a.reason),
-                    InfoRow(icon: Icons.payments_rounded, label: l.appointmentPrice, value: fmt.money(a.priceKzt)),
+                    InfoRow(
+                      icon: Icons.edit_note_rounded,
+                      label: l.reasonLabel,
+                      value: a.reason.isEmpty ? '—' : a.reason,
+                    ),
+                    InfoRow(
+                      icon: Icons.payments_rounded,
+                      label: l.appointmentPrice,
+                      value: fmt.money(a.priceKzt),
+                    ),
                     if (a.cancelReason != null && a.cancelReason!.isNotEmpty)
-                      InfoRow(icon: Icons.cancel_rounded, label: l.cancelledReasonLabel, value: a.cancelReason!),
+                      InfoRow(
+                        icon: Icons.cancel_rounded,
+                        label: l.cancelledReasonLabel,
+                        value: a.cancelReason!,
+                      ),
                   ],
                 ),
               ),
@@ -86,7 +125,11 @@ class AppointmentDetailScreen extends ConsumerWidget {
               AppointmentActions(appointment: a),
               if (clinic != null && a.isUpcoming(now)) ...[
                 const SizedBox(height: 10),
-                Text(l.changePolicy(clinic.changeDeadlineHours), style: t.bodySmall, textAlign: TextAlign.center),
+                Text(
+                  l.changePolicy(clinic.changeDeadlineHours),
+                  style: t.bodySmall,
+                  textAlign: TextAlign.center,
+                ),
               ],
             ],
           );

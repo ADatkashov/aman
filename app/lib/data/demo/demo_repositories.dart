@@ -42,17 +42,25 @@ class DemoAuthRepository implements AuthRepository {
   }
 
   Future<PatientProfile> _signIn(DemoAccountRecord r) async {
-    await _tokens.saveTokens(access: 'demo-token:${r.profile.phone}', refresh: 'demo-refresh');
+    await _tokens.saveTokens(
+      access: 'demo-token:${r.profile.phone}',
+      refresh: 'demo-refresh',
+    );
     _store.currentPatientId = r.profile.id;
     return r.profile;
   }
 
   @override
-  Future<PatientProfile> login({required String phone, required String password}) async {
+  Future<PatientProfile> login({
+    required String phone,
+    required String password,
+  }) async {
     await _store.delay();
     final normalized = KzPhone.normalize(phone);
     final r = normalized == null ? null : _store.accounts[normalized];
-    if (r == null || !r.verified) throw const AuthException(AuthFailure.invalidCredentials);
+    if (r == null || !r.verified) {
+      throw const AuthException(AuthFailure.invalidCredentials);
+    }
     if (DemoStore.hashPassword(password, r.salt) != r.passwordHash) {
       throw const AuthException(AuthFailure.invalidCredentials);
     }
@@ -67,11 +75,15 @@ class DemoAuthRepository implements AuthRepository {
     required bool consentAccepted,
   }) async {
     await _store.delay();
-    if (!consentAccepted) throw const AuthException(AuthFailure.consentRequired);
+    if (!consentAccepted) {
+      throw const AuthException(AuthFailure.consentRequired);
+    }
     final normalized = KzPhone.normalize(phone);
     if (normalized == null) throw const AuthException(AuthFailure.unknown);
     final existing = _store.accounts[normalized];
-    if (existing != null && existing.verified) throw const AuthException(AuthFailure.phoneTaken);
+    if (existing != null && existing.verified) {
+      throw const AuthException(AuthFailure.phoneTaken);
+    }
     final salt = DemoStore.newSalt();
     _store.accounts[normalized] = DemoAccountRecord(
       profile: PatientProfile(
@@ -96,12 +108,17 @@ class DemoAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<PatientProfile> confirmPhone({required String phone, required String code}) async {
+  Future<PatientProfile> confirmPhone({
+    required String phone,
+    required String code,
+  }) async {
     await _store.delay();
     final normalized = KzPhone.normalize(phone);
     final r = normalized == null ? null : _store.accounts[normalized];
     if (r == null) throw const AuthException(AuthFailure.accountNotFound);
-    if (_store.pendingOtps[normalized] != code) throw const AuthException(AuthFailure.invalidOtp);
+    if (_store.pendingOtps[normalized] != code) {
+      throw const AuthException(AuthFailure.invalidOtp);
+    }
     _store.pendingOtps.remove(normalized);
     r.verified = true;
     return _signIn(r);
@@ -112,7 +129,9 @@ class DemoAuthRepository implements AuthRepository {
     await _store.delay();
     final normalized = KzPhone.normalize(phone);
     final r = normalized == null ? null : _store.accounts[normalized];
-    if (r == null || !r.verified) throw const AuthException(AuthFailure.accountNotFound);
+    if (r == null || !r.verified) {
+      throw const AuthException(AuthFailure.accountNotFound);
+    }
     return requestOtp(normalized!);
   }
 
@@ -126,7 +145,9 @@ class DemoAuthRepository implements AuthRepository {
     final normalized = KzPhone.normalize(phone);
     final r = normalized == null ? null : _store.accounts[normalized];
     if (r == null) throw const AuthException(AuthFailure.accountNotFound);
-    if (_store.pendingOtps[normalized] != code) throw const AuthException(AuthFailure.invalidOtp);
+    if (_store.pendingOtps[normalized] != code) {
+      throw const AuthException(AuthFailure.invalidOtp);
+    }
     _store.pendingOtps.remove(normalized);
     r.passwordHash = DemoStore.hashPassword(newPassword, r.salt);
   }
@@ -188,7 +209,8 @@ class DemoCatalogRepository implements CatalogRepository {
   }
 
   @override
-  Future<DateTime?> nextSlot(String doctorId) async => _store.nextSlot(doctorId);
+  Future<DateTime?> nextSlot(String doctorId) async =>
+      _store.nextSlot(doctorId);
 
   @override
   Future<Set<String>> favorites() async => {..._store.favorites};
@@ -239,7 +261,11 @@ class DemoAppointmentRepository implements AppointmentRepository {
   }
 
   @override
-  Future<Appointment> review(String id, {required int rating, String? text}) async {
+  Future<Appointment> review(
+    String id, {
+    required int rating,
+    String? text,
+  }) async {
     await _store.delay();
     return _store.review(id, rating);
   }
@@ -259,8 +285,10 @@ class DemoLabRepository implements LabRepository {
   @override
   Future<LabResult> result(String id) async {
     await _store.delay();
-    return _store.labs.firstWhere((l) => l.id == id,
-        orElse: () => throw const BookingException(BookingFailure.notFound));
+    return _store.labs.firstWhere(
+      (l) => l.id == id,
+      orElse: () => throw const BookingException(BookingFailure.notFound),
+    );
   }
 
   @override
@@ -289,15 +317,18 @@ class DemoDocumentRepository implements DocumentRepository {
   @override
   Future<List<MedicalDocument>> list() async {
     await _store.delay();
-    final list = [..._store.documents]..sort((a, b) => b.uploadedAt.compareTo(a.uploadedAt));
+    final list = [..._store.documents]
+      ..sort((a, b) => b.uploadedAt.compareTo(a.uploadedAt));
     return list;
   }
 
   @override
   Future<MedicalDocument> get(String id) async {
     await _store.delay();
-    return _store.documents.firstWhere((d) => d.id == id,
-        orElse: () => throw const BookingException(BookingFailure.notFound));
+    return _store.documents.firstWhere(
+      (d) => d.id == id,
+      orElse: () => throw const BookingException(BookingFailure.notFound),
+    );
   }
 
   @override
@@ -327,7 +358,9 @@ class DemoDocumentRepository implements DocumentRepository {
   @override
   Future<void> delete(String id) async {
     await _store.delay();
-    _store.documents = _store.documents.where((d) => d.id != id || !d.uploadedByPatient).toList();
+    _store.documents = _store.documents
+        .where((d) => d.id != id || !d.uploadedByPatient)
+        .toList();
   }
 }
 
@@ -338,24 +371,30 @@ class DemoNotificationRepository implements NotificationRepository {
   @override
   Future<List<AppNotification>> list() async {
     await _store.delay();
-    final list = [..._store.notifications]..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final list = [..._store.notifications]
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
     return list;
   }
 
   @override
   Future<void> markRead(String id) async {
     _store.notifications = [
-      for (final n in _store.notifications) n.id == id ? n.copyWith(read: true) : n,
+      for (final n in _store.notifications)
+        n.id == id ? n.copyWith(read: true) : n,
     ];
   }
 
   @override
   Future<void> markAllRead() async {
-    _store.notifications = [for (final n in _store.notifications) n.copyWith(read: true)];
+    _store.notifications = [
+      for (final n in _store.notifications) n.copyWith(read: true),
+    ];
   }
 
   @override
   Future<void> delete(String id) async {
-    _store.notifications = _store.notifications.where((n) => n.id != id).toList();
+    _store.notifications = _store.notifications
+        .where((n) => n.id != id)
+        .toList();
   }
 }

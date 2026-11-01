@@ -32,8 +32,11 @@ class NotificationsController extends AsyncNotifier<List<AppNotification>> {
 }
 
 final notificationsProvider =
-    AsyncNotifierProvider<NotificationsController, List<AppNotification>>(NotificationsController.new);
+    AsyncNotifierProvider<NotificationsController, List<AppNotification>>(
+      NotificationsController.new,
+    );
 
 final unreadCountProvider = Provider<int>(
-  (ref) => ref.watch(notificationsProvider).value?.where((n) => !n.read).length ?? 0,
+  (ref) =>
+      ref.watch(notificationsProvider).value?.where((n) => !n.read).length ?? 0,
 );

@@ -11,7 +11,8 @@ import '../../../core/widgets/inputs.dart';
 import '../../../core/widgets/misc_widgets.dart';
 import '../../auth/application/auth_controller.dart';
 import '../../auth/domain/patient_profile.dart';
-import '../../auth/presentation/profile_setup_screen.dart' show BirthDateField, GenderSelector;
+import '../../auth/presentation/profile_setup_screen.dart'
+    show BirthDateField, GenderSelector;
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -45,14 +46,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final l = context.l10n;
     setState(() => _saving = true);
     try {
-      await ref.read(authControllerProvider.notifier).updateProfile(_initial.copyWith(
-            fullName: _name.text.trim(),
-            email: _email.text.trim().isEmpty ? null : _email.text.trim(),
-            birthDate: _birth,
-            gender: _gender,
-            city: _city.text.trim().isEmpty ? null : _city.text.trim(),
-            bloodType: _blood.text.trim().isEmpty ? null : _blood.text.trim(),
-          ));
+      await ref
+          .read(authControllerProvider.notifier)
+          .updateProfile(
+            _initial.copyWith(
+              fullName: _name.text.trim(),
+              email: _email.text.trim().isEmpty ? null : _email.text.trim(),
+              birthDate: _birth,
+              gender: _gender,
+              city: _city.text.trim().isEmpty ? null : _city.text.trim(),
+              bloodType: _blood.text.trim().isEmpty ? null : _blood.text.trim(),
+            ),
+          );
       if (!mounted) return;
       showSnack(context, l.profileSaved);
       context.pop();
@@ -77,29 +82,57 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 key: _form,
                 child: Column(
                   children: [
-                    AmanTextField(label: l.fullNameLabel, controller: _name, validator: Validators.fullName, textInputAction: TextInputAction.next),
+                    AmanTextField(
+                      label: l.fullNameLabel,
+                      controller: _name,
+                      validator: Validators.fullName,
+                      textInputAction: TextInputAction.next,
+                    ),
                     const SizedBox(height: 16),
                     AmanTextField(
                       label: l.phoneLabel,
-                      controller: TextEditingController(text: KzPhone.format(_initial.phone)),
+                      controller: TextEditingController(
+                        text: KzPhone.format(_initial.phone),
+                      ),
                       enabled: false,
                     ),
                     const SizedBox(height: 16),
-                    AmanTextField(label: l.emailLabel, controller: _email, keyboardType: TextInputType.emailAddress, validator: Validators.optionalEmail),
+                    AmanTextField(
+                      label: l.emailLabel,
+                      controller: _email,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: Validators.optionalEmail,
+                    ),
                     const SizedBox(height: 16),
-                    BirthDateField(value: _birth, onChanged: (d) => setState(() => _birth = d)),
+                    BirthDateField(
+                      value: _birth,
+                      onChanged: (d) => setState(() => _birth = d),
+                    ),
                     const SizedBox(height: 16),
-                    GenderSelector(value: _gender, onChanged: (g) => setState(() => _gender = g)),
+                    GenderSelector(
+                      value: _gender,
+                      onChanged: (g) => setState(() => _gender = g),
+                    ),
                     const SizedBox(height: 16),
                     AmanTextField(label: l.cityLabel, controller: _city),
                     const SizedBox(height: 16),
-                    AmanTextField(label: l.bloodTypeLabel, controller: _blood, maxLength: 20),
+                    AmanTextField(
+                      label: l.bloodTypeLabel,
+                      controller: _blood,
+                      maxLength: 20,
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-          BottomActionBar(child: PrimaryButton(label: l.save, loading: _saving, onPressed: _save)),
+          BottomActionBar(
+            child: PrimaryButton(
+              label: l.save,
+              loading: _saving,
+              onPressed: _save,
+            ),
+          ),
         ],
       ),
     );

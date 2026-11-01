@@ -17,8 +17,8 @@ import '../domain/medical_document.dart';
 IconData docIcon(MedicalDocument d) => d.isPdf
     ? Icons.picture_as_pdf_rounded
     : d.isImage
-        ? Icons.image_rounded
-        : Icons.description_rounded;
+    ? Icons.image_rounded
+    : Icons.description_rounded;
 
 String formatSize(int bytes) {
   if (bytes < 1024) return '$bytes B';
@@ -57,16 +57,18 @@ class DocumentsScreen extends ConsumerWidget {
           onRetry: () => ref.invalidate(documentsProvider),
           builder: (list) {
             if (list.isEmpty) {
-              return ListView(children: [
-                const SizedBox(height: 40),
-                EmptyState(
-                  icon: Icons.folder_open_rounded,
-                  title: l.noDocumentsTitle,
-                  body: l.noDocumentsBody,
-                  actionLabel: l.uploadDocument,
-                  onAction: () => showUploadSheet(context),
-                ),
-              ]);
+              return ListView(
+                children: [
+                  const SizedBox(height: 40),
+                  EmptyState(
+                    icon: Icons.folder_open_rounded,
+                    title: l.noDocumentsTitle,
+                    body: l.noDocumentsBody,
+                    actionLabel: l.uploadDocument,
+                    onAction: () => showUploadSheet(context),
+                  ),
+                ],
+              );
             }
             return ListView.separated(
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
@@ -82,17 +84,31 @@ class DocumentsScreen extends ConsumerWidget {
                       Container(
                         width: 46,
                         height: 46,
-                        decoration: BoxDecoration(color: p.lightBlue, borderRadius: BorderRadius.circular(14)),
-                        child: Icon(docIcon(d), color: d.isPdf ? p.error : p.primary),
+                        decoration: BoxDecoration(
+                          color: p.lightBlue,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Icon(
+                          docIcon(d),
+                          color: d.isPdf ? p.error : p.primary,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(d.title, maxLines: 2, overflow: TextOverflow.ellipsis, style: t.titleSmall),
+                            Text(
+                              d.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: t.titleSmall,
+                            ),
                             const SizedBox(height: 3),
-                            Text('${d.kind.label(l)} · ${context.fmt.shortDate(d.uploadedAt)} · ${formatSize(d.sizeBytes)}', style: t.bodySmall),
+                            Text(
+                              '${d.kind.label(l)} · ${context.fmt.shortDate(d.uploadedAt)} · ${formatSize(d.sizeBytes)}',
+                              style: t.bodySmall,
+                            ),
                           ],
                         ),
                       ),
@@ -109,7 +125,8 @@ class DocumentsScreen extends ConsumerWidget {
   }
 }
 
-Future<void> showUploadSheet(BuildContext context) => showModalBottomSheet<void>(
+Future<void> showUploadSheet(BuildContext context) =>
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (_) => const _UploadSheet(),
@@ -147,7 +164,9 @@ class _UploadSheetState extends ConsumerState<_UploadSheet> {
     setState(() {
       _file = error == null ? picked : null;
       _error = error;
-      if (error == null && _title.text.isEmpty) _title.text = picked.name.replaceAll(RegExp(r'\.[^.]+$'), '');
+      if (error == null && _title.text.isEmpty) {
+        _title.text = picked.name.replaceAll(RegExp(r'\.[^.]+$'), '');
+      }
     });
   }
 
@@ -155,7 +174,9 @@ class _UploadSheetState extends ConsumerState<_UploadSheet> {
     final l = context.l10n;
     setState(() => _busy = true);
     try {
-      await ref.read(documentsProvider.notifier).upload(
+      await ref
+          .read(documentsProvider.notifier)
+          .upload(
             fileName: _file!.name,
             bytes: _file!.bytes,
             title: _title.text,
@@ -176,13 +197,21 @@ class _UploadSheetState extends ConsumerState<_UploadSheet> {
     final l = context.l10n;
     final p = context.palette;
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 20 + MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        0,
+        20,
+        20 + MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l.uploadDocument, style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              l.uploadDocument,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 14),
             InkWell(
               onTap: _pick,
@@ -197,11 +226,18 @@ class _UploadSheetState extends ConsumerState<_UploadSheet> {
                 ),
                 child: Row(
                   children: [
-                    Icon(_file == null ? Icons.attach_file_rounded : Icons.check_circle_rounded, color: p.primary),
+                    Icon(
+                      _file == null
+                          ? Icons.attach_file_rounded
+                          : Icons.check_circle_rounded,
+                      color: p.primary,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        _file == null ? l.pickFile : '${_file!.name} · ${formatSize(_file!.bytes.length)}',
+                        _file == null
+                            ? l.pickFile
+                            : '${_file!.name} · ${formatSize(_file!.bytes.length)}',
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -214,23 +250,41 @@ class _UploadSheetState extends ConsumerState<_UploadSheet> {
             if (_error != null)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: Text(_error!, style: TextStyle(color: p.error, fontWeight: FontWeight.w600)),
+                child: Text(
+                  _error!,
+                  style: TextStyle(color: p.error, fontWeight: FontWeight.w600),
+                ),
               ),
             const SizedBox(height: 16),
-            AmanTextField(label: l.docTitleLabel, controller: _title, maxLength: 120),
+            AmanTextField(
+              label: l.docTitleLabel,
+              controller: _title,
+              maxLength: 120,
+            ),
             const SizedBox(height: 12),
-            Text(l.docKindLabel, style: Theme.of(context).textTheme.labelMedium),
+            Text(
+              l.docKindLabel,
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
                 for (final k in DocumentKind.values)
-                  AmanFilterChip(label: k.label(l), selected: _kind == k, onTap: () => setState(() => _kind = k)),
+                  AmanFilterChip(
+                    label: k.label(l),
+                    selected: _kind == k,
+                    onTap: () => setState(() => _kind = k),
+                  ),
               ],
             ),
             const SizedBox(height: 20),
-            PrimaryButton(label: l.uploadDocument, loading: _busy, onPressed: _file == null ? null : _upload),
+            PrimaryButton(
+              label: l.uploadDocument,
+              loading: _busy,
+              onPressed: _file == null ? null : _upload,
+            ),
           ],
         ),
       ),

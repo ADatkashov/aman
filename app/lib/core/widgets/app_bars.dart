@@ -7,7 +7,13 @@ import 'buttons.dart';
 
 /// Branded app bar with a round back button and optional actions.
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, required this.title, this.actions, this.showBack = true, this.onBack});
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    this.actions,
+    this.showBack = true,
+    this.onBack,
+  });
 
   final String title;
   final List<Widget>? actions;
@@ -19,7 +25,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canPop = Navigator.of(context).canPop() || GoRouter.of(context).canPop();
+    final canPop =
+        Navigator.of(context).canPop() || GoRouter.of(context).canPop();
     return AppBar(
       toolbarHeight: 64,
       automaticallyImplyLeading: false,
@@ -38,10 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
-      actions: [
-        ...?actions,
-        const SizedBox(width: 12),
-      ],
+      actions: [...?actions, const SizedBox(width: 12)],
     );
   }
 }
@@ -76,7 +80,13 @@ class CustomBottomNavigation extends StatelessWidget {
         border: Border(top: BorderSide(color: p.border)),
         boxShadow: dark
             ? null
-            : [BoxShadow(color: const Color(0xFF0A2A66).withValues(alpha: 0.07), blurRadius: 24, offset: const Offset(0, -6))],
+            : [
+                BoxShadow(
+                  color: const Color(0xFF0A2A66).withValues(alpha: 0.07),
+                  blurRadius: 24,
+                  offset: const Offset(0, -6),
+                ),
+              ],
       ),
       child: SafeArea(
         top: false,
@@ -101,7 +111,11 @@ class CustomBottomNavigation extends StatelessWidget {
 }
 
 class _NavItem extends StatelessWidget {
-  const _NavItem({required this.data, required this.selected, required this.onTap});
+  const _NavItem({
+    required this.data,
+    required this.selected,
+    required this.onTap,
+  });
 
   final NavDestinationData data;
   final bool selected;
@@ -125,13 +139,19 @@ class _NavItem extends StatelessWidget {
               AnimatedContainer(
                 duration: const Duration(milliseconds: 220),
                 curve: Curves.easeOutCubic,
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: selected ? p.lightBlue : Colors.transparent,
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(selected ? data.activeIcon : data.icon,
-                    size: 24, color: selected ? p.primary : p.textSecondary),
+                child: Icon(
+                  selected ? data.activeIcon : data.icon,
+                  size: 24,
+                  color: selected ? p.primary : p.textSecondary,
+                ),
               ),
               const SizedBox(height: 3),
               Text(

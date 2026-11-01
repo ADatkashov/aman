@@ -112,7 +112,11 @@ class AmanFilterChip extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (icon != null) ...[
-                    Icon(icon, size: 16, color: selected ? Colors.white : p.primary),
+                    Icon(
+                      icon,
+                      size: 16,
+                      color: selected ? Colors.white : p.primary,
+                    ),
                     const SizedBox(width: 6),
                   ],
                   Flexible(
@@ -185,8 +189,11 @@ class AmanTextField extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: Text(label,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(color: p.textSecondary)),
+          child: Text(
+            label,
+            style: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(color: p.textSecondary),
+          ),
         ),
         TextFormField(
           controller: controller,
@@ -200,8 +207,15 @@ class AmanTextField extends StatelessWidget {
           onFieldSubmitted: onFieldSubmitted,
           inputFormatters: inputFormatters,
           autofillHints: autofillHints,
-          decoration: InputDecoration(hintText: hint, prefixIcon: prefix, suffixIcon: suffix, counterText: ''),
-          validator: validator == null ? null : (v) => validator!(v)?.message(l),
+          decoration: InputDecoration(
+            hintText: hint,
+            prefixIcon: prefix,
+            suffixIcon: suffix,
+            counterText: '',
+          ),
+          validator: validator == null
+              ? null
+              : (v) => validator!(v)?.message(l),
         ),
       ],
     );
@@ -210,7 +224,10 @@ class AmanTextField extends StatelessWidget {
 
 class _KzPhoneFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     final masked = KzPhone.maskNational(KzPhone.nationalDigits(newValue.text));
     return TextEditingValue(
       text: masked,
@@ -221,7 +238,13 @@ class _KzPhoneFormatter extends TextInputFormatter {
 
 /// Phone input with a fixed +7 prefix and progressive masking.
 class KzPhoneField extends StatelessWidget {
-  const KzPhoneField({super.key, required this.controller, this.label, this.onSubmitted, this.enabled = true});
+  const KzPhoneField({
+    super.key,
+    required this.controller,
+    this.label,
+    this.onSubmitted,
+    this.enabled = true,
+  });
 
   final TextEditingController controller;
   final String? label;
@@ -249,7 +272,13 @@ class KzPhoneField extends StatelessWidget {
           children: [
             const Text('🇰🇿', style: TextStyle(fontSize: 18)),
             const SizedBox(width: 8),
-            Text('+7', style: TextStyle(fontWeight: FontWeight.w700, color: p.textPrimary)),
+            Text(
+              '+7',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: p.textPrimary,
+              ),
+            ),
           ],
         ),
       ),
@@ -293,7 +322,9 @@ class _PasswordFieldState extends State<PasswordField> {
       autofillHints: const [AutofillHints.password],
       validator: widget.validator,
       suffix: IconButton(
-        icon: Icon(_hidden ? Icons.visibility_off_rounded : Icons.visibility_rounded),
+        icon: Icon(
+          _hidden ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+        ),
         onPressed: () => setState(() => _hidden = !_hidden),
       ),
     );

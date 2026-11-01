@@ -8,12 +8,19 @@ class AmanFormat {
 
   /// `12 000 ₸` (KZT, no fractional part).
   String money(num kzt) {
-    final f = NumberFormat.currency(locale: localeName, symbol: '₸', decimalDigits: 0);
+    final f = NumberFormat.currency(
+      locale: localeName,
+      symbol: '₸',
+      decimalDigits: 0,
+    );
     return f.format(kzt).replaceAll(' ', ' ');
   }
 
   String decimal(num value, {int digits = 1}) {
-    final f = NumberFormat.decimalPatternDigits(locale: localeName, decimalDigits: digits);
+    final f = NumberFormat.decimalPatternDigits(
+      locale: localeName,
+      decimalDigits: digits,
+    );
     return f.format(value);
   }
 

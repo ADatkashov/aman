@@ -10,7 +10,8 @@ import '../../../core/widgets/buttons.dart';
 import '../../../core/widgets/misc_widgets.dart';
 import '../../../core/widgets/states.dart';
 import '../../catalog/application/catalog_providers.dart';
-import '../../catalog/presentation/doctor_detail_screen.dart' show DateChip, TimeChip;
+import '../../catalog/presentation/doctor_detail_screen.dart'
+    show DateChip, TimeChip;
 import '../application/appointments_controller.dart';
 
 class RescheduleScreen extends ConsumerStatefulWidget {
@@ -30,7 +31,9 @@ class _RescheduleScreenState extends ConsumerState<RescheduleScreen> {
     final l = context.l10n;
     setState(() => _saving = true);
     try {
-      await ref.read(appointmentsProvider.notifier).reschedule(widget.appointmentId, slot);
+      await ref
+          .read(appointmentsProvider.notifier)
+          .reschedule(widget.appointmentId, slot);
       if (!mounted) return;
       showSnack(context, l.appointmentRescheduledSnack);
       context.pop();
@@ -58,7 +61,9 @@ class _RescheduleScreenState extends ConsumerState<RescheduleScreen> {
         error: (e, _) => ErrorState(error: e),
         data: (a) {
           final day = _day ?? Dates.dateOnly(a.start);
-          final slots = ref.watch(slotsProvider((doctorId: a.doctorId, date: day)));
+          final slots = ref.watch(
+            slotsProvider((doctorId: a.doctorId, date: day)),
+          );
           return Column(
             children: [
               Expanded(
@@ -85,7 +90,10 @@ class _RescheduleScreenState extends ConsumerState<RescheduleScreen> {
                       ),
                     ),
                     const SizedBox(height: 18),
-                    Text(fmt.fullDateLine(day), style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      fmt.fullDateLine(day),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     const SizedBox(height: 12),
                     AsyncBody(
                       value: slots,
@@ -95,7 +103,11 @@ class _RescheduleScreenState extends ConsumerState<RescheduleScreen> {
                         if (!list.any((s) => s.available)) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24),
-                            child: EmptyState(compact: true, icon: Icons.event_busy_rounded, title: l.noSlotsOnDay),
+                            child: EmptyState(
+                              compact: true,
+                              icon: Icons.event_busy_rounded,
+                              title: l.noSlotsOnDay,
+                            ),
                           );
                         }
                         return Wrap(
@@ -120,7 +132,9 @@ class _RescheduleScreenState extends ConsumerState<RescheduleScreen> {
                 child: PrimaryButton(
                   label: l.rescheduleConfirm,
                   loading: _saving,
-                  onPressed: _slot == null ? null : () => _save(a.doctorId, _slot!),
+                  onPressed: _slot == null
+                      ? null
+                      : () => _save(a.doctorId, _slot!),
                 ),
               ),
             ],

@@ -5,7 +5,7 @@ import '../domain/token_storage.dart';
 /// Keychain / Keystore backed token storage.
 class SecureTokenStorage implements TokenStorage {
   SecureTokenStorage([FlutterSecureStorage? storage])
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
 
   static const _accessKey = 'aman.access_token';
   static const _refreshKey = 'aman.refresh_token';

@@ -15,7 +15,7 @@ enum Specialty {
   final IconData icon;
 
   static Specialty fromId(String id) => Specialty.values.firstWhere(
-        (s) => s.name == id,
-        orElse: () => Specialty.therapist,
-      );
+    (s) => s.name == id,
+    orElse: () => Specialty.therapist,
+  );
 }
