@@ -1,0 +1,9 @@
+# Demo profile: synthetic data only. NEVER enable in production.
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/demo
+aman:
+  jwt:
+    secret: ${AMAN_JWT_SECRET:demo-only-secret-demo-only-secret-demo-only-secret-0123456789}
+  otp:
+    expose-demo-code: true

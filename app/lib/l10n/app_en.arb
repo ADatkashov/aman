@@ -1,0 +1,674 @@
+{
+  "@@locale": "en",
+  "appName": "AMAN",
+  "tagline": "Your Health. Your Life.",
+  "demoBadge": "DEMO",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "save": "Save",
+  "close": "Close",
+  "next": "Next",
+  "back": "Back",
+  "continueAction": "Continue",
+  "retry": "Try again",
+  "done": "Done",
+  "search": "Search",
+  "apply": "Apply",
+  "reset": "Reset",
+  "all": "All",
+  "delete": "Delete",
+  "edit": "Edit",
+  "details": "Details",
+  "seeAll": "See all",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "skip": "Skip",
+  "finish": "Finish",
+  "submit": "Submit",
+  "call": "Call",
+  "errorGeneric": "Something went wrong. Please try again.",
+  "errorNetwork": "No connection to the server. Check your internet and try again.",
+  "navHome": "Home",
+  "navAppointments": "Visits",
+  "navServices": "Services",
+  "navProfile": "Profile",
+  "welcomeTitle": "Health care,\nright at hand",
+  "welcomeSubtitle": "Doctors, appointments, lab results and your medical history in one secure app.",
+  "onb1Title": "Find the right doctor",
+  "onb1Body": "Compare ratings, experience and prices of specialists from partner clinics.",
+  "onb2Title": "Book in a few taps",
+  "onb2Body": "Choose a free time slot, confirm the visit and get a reminder.",
+  "onb3Title": "Your health data, protected",
+  "onb3Body": "Lab results, documents and records are stored securely and shown only to you.",
+  "getStarted": "Get started",
+  "haveAccount": "I already have an account",
+  "signIn": "Sign in",
+  "signUp": "Create account",
+  "phoneLabel": "Phone number",
+  "phoneHint": "700 123 45 67",
+  "passwordLabel": "Password",
+  "confirmPasswordLabel": "Repeat password",
+  "fullNameLabel": "Full name",
+  "fullNameHint": "Surname Name Patronymic",
+  "emailLabel": "Email",
+  "emailOptionalLabel": "Email (optional)",
+  "loginTitle": "Welcome back",
+  "loginSubtitle": "Sign in with your phone number and password.",
+  "forgotPassword": "Forgot password?",
+  "noAccount": "Don't have an account?",
+  "registerTitle": "Create your account",
+  "registerSubtitle": "We will send a confirmation code to your phone.",
+  "consentText": "I agree to the processing of my personal and medical data",
+  "consentNote": "Data is processed only to provide the service and is never shared without your permission.",
+  "otpTitle": "Confirm your phone",
+  "otpSubtitle": "Enter the 4-digit code sent to {phone}",
+  "@otpSubtitle": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "otpDemoHint": "DEMO mode: your code is {code}",
+  "@otpDemoHint": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "otpLabel": "Code",
+  "resendCode": "Resend code",
+  "codeResent": "A new code has been sent",
+  "verify": "Verify",
+  "resetTitle": "Reset password",
+  "resetSubtitle": "Enter your phone number — we will send a confirmation code.",
+  "sendCode": "Send code",
+  "newPasswordLabel": "New password",
+  "resetButton": "Save new password",
+  "passwordResetDone": "Password updated. You can sign in now.",
+  "profileSetupTitle": "Tell us about yourself",
+  "profileSetupSubtitle": "This helps doctors prepare for your visit. You can change it later.",
+  "birthDateLabel": "Date of birth",
+  "genderLabel": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "cityLabel": "City",
+  "bloodTypeLabel": "Blood type",
+  "demoAccountHint": "DEMO account: {phone} / {password}",
+  "@demoAccountHint": {
+    "placeholders": {
+      "password": {
+        "type": "String"
+      },
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "useDemoAccount": "Fill in demo account",
+  "errRequired": "This field is required",
+  "errPhone": "Enter a valid +7 phone number",
+  "errPassword": "At least 8 characters, a letter and a digit",
+  "errEmail": "Enter a valid email",
+  "errOtp": "Enter the 4-digit code",
+  "errName": "Enter surname and name",
+  "errMismatch": "Passwords don't match",
+  "errReason": "Describe the reason (at least 3 characters)",
+  "errDate": "Choose a valid date",
+  "errInvalidCredentials": "Wrong phone number or password",
+  "errPhoneTaken": "This phone number is already registered",
+  "errAccountNotFound": "Account not found",
+  "errInvalidOtp": "Wrong confirmation code",
+  "errConsent": "Consent to data processing is required",
+  "greeting": "Hello, {name}!",
+  "@greeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "nextAppointment": "Next appointment",
+  "noAppointmentsTitle": "No upcoming visits",
+  "noAppointmentsBody": "Book a visit to a doctor in a couple of taps.",
+  "bookDoctor": "Book a doctor",
+  "quickServices": "Quick services",
+  "qsBook": "Book\nvisit",
+  "qsAnalyses": "Lab\ntests",
+  "qsRecord": "Medical\nrecord",
+  "qsDocuments": "My\ndocuments",
+  "qsClinics": "Find\nclinics",
+  "qsTelemedicine": "Telemedicine",
+  "popularDoctors": "Popular doctors",
+  "popularSpecialties": "Popular specialties",
+  "myResults": "My results",
+  "careTitle": "Health care",
+  "careTip1Title": "Annual check-up",
+  "careTip1Body": "A routine check-up with a GP once a year helps notice changes early.",
+  "careTip2Title": "Drink water",
+  "careTip2Body": "Keep a bottle of water at hand during the day.",
+  "careTip3Title": "Vaccination reminder",
+  "careTip3Body": "Check your vaccination schedule with your doctor.",
+  "statusConfirmed": "Confirmed",
+  "statusCompleted": "Completed",
+  "statusCancelled": "Cancelled",
+  "inTimeDays": "in {days} d.",
+  "@inTimeDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "openNotifications": "Notifications",
+  "spTherapist": "Therapist",
+  "spCardiologist": "Cardiologist",
+  "spNeurologist": "Neurologist",
+  "spPediatrician": "Pediatrician",
+  "spDentist": "Dentist",
+  "spDermatologist": "Dermatologist",
+  "spOphthalmologist": "Ophthalmologist",
+  "spEndocrinologist": "Endocrinologist",
+  "doctorsTitle": "Doctors",
+  "searchDoctorsHint": "Search by name or specialty",
+  "filtersTitle": "Filters",
+  "sortTitle": "Sort by",
+  "sortPopularity": "Popularity",
+  "sortRating": "Rating",
+  "sortPriceAsc": "Price: low to high",
+  "sortPriceDesc": "Price: high to low",
+  "sortExperience": "Experience",
+  "filterClinic": "Clinic",
+  "filterRating": "Minimum rating",
+  "filterPrice": "Maximum price",
+  "filterExperience": "Minimum experience",
+  "anyOption": "Any",
+  "favoritesOnly": "Favorites only",
+  "noDoctorsTitle": "No doctors found",
+  "noDoctorsBody": "Try changing the search or filters.",
+  "resetFilters": "Reset filters",
+  "experienceYears": "{count, plural, one{{count} year} other{{count} years}} of experience",
+  "@experienceYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewsCount": "{count, plural, one{{count} review} other{{count} reviews}}",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "consultationPrice": "Consultation",
+  "nearestSlot": "Nearest: {when}",
+  "@nearestSlot": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "noSlotsSoon": "No free slots soon",
+  "bookButton": "Book",
+  "doctorAbout": "About the doctor",
+  "doctorEducation": "Education",
+  "doctorQualification": "Qualification",
+  "doctorLanguages": "Languages",
+  "doctorServices": "Services",
+  "doctorWorkplace": "Place of work",
+  "doctorReviews": "Patient reviews",
+  "doctorSchedule": "Available time",
+  "addFavorite": "Add to favorites",
+  "removeFavorite": "Remove from favorites",
+  "favoriteAdded": "Added to favorites",
+  "favoriteRemoved": "Removed from favorites",
+  "favoritesTitle": "Favorite doctors",
+  "noFavoritesTitle": "No favorite doctors yet",
+  "noFavoritesBody": "Tap the heart on a doctor profile to save them here.",
+  "langName_kk": "Kazakh",
+  "langName_ru": "Russian",
+  "langName_en": "English",
+  "verifiedDemoNote": "Demo profile — fictional person",
+  "bookingTitle": "Book a visit",
+  "stepSpecialty": "Specialty",
+  "stepDoctor": "Doctor",
+  "stepClinic": "Clinic",
+  "stepDate": "Date",
+  "stepTime": "Time",
+  "stepReason": "Reason",
+  "stepConfirm": "Confirmation",
+  "stepOf": "Step {current} of {total}",
+  "@stepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseSpecialty": "Choose a specialty",
+  "chooseDoctor": "Choose a doctor",
+  "chooseClinic": "Clinic of the visit",
+  "chooseDate": "Choose a date",
+  "chooseTime": "Choose a time",
+  "availableTime": "Available time",
+  "noSlotsOnDay": "No free slots on this day",
+  "reasonLabel": "Reason for the visit",
+  "reasonHint": "Briefly describe your symptoms or goal",
+  "reasonChipCheckup": "Check-up",
+  "reasonChipConsult": "Consultation",
+  "reasonChipFollowUp": "Follow-up",
+  "reasonChipResults": "Discuss test results",
+  "bookingSummary": "Visit summary",
+  "confirmBooking": "Confirm booking",
+  "priceLabel": "Price",
+  "payAtClinicNote": "Payment is made at the clinic after the visit.",
+  "bookingSuccessTitle": "You are booked!",
+  "bookingSuccessBody": "We will remind you before the visit.",
+  "bookingNumber": "Booking number",
+  "addToCalendar": "Add to calendar",
+  "calendarOpenFailed": "Could not open the calendar",
+  "goToAppointments": "My appointments",
+  "backHome": "Back to home",
+  "errSlotTaken": "This time was just booked by someone else. Please choose another slot.",
+  "errSlotPast": "This time is no longer available.",
+  "errOutsideSchedule": "This time is outside the doctor's schedule.",
+  "errBookingGeneric": "Could not complete the booking",
+  "errTooLate": "Changes are possible no later than {hours} h before the visit.",
+  "@errTooLate": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "errNotFound": "Not found",
+  "errAlreadyReviewed": "You have already reviewed this visit",
+  "errNotCompleted": "A review is possible after the visit",
+  "noDoctorsForSpecialty": "No doctors for this specialty yet",
+  "appointmentsTitle": "My appointments",
+  "tabUpcoming": "Upcoming",
+  "tabCompleted": "Completed",
+  "tabCancelled": "Cancelled",
+  "periodAll": "All time",
+  "period30": "30 days",
+  "period90": "3 months",
+  "period365": "Year",
+  "noUpcomingTitle": "No upcoming visits",
+  "noCompletedTitle": "No completed visits",
+  "noCancelledTitle": "No cancelled visits",
+  "noAppointmentsInPeriod": "Nothing for the selected period.",
+  "appointmentDetails": "Appointment",
+  "cancelAppointment": "Cancel appointment",
+  "rescheduleAppointment": "Reschedule",
+  "repeatAppointment": "Book again",
+  "leaveReview": "Leave a review",
+  "cancelConfirmTitle": "Cancel this appointment?",
+  "cancelConfirmBody": "The time slot will be released for other patients.",
+  "cancelReasonHint": "Reason (optional)",
+  "keepAppointment": "Keep it",
+  "appointmentCancelledSnack": "Appointment cancelled",
+  "appointmentRescheduledSnack": "Appointment rescheduled",
+  "rescheduleTitle": "Choose a new time",
+  "rescheduleConfirm": "Confirm new time",
+  "changePolicy": "Free changes up to {hours} h before the visit",
+  "@changePolicy": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewTitle": "How was your visit?",
+  "reviewCommentHint": "Comment (optional)",
+  "reviewThanks": "Thank you for your review!",
+  "yourRating": "Your rating: {value}",
+  "@yourRating": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "doctorLabel": "Doctor",
+  "clinicLabel": "Clinic",
+  "dateTimeLabel": "Date and time",
+  "statusLabel": "Status",
+  "cancelledReasonLabel": "Cancellation reason",
+  "analysesTitle": "Tests & studies",
+  "tabMyAnalyses": "My tests",
+  "tabOrders": "Prescribed",
+  "catAll": "All",
+  "catCbc": "Blood count",
+  "catBiochemistry": "Biochemistry",
+  "catUrine": "Urine",
+  "catHormones": "Hormones",
+  "catVitamins": "Vitamins",
+  "catImmunology": "Immunology",
+  "catPcr": "PCR",
+  "catOther": "Other",
+  "labPending": "Pending",
+  "labProcessing": "Processing",
+  "labReady": "Ready",
+  "labAttention": "Needs attention",
+  "labNoAnalyses": "No tests yet",
+  "labNoAnalysesBody": "Your results will appear here as soon as the laboratory publishes them.",
+  "labNoOrders": "No prescribed tests",
+  "labResultTitle": "Result",
+  "labIndicator": "Indicator",
+  "labReference": "Reference range",
+  "labRefRange": "{min} – {max}",
+  "@labRefRange": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      }
+    }
+  },
+  "labRefLess": "up to {max}",
+  "@labRefLess": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "labRefMore": "from {min}",
+  "@labRefMore": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      }
+    }
+  },
+  "labOutOfRange": "Outside the laboratory reference range",
+  "labInRange": "Within the reference range",
+  "labLaboratory": "Laboratory",
+  "labDate": "Date",
+  "labDynamics": "Dynamics",
+  "labDynamicsFor": "Trend: {name}",
+  "@labDynamicsFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "labDisclaimer": "Values are compared with the reference ranges provided by the laboratory. AMAN does not diagnose — please discuss results with your doctor.",
+  "labResultPending": "The result is not ready yet. We will notify you when it is published.",
+  "labPrescribedBy": "Prescribed by {doctor}",
+  "@labPrescribedBy": {
+    "placeholders": {
+      "doctor": {
+        "type": "String"
+      }
+    }
+  },
+  "labOpenDocument": "Open document",
+  "labTestCount": "{count} indicators",
+  "@labTestCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recordTitle": "Medical record",
+  "recGeneral": "General",
+  "recVisits": "Visits",
+  "recDiagnoses": "Diagnoses",
+  "recPrescriptions": "Prescriptions",
+  "recAllergies": "Allergies",
+  "recChronic": "Chronic conditions",
+  "recPast": "Past illnesses",
+  "recProcedures": "Procedures",
+  "recVaccinations": "Vaccinations",
+  "recLabs": "Laboratory studies",
+  "recDocuments": "Documents",
+  "recAge": "Age",
+  "recAgeValue": "{years} y.o.",
+  "@recAgeValue": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "recConfirmedBy": "Confirmed by: {ref}",
+  "@recConfirmedBy": {
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "recEmpty": "No entries yet",
+  "recDisclaimer": "Only information confirmed by doctors or documents is shown. AMAN does not create medical records on its own.",
+  "recFilterDates": "Filter by dates",
+  "recDateFrom": "From",
+  "recDateTo": "To",
+  "recTimeline": "Timeline",
+  "documentsTitle": "My documents",
+  "uploadDocument": "Upload document",
+  "docTitleLabel": "Document title",
+  "docKindLabel": "Document type",
+  "docKindLab": "Lab report",
+  "docKindPrescription": "Prescription",
+  "docKindConclusion": "Conclusion",
+  "docKindReferral": "Referral",
+  "docKindOther": "Other",
+  "pickFile": "Choose a file (PDF, JPG, PNG)",
+  "uploadHint": "Up to 10 MB. Files are checked before upload.",
+  "uploadSuccess": "Document uploaded",
+  "deleteDocument": "Delete document",
+  "deleteDocumentConfirm": "Delete this document? This cannot be undone.",
+  "documentDeleted": "Document deleted",
+  "errUploadEmpty": "The file is empty",
+  "errUploadLarge": "The file is larger than 10 MB",
+  "errUploadType": "Only PDF, JPG and PNG files are allowed",
+  "noDocumentsTitle": "No documents",
+  "noDocumentsBody": "Upload results, prescriptions or conclusions to keep them in one place.",
+  "docPdfNotice": "PDF file saved securely. Open it with a PDF viewer after downloading.",
+  "docDemoNotice": "Demo document with synthetic content",
+  "docUploadedBy": "Uploaded by you",
+  "docUploadedByClinic": "From clinic",
+  "clinicsTitle": "Clinics",
+  "searchClinicsHint": "Search clinic or address",
+  "mapView": "Map",
+  "listView": "List",
+  "clinicHours": "Working hours",
+  "clinicContacts": "Contacts",
+  "buildRoute": "Get directions",
+  "clinicDoctors": "Doctors",
+  "clinicServices": "Services & prices",
+  "noClinicsTitle": "No clinics found",
+  "mapDemoNote": "Demo map. Connect a map provider key to enable the live map.",
+  "routeOpenFailed": "Could not open the maps app",
+  "clinicsCount": "{count} clinics",
+  "@clinicsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "callFailed": "Could not start the call",
+  "profileTitle": "Profile",
+  "editProfile": "Edit",
+  "editProfileTitle": "Edit profile",
+  "personalData": "Personal data",
+  "appointmentHistory": "Appointment history",
+  "medicalRecordMenu": "Medical record",
+  "myAnalyses": "My tests",
+  "myDocuments": "My documents",
+  "favoriteDoctors": "Favorite doctors",
+  "notificationsMenu": "Notifications",
+  "settingsMenu": "Settings",
+  "languageMenu": "App language",
+  "securityMenu": "Security",
+  "helpMenu": "Help & support",
+  "logout": "Sign out",
+  "logoutConfirmTitle": "Sign out of AMAN?",
+  "logoutConfirmBody": "You will need to sign in again to see your data.",
+  "statAppointments": "Visits",
+  "statAnalyses": "Tests",
+  "statDocuments": "Documents",
+  "statFavorites": "Favorites",
+  "profileSaved": "Profile saved",
+  "appearance": "Appearance",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "securityTokensTitle": "Secure session",
+  "securityTokensBody": "Access tokens are kept in the device secure storage. Passwords are never stored on the device.",
+  "securityConsentTitle": "Data processing consent",
+  "securityConsentBody": "You agreed to the processing of personal and medical data when creating the account.",
+  "changePassword": "Change password",
+  "helpFaqTitle": "Frequently asked questions",
+  "faq1Q": "How do I cancel or reschedule a visit?",
+  "faq1A": "Open the visit in “Visits” and choose the action. Changes are allowed until the deadline set by the clinic.",
+  "faq2Q": "Where do my results come from?",
+  "faq2A": "Results and records are provided by clinics and laboratories. The app never interprets them on its own.",
+  "faq3Q": "Is my data protected?",
+  "faq3A": "Data is transferred over HTTPS and access to every record is checked and audited.",
+  "contactSupport": "Contact support",
+  "supportEmail": "support@aman.example",
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "demoModeNote": "Demo mode: all data is synthetic and stored only in the app memory.",
+  "notificationsTitle": "Notifications",
+  "markAllRead": "Mark all as read",
+  "noNotificationsTitle": "No notifications",
+  "noNotificationsBody": "Reminders and updates about your visits will appear here.",
+  "notificationDeleted": "Notification deleted",
+  "undo": "Undo",
+  "ntCreatedTitle": "Appointment created",
+  "ntCreatedBody": "{doctor}, {when}",
+  "@ntCreatedBody": {
+    "placeholders": {
+      "doctor": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "ntReminderTitle": "Visit reminder",
+  "ntReminderBody": "{doctor} — {when}",
+  "@ntReminderBody": {
+    "placeholders": {
+      "doctor": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "ntRescheduledTitle": "Appointment rescheduled",
+  "ntRescheduledBody": "{doctor}, new time: {when}",
+  "@ntRescheduledBody": {
+    "placeholders": {
+      "doctor": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "ntCancelledTitle": "Appointment cancelled",
+  "ntCancelledBody": "{doctor}, {when}",
+  "@ntCancelledBody": {
+    "placeholders": {
+      "doctor": {
+        "type": "String"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "ntLabReadyTitle": "Test results are ready",
+  "ntLabReadyBody": "Open the app to see the results.",
+  "ntPrescriptionTitle": "New prescription",
+  "ntPrescriptionBody": "{doctor} added a prescription to your record.",
+  "@ntPrescriptionBody": {
+    "placeholders": {
+      "doctor": {
+        "type": "String"
+      }
+    }
+  },
+  "ntScheduleTitle": "Doctor schedule changed",
+  "ntScheduleBody": "{doctor} updated the working hours.",
+  "@ntScheduleBody": {
+    "placeholders": {
+      "doctor": {
+        "type": "String"
+      }
+    }
+  },
+  "servicesTitle": "Services",
+  "servicesSubtitle": "Everything for your health in one place",
+  "svcDoctorsDesc": "Catalog of specialists",
+  "svcBookDesc": "Book in a few steps",
+  "svcAnalysesDesc": "Results and trends",
+  "svcRecordDesc": "Your history in one place",
+  "svcDocumentsDesc": "Files and conclusions",
+  "svcClinicsDesc": "Map and directions",
+  "telemedTitle": "Telemedicine is on the way",
+  "telemedBody": "Video consultations are planned for a future release. For now you can book an in-clinic visit.",
+  "comingSoon": "Soon",
+  "statExperience": "Experience",
+  "yearsShort": "{count} y.",
+  "@yearsShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "routeSummary": "Route to {clinic}",
+  "@routeSummary": {
+    "placeholders": {
+      "clinic": {
+        "type": "String"
+      }
+    }
+  },
+  "selectedLabel": "Selected",
+  "weekSelectHint": "Pick a day",
+  "bookingCancelTitle": "Leave booking?",
+  "bookingCancelBody": "Your choices will not be saved.",
+  "leave": "Leave",
+  "appointmentPrice": "Price at the clinic",
+  "viewDoctor": "Doctor profile",
+  "showOnMap": "Show on map",
+  "searchNothing": "Nothing found",
+  "reviewSubmitted": "Review submitted",
+  "rateStars": "Tap a star to rate",
+  "medRecordOpen": "Open medical record",
+  "pdfLabel": "PDF",
+  "profileStatsTitle": "Overview",
+  "themeTitle": "Theme",
+  "languageSaved": "Language changed",
+  "deleteNotification": "Delete notification"
+}
