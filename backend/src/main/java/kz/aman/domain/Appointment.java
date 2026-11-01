@@ -59,7 +59,7 @@ public class Appointment {
     @Column(name = "active_slot_key", unique = true, length = 64)
     private String activeSlotKey;
 
-    protected Appointment() {}
+    public Appointment() {}
 
     public Long getId() { return id; }
     public String getNumber() { return number; }

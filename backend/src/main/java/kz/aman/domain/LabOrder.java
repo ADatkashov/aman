@@ -32,7 +32,7 @@ public class LabOrder {
     @Column(name = "status", nullable = false, length = 20)
     private String status;
 
-    protected LabOrder() {}
+    public LabOrder() {}
 
     public Long getId() { return id; }
     public Patient getPatient() { return patient; }

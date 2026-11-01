@@ -36,7 +36,7 @@ public class MedicalRecordEntry {
     @Column(name = "source_ref", nullable = false, length = 64)
     private String sourceRef;
 
-    protected MedicalRecordEntry() {}
+    public MedicalRecordEntry() {}
 
     public Long getId() { return id; }
     public Patient getPatient() { return patient; }

@@ -44,7 +44,7 @@ public class MedicalDocument {
     @Column(name = "uploaded_by_patient", nullable = false)
     private boolean uploadedByPatient;
 
-    protected MedicalDocument() {}
+    public MedicalDocument() {}
 
     public Long getId() { return id; }
     public Patient getPatient() { return patient; }

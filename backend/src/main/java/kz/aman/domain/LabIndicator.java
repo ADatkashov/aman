@@ -19,7 +19,7 @@ public class LabIndicator {
     @Column(columnDefinition = "text")
     private Loc name;
 
-    @Column(name = "value", nullable = false)
+    @Column(name = "result_value", nullable = false)
     private double value;
 
     @Column(name = "unit", nullable = false, length = 30)
@@ -31,7 +31,7 @@ public class LabIndicator {
     @Column(name = "ref_max")
     private Double refMax;
 
-    protected LabIndicator() {}
+    public LabIndicator() {}
 
     public Long getId() { return id; }
     public LabResult getResult() { return result; }

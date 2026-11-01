@@ -19,7 +19,7 @@ public class FavoriteDoctor {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    protected FavoriteDoctor() {}
+    public FavoriteDoctor() {}
 
     public Long getId() { return id; }
     public Patient getPatient() { return patient; }

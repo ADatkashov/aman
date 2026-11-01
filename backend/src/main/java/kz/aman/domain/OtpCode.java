@@ -27,7 +27,7 @@ public class OtpCode {
     @Column(name = "consumed", nullable = false)
     private boolean consumed;
 
-    protected OtpCode() {}
+    public OtpCode() {}
 
     public Long getId() { return id; }
     public String getPhone() { return phone; }

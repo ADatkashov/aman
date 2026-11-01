@@ -33,7 +33,7 @@ public class DoctorSchedule {
     @Column(name = "break_end_minute")
     private Integer breakEndMinute;
 
-    protected DoctorSchedule() {}
+    public DoctorSchedule() {}
 
     public Long getId() { return id; }
     public Doctor getDoctor() { return doctor; }

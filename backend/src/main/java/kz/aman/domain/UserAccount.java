@@ -33,7 +33,7 @@ public class UserAccount {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    protected UserAccount() {}
+    public UserAccount() {}
 
     public Long getId() { return id; }
     public String getPhone() { return phone; }

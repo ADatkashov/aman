@@ -32,7 +32,7 @@ public class Notification {
     @Column(name = "route", length = 200)
     private String route;
 
-    protected Notification() {}
+    public Notification() {}
 
     public Long getId() { return id; }
     public Patient getPatient() { return patient; }

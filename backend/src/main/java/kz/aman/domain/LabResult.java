@@ -44,7 +44,7 @@ public class LabResult {
     @OrderBy("id")
     private List<LabIndicator> indicators = new ArrayList<>();
 
-    protected LabResult() {}
+    public LabResult() {}
 
     public Long getId() { return id; }
     public Patient getPatient() { return patient; }

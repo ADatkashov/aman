@@ -27,7 +27,7 @@ public class AuditLog {
     @Column(name = "at", nullable = false)
     private Instant at;
 
-    protected AuditLog() {}
+    public AuditLog() {}
 
     public Long getId() { return id; }
     public Long getUserId() { return userId; }

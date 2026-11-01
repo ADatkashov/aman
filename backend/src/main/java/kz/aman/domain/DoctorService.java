@@ -22,7 +22,7 @@ public class DoctorService {
     @Column(name = "price_kzt", nullable = false)
     private int priceKzt;
 
-    protected DoctorService() {}
+    public DoctorService() {}
 
     public Long getId() { return id; }
     public Doctor getDoctor() { return doctor; }

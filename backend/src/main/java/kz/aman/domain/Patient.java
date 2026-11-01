@@ -36,7 +36,7 @@ public class Patient {
     @Column(name = "avatar_seed", nullable = false)
     private int avatarSeed;
 
-    protected Patient() {}
+    public Patient() {}
 
     public Long getId() { return id; }
     public UserAccount getUser() { return user; }

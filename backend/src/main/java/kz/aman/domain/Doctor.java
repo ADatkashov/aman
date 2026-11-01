@@ -64,7 +64,7 @@ public class Doctor {
     @OrderBy("id")
     private List<DoctorService> services = new ArrayList<>();
 
-    protected Doctor() {}
+    public Doctor() {}
 
     public Long getId() { return id; }
     public String getFullName() { return fullName; }

@@ -24,7 +24,7 @@ public class RefreshToken {
     @Column(name = "revoked", nullable = false)
     private boolean revoked;
 
-    protected RefreshToken() {}
+    public RefreshToken() {}
 
     public Long getId() { return id; }
     public UserAccount getUser() { return user; }

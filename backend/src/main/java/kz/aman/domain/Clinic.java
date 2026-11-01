@@ -54,7 +54,7 @@ public class Clinic {
     @OrderBy("id")
     private List<ClinicService> services = new ArrayList<>();
 
-    protected Clinic() {}
+    public Clinic() {}
 
     public Long getId() { return id; }
     public String getName() { return name; }

@@ -33,7 +33,7 @@ public class DoctorReview {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    protected DoctorReview() {}
+    public DoctorReview() {}
 
     public Long getId() { return id; }
     public Appointment getAppointment() { return appointment; }
