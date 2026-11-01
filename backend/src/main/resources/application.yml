@@ -1,0 +1,74 @@
+spring:
+  application:
+    name: aman-backend
+  datasource:
+    url: ${AMAN_DB_URL:jdbc:postgresql://localhost:5432/aman}
+    username: ${AMAN_DB_USER:aman}
+    password: ${AMAN_DB_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      fail-on-unknown-properties: false
+
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never
+  forward-headers-strategy: framework
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+aman:
+  jwt:
+    # REQUIRED: at least 32 random bytes. Generate with `openssl rand -base64 48`.
+    secret: ${AMAN_JWT_SECRET:}
+    access-ttl: 15m
+    refresh-ttl: 30d
+    issuer: aman
+  otp:
+    expose-demo-code: false
+    ttl: 5m
+    max-attempts: 5
+  storage:
+    dir: ${AMAN_STORAGE_DIR:./data/documents}
+  booking:
+    zone: Asia/Almaty
+    lead-time: 30m
+    horizon-days: 60
+  cors:
+    allowed-origins: ${AMAN_CORS_ORIGINS:}
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: WARN

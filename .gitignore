@@ -1,0 +1,23 @@
+# Flutter / Dart
+app/.dart_tool/
+app/build/
+app/.flutter-plugins*
+app/.packages
+app/pubspec.lock.bak
+app/ios/Pods/
+app/android/.gradle/
+app/android/local.properties
+app/android/key.properties
+*.jks
+*.keystore
+# Backend
+backend/target/
+backend/data/
+# Secrets & env
+.env
+*.env.local
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store

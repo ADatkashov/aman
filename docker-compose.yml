@@ -1,0 +1,39 @@
+# Local development stack: PostgreSQL + backend in demo mode (synthetic data).
+# Usage: cp .env.example .env && edit secrets && docker compose up --build
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-aman}
+      POSTGRES_USER: ${POSTGRES_USER:-aman}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - aman-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-aman} -d ${POSTGRES_DB:-aman}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      AMAN_DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-aman}
+      AMAN_DB_USER: ${POSTGRES_USER:-aman}
+      AMAN_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      AMAN_JWT_SECRET: ${AMAN_JWT_SECRET:?set AMAN_JWT_SECRET in .env}
+      AMAN_STORAGE_DIR: /data/documents
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-demo}
+    volumes:
+      - aman-documents:/data/documents
+    ports:
+      - "8080:8080"
+
+volumes:
+  aman-db:
+  aman-documents:

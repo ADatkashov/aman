@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:aman;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+
+aman:
+  jwt:
+    secret: test-secret-test-secret-test-secret-0123456789
+  otp:
+    expose-demo-code: true
+  storage:
+    dir: ${java.io.tmpdir}/aman-test-documents
