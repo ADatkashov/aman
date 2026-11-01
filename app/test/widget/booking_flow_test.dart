@@ -105,7 +105,7 @@ void main() {
     expect(find.text('Предстоящие'), findsOneWidget);
 
     // Cancel the first upcoming visit.
-    await tapText(tester, 'Отменить запись');
+    await tapText(tester, 'Отменить');
     expect(find.text('Отменить запись?'), findsOneWidget);
     await tapText(tester, 'Отменить запись', last: true);
     expect(find.text('Запись отменена'), findsOneWidget);
@@ -118,7 +118,7 @@ void main() {
 
     // Reschedule a1 is impossible now; reschedule a2 via the detail screen.
     await tapText(tester, 'Предстоящие');
-    await tapText(tester, 'Перенести запись');
+    await tapText(tester, 'Перенести');
     expect(find.text('Выберите новое время'), findsOneWidget);
     final old = env.store.appointmentById('a2').start;
     final day = DateTime(old.year, old.month, old.day + 1);
@@ -148,9 +148,9 @@ void main() {
     await env.container.read(appointmentsProvider.notifier).refresh();
     await tapText(tester, 'Записи');
     expect(find.textContaining('не позднее чем за 2 ч'), findsOneWidget);
-    final cancel = tester.widgetList<OutlinedButton>(find.widgetWithText(OutlinedButton, 'Отменить запись')).first;
+    final cancel = tester.widgetList<OutlinedButton>(find.widgetWithText(OutlinedButton, 'Отменить')).first;
     expect(cancel.onPressed, isNull, reason: 'visit starts in 1h, clinic requires 2h');
-    final second = tester.widgetList<OutlinedButton>(find.widgetWithText(OutlinedButton, 'Отменить запись')).last;
+    final second = tester.widgetList<OutlinedButton>(find.widgetWithText(OutlinedButton, 'Отменить')).last;
     expect(second.onPressed, isNotNull);
   });
 }

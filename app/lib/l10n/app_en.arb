@@ -670,5 +670,7 @@
   "profileStatsTitle": "Overview",
   "themeTitle": "Theme",
   "languageSaved": "Language changed",
-  "deleteNotification": "Delete notification"
+  "deleteNotification": "Delete notification",
+  "actionReschedule": "Reschedule",
+  "actionCancel": "Cancel visit"
 }

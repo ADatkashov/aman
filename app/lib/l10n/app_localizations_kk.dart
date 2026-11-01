@@ -1417,4 +1417,10 @@ class AppL10nKk extends AppL10n {
 
   @override
   String get deleteNotification => 'Хабарламаны жою';
+
+  @override
+  String get actionReschedule => 'Ауыстыру';
+
+  @override
+  String get actionCancel => 'Бас тарту';
 }

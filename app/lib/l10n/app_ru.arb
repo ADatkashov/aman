@@ -105,7 +105,7 @@
   "quickServices": "Быстрые сервисы",
   "qsBook": "Запись\nк врачу",
   "qsAnalyses": "Анализы",
-  "qsRecord": "Медицин-\nская карта",
+  "qsRecord": "Медицинская\nкарта",
   "qsDocuments": "Мои\nдокументы",
   "qsClinics": "Поиск\nклиник",
   "qsTelemedicine": "Телемедицина",
@@ -439,5 +439,7 @@
   "profileStatsTitle": "Обзор",
   "themeTitle": "Тема",
   "languageSaved": "Язык изменён",
-  "deleteNotification": "Удалить уведомление"
+  "deleteNotification": "Удалить уведомление",
+  "actionReschedule": "Перенести",
+  "actionCancel": "Отменить"
 }

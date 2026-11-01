@@ -52,7 +52,7 @@ class _AnalysesScreenState extends ConsumerState<AnalysesScreen> with SingleTick
               labelColor: p.primary,
               unselectedLabelColor: p.textSecondary,
               labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-              tabs: [Tab(text: l.tabMyAnalyses), Tab(text: l.tabOrders)],
+              tabs: [for (final t in [l.tabMyAnalyses, l.tabOrders]) Tab(child: FittedBox(fit: BoxFit.scaleDown, child: Text(t)))],
             ),
           ),
           const SizedBox(height: 12),

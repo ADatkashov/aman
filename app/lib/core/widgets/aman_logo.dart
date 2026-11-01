@@ -68,17 +68,17 @@ class _LogoPainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round
       ..strokeWidth = w * 0.085;
 
-    // Vertical bar of the cross.
-    canvas.drawLine(Offset(w * 0.5, h * 0.26), Offset(w * 0.5, h * 0.72), stroke);
+    // Top and bottom arms of the cross; the heartbeat line is its horizontal bar.
+    canvas.drawLine(Offset(w * 0.5, h * 0.21), Offset(w * 0.5, h * 0.27), stroke);
+    canvas.drawLine(Offset(w * 0.5, h * 0.73), Offset(w * 0.5, h * 0.79), stroke);
 
-    // Horizontal bar drawn as a heartbeat line.
     final pulse = Path()
-      ..moveTo(w * 0.22, h * 0.50)
-      ..lineTo(w * 0.38, h * 0.50)
-      ..lineTo(w * 0.44, h * 0.38)
-      ..lineTo(w * 0.52, h * 0.62)
+      ..moveTo(w * 0.20, h * 0.50)
+      ..lineTo(w * 0.36, h * 0.50)
+      ..lineTo(w * 0.43, h * 0.37)
+      ..lineTo(w * 0.52, h * 0.63)
       ..lineTo(w * 0.58, h * 0.50)
-      ..lineTo(w * 0.78, h * 0.50);
+      ..lineTo(w * 0.80, h * 0.50);
     canvas.drawPath(pulse, stroke..strokeWidth = w * 0.07);
   }
 

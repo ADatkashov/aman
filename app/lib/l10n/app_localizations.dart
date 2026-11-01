@@ -2738,6 +2738,18 @@ abstract class AppL10n {
   /// In en, this message translates to:
   /// **'Delete notification'**
   String get deleteNotification;
+
+  /// No description provided for @actionReschedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Reschedule'**
+  String get actionReschedule;
+
+  /// No description provided for @actionCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel visit'**
+  String get actionCancel;
 }
 
 class _AppL10nDelegate extends LocalizationsDelegate<AppL10n> {

@@ -181,7 +181,9 @@ class InitialsAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = context.palette;
     final parts = name.trim().split(RegExp(r'\s+'));
-    final initials = parts.take(2).map((s) => s.isEmpty ? '' : s[0].toUpperCase()).join();
+    // "Surname Name Patronymic" → initials of name + surname ("АП").
+    final ordered = parts.length >= 2 ? [parts[1], parts[0]] : parts;
+    final initials = ordered.take(2).map((s) => s.isEmpty ? '' : s[0].toUpperCase()).join();
     return Container(
       width: size,
       height: size,

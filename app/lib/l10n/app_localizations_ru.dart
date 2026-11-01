@@ -343,7 +343,7 @@ class AppL10nRu extends AppL10n {
   String get qsAnalyses => 'Анализы';
 
   @override
-  String get qsRecord => 'Медицин-\nская карта';
+  String get qsRecord => 'Медицинская\nкарта';
 
   @override
   String get qsDocuments => 'Мои\nдокументы';
@@ -1436,4 +1436,10 @@ class AppL10nRu extends AppL10n {
 
   @override
   String get deleteNotification => 'Удалить уведомление';
+
+  @override
+  String get actionReschedule => 'Перенести';
+
+  @override
+  String get actionCancel => 'Отменить';
 }

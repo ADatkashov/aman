@@ -80,7 +80,7 @@ class _AppointmentsScreenState extends ConsumerState<AppointmentsScreen> with Si
               labelColor: p.primary,
               unselectedLabelColor: p.textSecondary,
               labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-              tabs: [Tab(text: l.tabUpcoming), Tab(text: l.tabCompleted), Tab(text: l.tabCancelled)],
+              tabs: [for (final t in [l.tabUpcoming, l.tabCompleted, l.tabCancelled]) Tab(child: FittedBox(fit: BoxFit.scaleDown, child: Text(t)))],
             ),
           ),
           const SizedBox(height: 12),
@@ -171,28 +171,22 @@ class AppointmentActions extends ConsumerWidget {
 
     if (a.isUpcoming(now)) {
       final canChange = clinic != null && a.canChange(clinic, now);
+      final reschedule = SecondaryButton(
+        label: compact ? l.actionReschedule : l.rescheduleAppointment,
+        height: h,
+        onPressed: canChange ? () => context.push('/appointments/${a.id}/reschedule') : null,
+      );
+      final cancel = SecondaryButton(
+        label: compact ? l.actionCancel : l.cancelAppointment,
+        destructive: true,
+        height: h,
+        onPressed: canChange ? () => cancelFlow(context, ref, a) : null,
+      );
       return Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: SecondaryButton(
-                  label: l.rescheduleAppointment,
-                  height: h,
-                  onPressed: canChange ? () => context.push('/appointments/${a.id}/reschedule') : null,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: SecondaryButton(
-                  label: l.cancelAppointment,
-                  destructive: true,
-                  height: h,
-                  onPressed: canChange ? () => cancelFlow(context, ref, a) : null,
-                ),
-              ),
-            ],
-          ),
+          if (compact)
+            Row(children: [Expanded(child: reschedule), const SizedBox(width: 10), Expanded(child: cancel)])
+          else ...[reschedule, const SizedBox(height: 10), cancel],
           if (!canChange && clinic != null)
             Padding(
               padding: const EdgeInsets.only(top: 8),

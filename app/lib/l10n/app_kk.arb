@@ -439,5 +439,7 @@
   "profileStatsTitle": "Шолу",
   "themeTitle": "Тақырып",
   "languageSaved": "Тіл өзгертілді",
-  "deleteNotification": "Хабарламаны жою"
+  "deleteNotification": "Хабарламаны жою",
+  "actionReschedule": "Ауыстыру",
+  "actionCancel": "Бас тарту"
 }

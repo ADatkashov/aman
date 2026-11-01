@@ -1435,4 +1435,10 @@ class AppL10nEn extends AppL10n {
 
   @override
   String get deleteNotification => 'Delete notification';
+
+  @override
+  String get actionReschedule => 'Reschedule';
+
+  @override
+  String get actionCancel => 'Cancel visit';
 }

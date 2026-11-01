@@ -57,6 +57,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   mocktail: ^1.0.5
+  flutter_launcher_icons: ^0.14.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -100,3 +101,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  web:
+    generate: true
+    background_color: "#F4F7FC"
+    theme_color: "#0866E9"
+  image_path: "assets/icon/aman_icon.png"
+  adaptive_icon_background: "#0866E9"
+  adaptive_icon_foreground: "assets/icon/aman_icon_fg.png"
+  remove_alpha_ios: true

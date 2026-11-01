@@ -54,13 +54,14 @@ class AppointmentCard extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(doctor?.fullName ?? '—', maxLines: 1, overflow: TextOverflow.ellipsis, style: t.titleSmall),
+                    Text(doctor?.fullName ?? '—', maxLines: 2, overflow: TextOverflow.ellipsis, style: t.titleSmall),
                     Text(doctor?.specialty.label(l) ?? '',
                         style: t.bodySmall?.copyWith(color: p.primary, fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 6),
+                    StatusBadge(label: status.label(l), tone: toneFor(status)),
                   ],
                 ),
               ),
-              StatusBadge(label: status.label(l), tone: toneFor(status)),
             ],
           ),
           const SizedBox(height: 12),
